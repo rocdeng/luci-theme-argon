@@ -5005,3 +5005,26 @@ div > .table > .tr:nth-of-type(2n),
     border-radius: 0;
   }
 }
+/* final button state fallback */
+.btn.cbi-button-action:not(:disabled):not([disabled]):not([aria-disabled=true]),
+button.btn.cbi-button-action:not(:disabled):not([disabled]):not([aria-disabled=true]) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border: thin solid #007aff !important;
+  background: #007aff !important;
+}
+
+.btn:disabled,
+.btn[disabled],
+.btn[aria-disabled=true],
+.btn.disabled,
+.cbi-button:disabled,
+.cbi-button[disabled],
+.cbi-button[aria-disabled=true],
+.cbi-button.disabled {
+  color: #8898aa !important;
+  -webkit-text-fill-color: #8898aa !important;
+  border: 1px solid #dee2e6 !important;
+  background: #f0f0f0 !important;
+  box-shadow: none !important;
+}
