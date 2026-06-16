@@ -1,327 +1,282 @@
 /* =========================================================
- * Chrome — welded toolbar-top + sidebar-left L-shaped glass,
- * footer absorbed into content cards.
- *
- * IMPORTANT: html must be reset OUTSIDE of body.logged-in.
- * body.logged-in is at root level; sidebar fixed off-flow,
- * main-right is a normal block with margin-left:240px,
- * scrollbar lives on viewport.
+ * Chrome — L-welded toolbar + sidebar
+ * STRATEGY: keep argon's native flex layout (.main flex row,
+ * main-right flex column), just reskin sizes/colors/glass.
+ * No position:fixed, no display:block override on the shell.
  * ========================================================= */
 
-html { height: auto !important; }
-
 body.logged-in {
-  height: auto !important;
-  min-height: 100vh;
+  /* Text + font resets that used to come from the mac block */
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: var(--t-primary);
   background-color: #f5f5f7;
 }
 
-body.logged-in {
-  /* ---- Layout shell: block flow, sidebar fixed, main block ---- */
-  .main {
-    position: relative !important;
-    z-index: 1;
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 100vh;
-    overflow: visible !important;
-  }
+/* ---- Shell stays native flex row; tighten heights slightly ---- */
+body.logged-in .main {
+  position: relative;
+  z-index: 1;
+  gap: 0;
+}
 
-  /* ---- Sidebar fixed off the flow on the left edge, L-bend below toolbar ---- */
-  .main-left {
-    position: fixed !important;
-    top: 52px;
-    left: 0;
-    bottom: 0;
-    width: 240px !important;
-    flex: none !important;
-    max-width: none !important;
+/* ---- Sidebar (in-flow, flex child, full height of the shell) ---- */
+body.logged-in .main-left {
+  width: 240px !important;
+  flex: 0 0 240px !important;
+  margin: 10px 0 10px 10px !important;
+  padding: 14px 12px;
+  height: calc(100% - 20px) !important;
+  border-radius: var(--r-chrome);
+  background: var(--fill-strong);
+  -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  box-shadow:
+    var(--spec-top), var(--edge-bottom), var(--contact),
+    inset 1px 0 0 rgba(255,255,255,.35);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 100;
+  border: none;
+  transition: margin .3s cubic-bezier(.2,.8,.2,1), transform .3s cubic-bezier(.2,.8,.2,1);
+}
+
+/* ---- Brand block ---- */
+body.logged-in .main-left .sidenav-header {
+  padding: 6px 10px 14px !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+
+  .brand {
     margin: 0 !important;
-    padding: 14px 12px;
-    height: auto !important;
-    border-radius: 0 var(--r-chrome) var(--r-chrome) 0;
-    background: var(--fill-strong);
-    -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-    backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-    box-shadow:
-      var(--edge-bottom),
-      8px 0 24px rgba(0,0,0,.06),
-      inset 1px 0 0 rgba(255,255,255,.35);
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: transform .3s cubic-bezier(.2,.8,.2,1);
-    z-index: 100;
-    background-color: transparent;
-  }
-
-  /* ---- Brand block in sidebar ---- */
-  .main-left .sidenav-header {
-    padding: 6px 10px 14px !important;
-    margin: 0 !important;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-align: left;
-
-    .brand {
-      margin: 0 !important;
-      padding: 0 !important;
-      font-family: var(--font-sans);
-      font-size: 18px !important;
-      font-weight: 800;
-      letter-spacing: .2px;
-      color: var(--t-primary) !important;
-      background: none !important;
-      border: none !important;
-      box-shadow: none !important;
-      text-align: left;
-      text-shadow: none;
-    }
-    .brand .logo { display: none; }
-    .ml-auto { margin-left: auto; }
-  }
-
-  /* ---- Nav list ---- */
-  .main-left .nav { margin-top: 4px; }
-
-  .main-left .nav > li > a,
-  .main-left .nav > li > a:first-child {
-    display: flex !important;
-    align-items: center;
-    margin: 2px 4px !important;
-    padding: 0 12px 0 14px !important;
-    height: 38px;
-    line-height: 38px;
-    border-radius: 12px;
-    font-size: 14px !important;
-    font-weight: 500;
-    color: var(--t-secondary) !important;
-    background: transparent;
-    position: relative;
-    transition: background .18s ease, color .18s ease;
-    text-shadow: none !important;
-    border: none !important;
-
-    &:hover {
-      color: var(--t-primary) !important;
-      background: var(--fill-chip) !important;
-      -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
-      backdrop-filter: blur(var(--blur-light)) var(--saturate);
-    }
-    &.active, &.active:hover {
-      color: var(--accent) !important;
-      font-weight: 700;
-      background: var(--accent-tint) !important;
-      box-shadow: inset 3px 0 0 var(--accent);
-      text-shadow: none;
-      &::before { color: var(--accent) !important; }
-      &::after  { color: var(--accent) !important; transform: rotate(90deg); }
-    }
-  }
-
-  /* ---- Submenu: submenu panel itself must be transparent ---- */
-  .main-left .nav > li.slide > ul,
-  .main-left .nav > li.slide .slide-menu,
-  .main-left .nav > li.slide .slide-menu.active {
-    padding: 4px 0;
-    background: none !important;
-    box-shadow: none !important;
-    border-radius: 0;
-  }
-  .main-left .nav > li.slide .slide-menu li a,
-  .main-left .nav > li.slide ul li a {
-    display: block;
-    padding: 6px 14px 6px 38px !important;
-    font-size: 13px !important;
-    color: var(--t-secondary) !important;
-    border-radius: 10px;
-    margin: 1px 6px;
-    line-height: 1.4;
-    position: relative;
-    text-shadow: none;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    &:hover { background: var(--fill-thin) !important; color: var(--t-primary) !important; }
-    &.active {
-      color: var(--accent) !important;
-      font-weight: 700;
-      background: var(--accent-tint) !important;
-      box-shadow: none !important;
-      &::before {
-        content: "•";
-        position: absolute;
-        left: 22px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--accent);
-        font-weight: bold;
-        font-size: 16px;
-      }
-    }
-  }
-
-  /* ---- Sidebar scrollbar ---- */
-  .main-left::-webkit-scrollbar { width: 6px; }
-  .main-left::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.08));
-    border-radius: 999px;
-  }
-  .main-left::-webkit-scrollbar-track { background: transparent; }
-
-  /* ---- Sidenav toggler (desktop pin) ---- */
-  .sidenav-toggler {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--fill-chip);
-    -webkit-backdrop-filter: blur(var(--blur-light));
-    backdrop-filter: blur(var(--blur-light));
-    box-shadow: var(--spec-top);
-    cursor: pointer;
-    &:hover { background: var(--fill-strong); }
-    .sidenav-toggler-line {
-      display: block;
-      width: 12px;
-      height: 1.5px;
-      margin: 2px 0;
-      background: var(--t-secondary);
-      border-radius: 2px;
-    }
-  }
-
-  /* ---- Right column: normal block flow to the right of fixed sidebar ---- */
-  .main-right {
-    position: relative !important;
-    margin-left: 240px;
-    flex: none !important;
-    min-height: 100vh;
-    height: auto !important;
-    display: block !important;
-    overflow: visible !important;
-    background: transparent !important;
-  }
-
-  /* ---- Toolbar welded to top (sticky inside main-right scroll) ---- */
-  header, header.bg-primary {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 52px;
-    z-index: 90;
     padding: 0 !important;
-    background: var(--fill-strong) !important;
-    -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-    backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-    border-radius: 0;
-    box-shadow: var(--spec-top), 0 1px 0 rgba(0,0,0,.06);
-    color: var(--t-primary) !important;
-    overflow: visible;
-    &::after { display: none !important; }
-    &::before { display: none !important; }
-  }
-  header .fill {
-    padding: 0 20px !important;
-    height: 52px;
-    display: flex !important;
-    align-items: center;
-    gap: 16px;
-    position: relative;
-  }
-  header .container {
-    width: 100%;
-    max-width: none;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 !important;
-    .flex1 {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-  }
-  header .brand {
     font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: 17px;
+    font-size: 18px !important;
+    font-weight: 800;
+    letter-spacing: .2px;
     color: var(--t-primary) !important;
-    letter-spacing: -.2px;
-    text-decoration: none;
-    text-shadow: none !important;
-  }
-  header .showSide {
-    display: none;
-  }
-  /* Decorative sheen band at right edge */
-  header .fill::after {
-    content: "";
-    position: absolute;
-    right: 10%;
-    top: 0;
-    width: 120px;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
-    pointer-events: none;
-  }
-
-  /* ---- Main content area ---- */
-  .main-right > #maincontent {
-    flex: none;
-    overflow-y: visible;
-    padding: 20px;
-    position: relative;
-    background: transparent;
-  }
-  .main-right > #maincontent > .container {
-    margin: 0 !important;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: none;
-    position: relative;
-    padding-bottom: 20px;
-    background: transparent;
-  }
-
-  /* ---- Footer pulled into content flow ---- */
-  footer.mobile-hide {
-    position: relative;
-    width: 100%;
-    padding: 18px 0 4px !important;
-    text-align: right;
     background: none !important;
-    border: none;
-    color: var(--t-tertiary);
-    margin: 0 !important;
+    border: none !important;
     box-shadow: none !important;
-    .footer-content {
-      font-size: 11px;
-      display: inline-flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      a { color: var(--t-tertiary); text-decoration: none; &:hover { color: var(--accent); } }
-      .footer-separator { opacity: .3; }
+    text-align: left;
+    text-shadow: none;
+  }
+  .brand .logo { display: none; }
+  .ml-auto { margin-left: auto; }
+}
+
+/* ---- Nav list ---- */
+body.logged-in .main-left .nav { margin-top: 4px; }
+
+body.logged-in .main-left .nav > li > a,
+body.logged-in .main-left .nav > li > a:first-child {
+  display: flex !important;
+  align-items: center;
+  margin: 2px 4px !important;
+  padding: 0 12px 0 14px !important;
+  height: 38px;
+  line-height: 38px;
+  border-radius: 12px;
+  font-size: 14px !important;
+  font-weight: 500;
+  color: var(--t-secondary) !important;
+  background: transparent;
+  position: relative;
+  transition: background .18s ease, color .18s ease;
+  text-shadow: none !important;
+  border: none !important;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--t-primary) !important;
+    background: var(--fill-chip) !important;
+    -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
+    backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  }
+  &.active, &.active:hover {
+    color: var(--accent) !important;
+    font-weight: 700;
+    background: var(--accent-tint) !important;
+    box-shadow: inset 3px 0 0 var(--accent);
+    text-shadow: none;
+    &::before { color: var(--accent) !important; }
+    &::after  { color: var(--accent) !important; transform: rotate(90deg); }
+  }
+}
+
+/* ---- Submenu panel transparent; sub-items glass on active ---- */
+body.logged-in .main-left .nav > li.slide > ul,
+body.logged-in .main-left .nav > li.slide .slide-menu,
+body.logged-in .main-left .nav > li.slide .slide-menu.active {
+  padding: 4px 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+}
+body.logged-in .main-left .nav > li.slide .slide-menu li a,
+body.logged-in .main-left .nav > li.slide ul li a {
+  display: block;
+  padding: 6px 14px 6px 38px !important;
+  font-size: 13px !important;
+  color: var(--t-secondary) !important;
+  border-radius: 10px;
+  margin: 1px 6px;
+  line-height: 1.4;
+  position: relative;
+  text-shadow: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  &:hover { background: var(--fill-thin) !important; color: var(--t-primary) !important; }
+  &.active {
+    color: var(--accent) !important;
+    font-weight: 700;
+    background: var(--accent-tint) !important;
+    box-shadow: none !important;
+    &::before {
+      content: "•";
+      position: absolute;
+      left: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 16px;
     }
   }
+}
 
-  /* ---- Dark mask (mobile overlay) ---- */
-  .darkMask {
-    display: none;
-    &.show { display: block; }
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.3);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    z-index: 95;
+/* ---- Sidebar scrollbar ---- */
+body.logged-in .main-left::-webkit-scrollbar { width: 6px; }
+body.logged-in .main-left::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.08));
+  border-radius: 999px;
+}
+body.logged-in .main-left::-webkit-scrollbar-track { background: transparent; }
+
+/* ---- Pin toggler (hamburger) ---- */
+body.logged-in .sidenav-toggler {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--fill-chip);
+  -webkit-backdrop-filter: blur(var(--blur-light));
+  backdrop-filter: blur(var(--blur-light));
+  box-shadow: var(--spec-top);
+  cursor: pointer; border: none;
+  &:hover { background: var(--fill-strong); }
+  .sidenav-toggler-line {
+    display: block; width: 12px; height: 1.5px; margin: 2px 0;
+    background: var(--t-secondary); border-radius: 2px;
   }
+}
+
+/* ---- Right column stays flex child — just remove any bg ---- */
+body.logged-in .main-right {
+  flex: 1 1 auto;
+  margin: 0;
+  background: transparent !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Toolbar: full-width glass pill welded to main-right top ---- */
+body.logged-in header,
+body.logged-in header.bg-primary {
+  position: relative;
+  width: auto;
+  height: 52px;
+  margin: 10px 10px 0 10px !important;
+  padding: 0 !important;
+  background: var(--fill-strong) !important;
+  -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  border-radius: var(--r-chrome) var(--r-chrome) 0 0;
+  box-shadow: var(--spec-top), 0 1px 0 rgba(0,0,0,.06);
+  color: var(--t-primary) !important;
+  overflow: visible;
+  &::after { display: none !important; }
+  &::before { display: none !important; }
+}
+body.logged-in header .fill {
+  padding: 0 20px !important;
+  height: 52px;
+  display: flex !important;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+body.logged-in header .container {
+  width: 100%; max-width: none;
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 !important;
+  .flex1 { flex: 1; display: flex; align-items: center; gap: 14px; }
+}
+body.logged-in header .brand {
+  font-family: var(--font-sans);
+  font-weight: 700; font-size: 17px;
+  color: var(--t-primary) !important;
+  letter-spacing: -.2px;
+  text-decoration: none;
+  text-shadow: none !important;
+}
+body.logged-in header .showSide { display: none; }
+body.logged-in header .fill::after {
+  content: ""; position: absolute; right: 10%; top: 0;
+  width: 120px; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+  pointer-events: none;
+}
+
+/* ---- Main content: occupies remaining flex space, scrolls internally ---- */
+body.logged-in .main-right > #maincontent {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+  background: transparent;
+}
+body.logged-in .main-right > #maincontent > .container {
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: none;
+  position: relative;
+  padding-bottom: 20px;
+  background: transparent;
+}
+
+/* ---- Footer ---- */
+body.logged-in footer.mobile-hide {
+  position: relative;
+  width: 100%;
+  padding: 18px 0 4px !important;
+  text-align: right;
+  background: none !important;
+  border: none;
+  color: var(--t-tertiary);
+  margin: 0 !important;
+  box-shadow: none !important;
+  .footer-content {
+    font-size: 11px;
+    display: inline-flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    a { color: var(--t-tertiary); text-decoration: none; &:hover { color: var(--accent); } }
+    .footer-separator { opacity: .3; }
+  }
+}
+
+/* ---- Mobile overlay ---- */
+body.logged-in .darkMask {
+  display: none;
+  &.show { display: block; }
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.3);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 95;
 }
