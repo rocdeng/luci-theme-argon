@@ -4604,28 +4604,34 @@ input:-webkit-autofill:focus {
 /* =========================================================
  * Chrome — welded toolbar-top + sidebar-left L-shaped glass,
  * footer absorbed into content cards.
+ *
+ * IMPORTANT: html must be reset OUTSIDE of body.logged-in.
+ * body.logged-in is at root level; sidebar fixed off-flow,
+ * main-right is a normal block with margin-left:240px,
+ * scrollbar lives on viewport.
  * ========================================================= */
-body.logged-in {
-  /* ---- Reset html/body so the shell owns the viewport ---- */
-  /* ---- Layout shell: reset old argon flex/height, sidebar fixed off-flow ---- */
-  /* ---- Sidebar fixed off the flow, welds below toolbar (L-bend) ---- */
-  /* ---- Brand block in sidebar ---- */
-  /* ---- Nav list ---- */
-  /* ---- Submenu items: submenu panel itself must be transparent ---- */
-  /* ---- Sidebar scrollbar ---- */
-  /* ---- Sidenav toggler (desktop pin) ---- */
-  /* ---- Right column — normal block flow next to fixed sidebar ---- */
-  /* ---- Toolbar welded to top ---- */
-  /* Decorative sheen band at right */
-  /* ---- Main content area ---- */
-  /* ---- Footer pulled into content flow ---- */
-  /* ---- Dark mask (mobile overlay) ---- */
+html {
+  height: auto !important;
 }
-body.logged-in html,
-body.logged-in body {
+body.logged-in {
   height: auto !important;
   min-height: 100vh;
   background-color: #f5f5f7;
+}
+body.logged-in {
+  /* ---- Layout shell: block flow, sidebar fixed, main block ---- */
+  /* ---- Sidebar fixed off the flow on the left edge, L-bend below toolbar ---- */
+  /* ---- Brand block in sidebar ---- */
+  /* ---- Nav list ---- */
+  /* ---- Submenu: submenu panel itself must be transparent ---- */
+  /* ---- Sidebar scrollbar ---- */
+  /* ---- Sidenav toggler (desktop pin) ---- */
+  /* ---- Right column: normal block flow to the right of fixed sidebar ---- */
+  /* ---- Toolbar welded to top (sticky inside main-right scroll) ---- */
+  /* Decorative sheen band at right edge */
+  /* ---- Main content area ---- */
+  /* ---- Footer pulled into content flow ---- */
+  /* ---- Dark mask (mobile overlay) ---- */
 }
 body.logged-in .main {
   position: relative !important;
@@ -4656,6 +4662,7 @@ body.logged-in .main-left {
   overflow-x: hidden;
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 100;
+  background-color: transparent;
 }
 body.logged-in .main-left .sidenav-header {
   padding: 6px 10px 14px !important;
