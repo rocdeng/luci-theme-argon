@@ -1,1 +1,105 @@
-/* liquid-glass/mixins.less */
+/* =========================================================
+ * Mixins — call these from components/surface/chrome etc.
+ * Note: LESS parametric mixins; we use @level guards to
+ * switch between strong/regular/thin/chip recipes.
+ * ========================================================= */
+
+.glass-level(strong) {
+  background: var(--fill-strong);
+  -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+}
+.glass-level(regular) {
+  background: var(--fill-regular);
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+}
+.glass-level(thin) {
+  background: var(--fill-thin);
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+}
+.glass-level(chip) {
+  background: var(--fill-chip);
+  -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  backdrop-filter: blur(var(--blur-light)) var(--saturate);
+}
+
+.glass(@level: regular) {
+  .glass-level(@level);
+  border: none;
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+}
+
+.glass-lift() {
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact-lift);
+  transform: translateY(-1px);
+}
+
+.glass-button() {
+  .glass(chip);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--t-primary);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, filter .18s ease;
+  text-decoration: none;
+  line-height: 1;
+  &:hover { .glass-lift(); }
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--spec-top), var(--edge-bottom);
+  }
+}
+
+.glass-button-primary() {
+  background: linear-gradient(180deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 90%, black) 100%);
+  color: #fff;
+  border-radius: var(--r-pill);
+  height: 34px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent), var(--spec-top), inset 0 -1px 0 rgba(0,0,0,.15);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  &:hover { filter: brightness(1.05); transform: translateY(-2px); }
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 40%, transparent), var(--spec-top);
+  }
+}
+
+.glass-button-danger() {
+  background: linear-gradient(180deg, var(--sem-red) 0%, color-mix(in srgb, var(--sem-red) 85%, black) 100%);
+  color: #fff;
+  border-radius: var(--r-pill);
+  height: 34px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--sem-red) 40%, transparent), var(--spec-top), inset 0 -1px 0 rgba(0,0,0,.15);
+  transition: transform .18s ease, filter .18s ease;
+  &:hover { filter: brightness(1.05); transform: translateY(-2px); }
+  &:active { transform: translateY(0); }
+}

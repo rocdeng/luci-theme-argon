@@ -4410,7 +4410,59 @@ div[style*="display:grid;grid-template-columns:repeat"] .ifacebox .ifacebox-body
   }
 }
 /* Liquid Glass theme (Sequoia / iOS 26) */
-/* liquid-glass/mixins.less */
+/* =========================================================
+ * Liquid Glass Tokens (light)
+ * Dark-mode overrides live in liquid-glass/dark.less
+ * ========================================================= */
+:root {
+  /* —— Accent palette (Apple system colors) —— */
+  --accent: #007aff;
+  --accent-dark: #0a84ff;
+  --accent-tint: rgba(0, 122, 255, 0.12);
+  --accent-soft: rgba(0, 122, 255, 0.25);
+  --sem-red: #ff3b30;
+  --sem-orange: #ff9500;
+  --sem-green: #34c759;
+  --sem-yellow: #ffcc00;
+  --sem-purple: #af52de;
+  --sem-pink: #ff2d55;
+  /* —— Glass fills (three-stop 180deg gradient for depth) —— */
+  --fill-strong: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.38) 45%, rgba(255, 255, 255, 0.52) 100%);
+  --fill-regular: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.28) 45%, rgba(255, 255, 255, 0.42) 100%);
+  --fill-thin: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.18) 45%, rgba(255, 255, 255, 0.3) 100%);
+  --fill-chip: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.58) 100%);
+  /* —— Blur / saturate —— */
+  --blur-strong: 32px;
+  --blur-regular: 24px;
+  --blur-light: 16px;
+  --saturate: saturate(200%);
+  /* —— Specular highlights and edge dark —— */
+  --spec-top: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --spec-hi: inset 0 0.5px 0 rgba(255, 255, 255, 0.6), inset 0 18px 30px rgba(255, 255, 255, 0.15);
+  --edge-bottom: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  /* —— Contact shadow —— */
+  --contact: 0 1px 0 rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.08);
+  --contact-lift: 0 2px 0 rgba(0, 0, 0, 0.06), 0 14px 32px rgba(0, 0, 0, 0.12);
+  /* —— Corner radius scale —— */
+  --r-chrome: 22px;
+  --r-card: 20px;
+  --r-control: 14px;
+  --r-pill: 999px;
+  /* —— Text color ramp —— */
+  --t-primary: #1d1d1f;
+  --t-secondary: #6e6e73;
+  --t-tertiary: #8e8e93;
+  /* —— Typography —— */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro Rounded", "Helvetica Neue", "PingFang SC", "Microsoft Yahei", system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  /* —— Hairline —— */
+  --hairline: rgba(60, 60, 67, 0.12);
+}
+/* =========================================================
+ * Mixins — call these from components/surface/chrome etc.
+ * Note: LESS parametric mixins; we use @level guards to
+ * switch between strong/regular/thin/chip recipes.
+ * ========================================================= */
 /* liquid-glass/surface.less */
 /* liquid-glass/chrome.less */
 /* liquid-glass/cards.less */
