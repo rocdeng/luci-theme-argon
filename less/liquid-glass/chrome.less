@@ -1,9 +1,8 @@
 /* =========================================================
  * Chrome — sidebar + header glass skin
- *
- * RULE: Do NOT change layout geometry (position/display/flex/
- * overflow/height/width beyond the widths below). Only touch
- * colors, radii, shadows, padding, backgrounds, blurs.
+ * MINIMAL RESKIN ONLY. Do not touch layout/position/display/
+ * flex/overflow/height/width on the structural elements.
+ * Only change colors, radii, shadows, blur, padding, font.
  * ========================================================= */
 
 body.logged-in {
@@ -14,126 +13,110 @@ body.logged-in {
   background-color: #f5f5f7;
 }
 
-/* ---- Sidebar glass — keep argon's layout/position/flex/overflow intact ---- */
+/* ---- Sidebar surface ---- */
 body.logged-in .main-left {
-  width: 240px !important;
-  flex-shrink: 0;
   padding: 14px 12px;
   border-radius: var(--r-chrome);
   background: var(--fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow:
-    var(--spec-top), var(--edge-bottom), var(--contact),
-    inset 1px 0 0 rgba(255,255,255,.35);
-  z-index: 100;
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact), inset 1px 0 0 rgba(255,255,255,.35);
   border: none;
-  overflow-x: hidden;
+  word-break: break-word;
 }
 
-/* ---- Brand block ---- */
+/* Brand area */
 body.logged-in .main-left .sidenav-header {
   padding: 6px 10px 14px !important;
   margin: 0 !important;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-align: left;
   .brand {
     margin: 0 !important;
     padding: 0 !important;
     font-family: var(--font-sans);
     font-size: 18px !important;
     font-weight: 800;
-    letter-spacing: .2px;
     color: var(--t-primary) !important;
     background: none !important;
     border: none !important;
     box-shadow: none !important;
-    text-align: left;
     text-shadow: none;
   }
   .brand .logo { display: none; }
   .ml-auto { margin-left: auto; }
 }
 
-/* ---- Nav items ---- */
+/* Nav items — reskin colors/glass only, keep argon's dimensions/display  */
 body.logged-in .main-left .nav { margin-top: 4px; }
 body.logged-in .main-left .nav > li > a,
 body.logged-in .main-left .nav > li > a:first-child {
-  display: flex !important;
-  align-items: center;
-  margin: 2px 4px !important;
-  padding: 0 12px 0 14px !important;
-  height: 38px;
-  line-height: 38px;
-  border-radius: 12px;
-  font-size: 14px !important;
-  font-weight: 500;
   color: var(--t-secondary) !important;
-  background: transparent;
-  position: relative;
-  transition: background .18s ease, color .18s ease;
+  border-radius: 12px;
+  font-weight: 500;
+  background: transparent !important;
   text-shadow: none !important;
   border: none !important;
-  text-decoration: none;
-  &:hover {
-    color: var(--t-primary) !important;
-    background: var(--fill-chip) !important;
-    backdrop-filter: blur(var(--blur-light)) var(--saturate);
-    -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
-  }
-  &.active, &.active:hover {
-    color: var(--accent) !important;
-    font-weight: 700;
-    background: var(--accent-tint) !important;
-    box-shadow: inset 3px 0 0 var(--accent);
-    text-shadow: none;
-    &::before { color: var(--accent) !important; }
-    &::after  { color: var(--accent) !important; transform: rotate(90deg); }
-  }
+  transition: background .18s ease, color .18s ease;
 }
+body.logged-in .main-left .nav > li > a:hover,
+body.logged-in .main-left .nav > li > a:first-child:hover {
+  color: var(--t-primary) !important;
+  background: var(--fill-chip) !important;
+  backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
+}
+body.logged-in .main-left .nav > li > a.active,
+body.logged-in .main-left .nav > li > a.active:hover,
+body.logged-in .main-left .nav > li > a:first-child.active,
+body.logged-in .main-left .nav > li > a:first-child.active:hover {
+  color: var(--accent) !important;
+  font-weight: 700;
+  background: var(--accent-tint) !important;
+  box-shadow: inset 3px 0 0 var(--accent);
+  text-shadow: none;
+}
+body.logged-in .main-left .nav > li > a.active::before,
+body.logged-in .main-left .nav > li > a.active:hover::before,
+body.logged-in .main-left .nav > li > a:first-child.active::before { color: var(--accent) !important; }
+body.logged-in .main-left .nav > li > a.active::after,
+body.logged-in .main-left .nav > li > a:first-child.active::after { color: var(--accent) !important; transform: rotate(90deg); }
 
-/* ---- Submenu ---- */
+/* Submenu panel & items */
 body.logged-in .main-left .nav > li.slide > ul,
 body.logged-in .main-left .nav > li.slide .slide-menu,
 body.logged-in .main-left .nav > li.slide .slide-menu.active {
-  padding: 4px 0 !important;
   background: none !important;
   box-shadow: none !important;
-  border-radius: 0;
 }
 body.logged-in .main-left .nav > li.slide .slide-menu li a,
 body.logged-in .main-left .nav > li.slide ul li a {
-  display: block;
-  padding: 6px 14px 6px 38px !important;
-  font-size: 13px !important;
   color: var(--t-secondary) !important;
-  border-radius: 10px;
-  margin: 1px 6px;
-  line-height: 1.4;
-  position: relative;
-  text-shadow: none;
   background: transparent !important;
+  border-radius: 10px;
+  text-shadow: none !important;
   border: none !important;
+}
+body.logged-in .main-left .nav > li.slide .slide-menu li a:hover,
+body.logged-in .main-left .nav > li.slide ul li a:hover {
+  background: var(--fill-thin) !important;
+  color: var(--t-primary) !important;
+}
+body.logged-in .main-left .nav > li.slide .slide-menu li a.active,
+body.logged-in .main-left .nav > li.slide ul li a.active {
+  color: var(--accent) !important;
+  font-weight: 700;
+  background: var(--accent-tint) !important;
   box-shadow: none !important;
-  &:hover { background: var(--fill-thin) !important; color: var(--t-primary) !important; }
-  &.active {
-    color: var(--accent) !important;
-    font-weight: 700;
-    background: var(--accent-tint) !important;
-    box-shadow: none !important;
-    &::before {
-      content: "•";
-      position: absolute;
-      left: 22px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--accent);
-      font-weight: bold;
-      font-size: 16px;
-    }
-  }
+}
+body.logged-in .main-left .nav > li.slide .slide-menu li a.active::before,
+body.logged-in .main-left .nav > li.slide ul li a.active::before {
+  content: "•";
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 16px;
 }
 
 /* Sidebar scrollbar */
@@ -144,28 +127,22 @@ body.logged-in .main-left::-webkit-scrollbar-thumb {
 }
 body.logged-in .main-left::-webkit-scrollbar-track { background: transparent; }
 
-/* Hamburger/pin toggler */
+/* Hamburger toggler */
 body.logged-in .sidenav-toggler {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
   background: var(--fill-chip);
   -webkit-backdrop-filter: blur(var(--blur-light));
   backdrop-filter: blur(var(--blur-light));
   box-shadow: var(--spec-top);
-  cursor: pointer; border: none;
-  &:hover { background: var(--fill-strong); }
-  .sidenav-toggler-line {
-    display: block; width: 12px; height: 1.5px; margin: 2px 0;
-    background: var(--t-secondary); border-radius: 2px;
-  }
+  border: none;
+  .sidenav-toggler-line { background: var(--t-secondary); border-radius: 2px; }
 }
+body.logged-in .sidenav-toggler:hover { background: var(--fill-strong); }
 
-/* ---- Right column: keep argon's flex-column layout ---- */
-body.logged-in .main-right {
-  background: transparent !important;
-}
+/* ---- Right column reskin ---- */
+body.logged-in .main-right { background: transparent !important; }
 
-/* ---- Header glass pill (keep argon's position/display, only reskin) ---- */
+/* ---- Header glass ---- */
 body.logged-in header,
 body.logged-in header.bg-primary {
   background: var(--fill-strong) !important;
@@ -175,31 +152,24 @@ body.logged-in header.bg-primary {
   box-shadow: var(--spec-top), 0 1px 0 rgba(0,0,0,.06);
   color: var(--t-primary) !important;
   overflow: visible;
-  margin-left: 0;
   &::after { display: none !important; }
   &::before { display: none !important; }
 }
 body.logged-in header .fill {
   padding: 0 20px !important;
-  height: auto;
-  min-height: 52px;
   display: flex !important;
   align-items: center;
   gap: 16px;
   position: relative;
 }
 body.logged-in header .container {
-  width: 100%; max-width: none;
-  display: flex; align-items: center; gap: 12px;
-  padding: 0 !important;
-  .flex1 { flex: 1; display: flex; align-items: center; gap: 14px; }
+  display: flex; align-items: center; gap: 12px; padding: 0 !important;
+  .flex1 { display: flex; align-items: center; gap: 14px; }
 }
 body.logged-in header .brand {
   font-family: var(--font-sans);
   font-weight: 700; font-size: 17px;
   color: var(--t-primary) !important;
-  letter-spacing: -.2px;
-  text-decoration: none;
   text-shadow: none !important;
 }
 body.logged-in header .showSide { display: none; }
@@ -210,28 +180,20 @@ body.logged-in header .fill::after {
   pointer-events: none;
 }
 
-/* ---- Main content (keep argon layout, remove any hard bg) ---- */
-body.logged-in .main-right > #maincontent {
-  background: transparent;
-}
-body.logged-in .main-right > #maincontent > .container {
-  background: transparent;
-}
+/* Content area */
+body.logged-in .main-right > #maincontent { background: transparent; }
+body.logged-in .main-right > #maincontent > .container { background: transparent; }
 
-/* ---- Footer ---- */
+/* Footer */
 body.logged-in footer.mobile-hide {
   background: none !important;
-  border: none;
   color: var(--t-tertiary);
   box-shadow: none !important;
-  .footer-content {
-    font-size: 11px;
-    a { color: var(--t-tertiary); text-decoration: none; &:hover { color: var(--accent); } }
-    .footer-separator { opacity: .3; }
-  }
+  .footer-content a { color: var(--t-tertiary); text-decoration: none; &:hover { color: var(--accent); } }
+  .footer-separator { opacity: .3; }
 }
 
-/* ---- Mobile dark-mask overlay ---- */
+/* Dark mask */
 body.logged-in .darkMask {
   background: rgba(0,0,0,.3);
   -webkit-backdrop-filter: blur(4px);
