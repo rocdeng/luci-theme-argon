@@ -1,6 +1,10 @@
 /* =========================================================
- * Surface: body base, wallpaper stack, bokeh, fallback,
- * global scrollbar, selection, autofill, poll chip, fallback
+ * Surface: body base, wallpaper, fallback, scrollbar,
+ * selection, autofill, poll chip
+ *
+ * MINIMAL VERSION — no bokeh overlay, no z-index stacking, no
+ * overflow hidden on body, to avoid clipping/click issues while
+ * we stabilize the shell layout.
  * ========================================================= */
 
 html, body {
@@ -10,57 +14,27 @@ html, body {
   color: var(--t-primary);
 }
 
-/* ------ Wallpaper + tint + bokeh stack (logged-in shell) ------ */
+/* ------ Wallpaper (logged-in shell) ------ */
 body.logged-in {
-  min-height: 100vh;
   background-color: #f5f5f7;
-  /* --user-wallpaper is injected from header.ut based on argon config */
   background-image: var(--user-wallpaper, none);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  position: relative;
-  overflow-x: hidden;
 }
 
-body.logged-in::after {
+/* Soft tint so text stays readable on bright wallpapers */
+body.logged-in::before {
   content: "";
   position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 15% 10%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
-    radial-gradient(ellipse 50% 45% at 85% 20%, rgba(123,200,255,.28), transparent 60%),
-    radial-gradient(ellipse 55% 50% at 60% 90%, rgba(199,176,255,.22), transparent 60%),
-    radial-gradient(ellipse 40% 35% at 20% 80%, rgba(255,180,123,.22), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.50));
-  background-blend-mode: screen, screen, screen, screen, normal;
-}
-
-/* Push chrome above the tint */
-body.logged-in .main,
-body.logged-in .main-left,
-body.logged-in .main-right,
-body.logged-in header,
-body.logged-in .cbi-section,
-body.logged-in .modal,
-body.logged-in .alert-message,
-body.logged-in #maincontent { position: relative; z-index: 1; }
-
-/* ------ Specular helper — apply to any glass container ------ */
-.has-specular::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 8px; right: 8px;
-  height: 45%;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,.5), transparent);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.45));
   pointer-events: none;
   z-index: 0;
 }
-.has-specular > * { position: relative; z-index: 1; }
+/* The main column needs to sit above the tint */
+body.logged-in .main { position: relative; z-index: 1; }
 
 /* ------ Poll indicator chip ------ */
 #xhr_poll_status {
@@ -108,7 +82,7 @@ input:-webkit-autofill:focus {
 
 /* ------ Fallback when backdrop-filter unsupported ------ */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  body.logged-in::after { background: rgba(255,255,255,.9); }
+  body.logged-in::before { background: rgba(255,255,255,.9); }
   body.logged-in .main-left,
   body.logged-in header,
   body.logged-in .cbi-section,
