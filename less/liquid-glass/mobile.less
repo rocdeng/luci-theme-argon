@@ -1,1 +1,88 @@
-/* liquid-glass/mobile.less */
+/* =========================================================
+ * Mobile adaptation — screens ≤768px (phones, small tablets)
+ * ========================================================= */
+
+@media (max-width: 768px) {
+  body.logged-in {
+    /* Sidebar becomes off-canvas drawer */
+    .main-left {
+      width: 280px !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      border-radius: 0 22px 22px 0 !important;
+      transform: translateX(-105%);
+      box-shadow: var(--contact-lift) !important;
+      padding-top: 20px;
+      &.show, &.active, &.slide-in { transform: translateX(0); }
+    }
+    /* Right column goes full-bleed */
+    .main-right {
+      position: relative !important;
+      left: auto !important; top: auto !important;
+    }
+    .main-right > #maincontent { padding: 12px; }
+
+    /* Toolbar */
+    header, header.bg-primary {
+      height: 44px !important;
+      border-radius: 0 !important;
+      position: sticky !important;
+      .fill { height: 44px !important; padding: 0 12px !important; }
+      .showSide {
+        display: inline-flex !important;
+        align-items: center; justify-content: center;
+        width: 28px; height: 28px; border-radius: 50%;
+        background: var(--fill-chip);
+        cursor: pointer; flex-shrink: 0;
+        margin-right: 4px;
+        position: relative;
+        &::before {
+          content: ""; display: block;
+          width: 14px; height: 2px; background: var(--t-primary);
+          border-radius: 2px;
+          box-shadow: 0 5px 0 var(--t-primary), 0 -5px 0 var(--t-primary);
+        }
+      }
+      .brand { font-size: 15px !important; }
+    }
+
+    /* Cards tighter */
+    .cbi-section, .cbi-map {
+      padding: 16px !important;
+      border-radius: 16px !important;
+    }
+    .cbi-section h2, .cbi-section h3 { font-size: 18px !important; }
+
+    /* Buttons / inputs tighten */
+    .btn, .cbi-button, button {
+      height: 32px !important;
+      padding: 0 14px !important;
+      font-size: 12px !important;
+    }
+    input[type="text"], input[type="password"], input[type="number"],
+    input[type="email"], input[type="search"], input[type="tel"],
+    select { height: 34px; font-size: 13px; }
+
+    .cbi-value-field input, .cbi-value-field select, .cbi-value-field textarea {
+      max-width: 100% !important;
+    }
+
+    /* Sticky action bar */
+    .cbi-page-actions {
+      margin: 16px -16px -16px !important;
+      padding: 12px !important;
+    }
+
+    /* Footer */
+    footer.mobile-hide { padding: 14px 0 4px !important; .footer-content { font-size: 10px; gap: 6px; display: block; text-align: center; } }
+  }
+
+  /* Lock screen mobile */
+  body.login-page {
+    padding: 8vh 20px 20px !important;
+    .login-container .clock { font-size: 44px !important; margin-bottom: 28px; }
+    .login-container .avatar { width: 84px; height: 84px; margin-bottom: 18px; font-size: 38px; }
+    .login-container .login-form { padding: 20px; border-radius: 24px; max-width: 100%; }
+    .login-container .hostname { font-size: 22px; }
+  }
+}
