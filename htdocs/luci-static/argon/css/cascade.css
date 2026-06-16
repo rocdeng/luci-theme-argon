@@ -5276,7 +5276,7 @@ body.logged-in {
   /* Disabled */
   /* ---------- Inputs (text/password/number/email/search/url/tel/select/textarea) ---------- */
   /* LuCI uses .cbi-input-text wrappers too */
-  /* Select chevron */
+  /* Select chevron — chip bg must be solid color (not the gradient var), sits above fill */
   /* cbi-value-field wrapper */
   /* ---------- Dropdown ---------- */
   /* ---------- Checkbox & radio ---------- */
@@ -5304,7 +5304,6 @@ body.logged-in input[type="reset"] {
   transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, background 0.18s ease, color 0.18s ease;
   text-shadow: none !important;
   background-image: none !important;
-  background-color: transparent;
   line-height: 1;
   vertical-align: middle;
   margin-right: 4px;
@@ -5535,10 +5534,12 @@ body.logged-in select {
   -webkit-appearance: none;
   appearance: none;
   padding-right: 36px;
-  background-image: linear-gradient(var(--fill-chip), var(--fill-chip)), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='1,1 6,7 11,1'/></svg>");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.65)), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='1,1 6,7 11,1'/></svg>");
   background-repeat: no-repeat, no-repeat;
-  background-position: center, right 12px center;
-  background-size: auto, 10px 7px;
+  background-position: right 12px center;
+  background-size: auto calc(100% - 2px), 10px 7px;
+  background-origin: border-box;
+  background-clip: border-box;
 }
 body.logged-in .cbi-value-field input,
 body.logged-in .cbi-value-field select,
@@ -5780,8 +5781,7 @@ body.logged-in {
   /* ---------- Ifacebox (network interface cards) ---------- */
   /* Zone badges (firewall zones) */
   /* ---------- Tables ---------- */
-  /* ---------- Progress bar ---------- */
-  /* If LuCI sets width via inline style it uses a background — catch that */
+  /* ---------- Progress bar (LuCI fills via child div with inline width %) ---------- */
   /* Label value next to bar */
   /* ---------- Terminal / command output ---------- */
   /* ---------- Tooltip ---------- */
@@ -5990,27 +5990,16 @@ body.logged-in .cbi-progressbar {
   padding: 0;
   vertical-align: middle;
 }
-body.logged-in .cbi-progressbar::before {
-  content: "";
+body.logged-in .cbi-progressbar > div {
+  /* LuCI native filler — skin it instead of replacing with ::before */
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white));
+  bottom: 0;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white)) !important;
   border-radius: 999px;
-  width: 0;
   box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
   transition: width 0.3s ease;
-}
-body.logged-in .cbi-progressbar > div {
-  position: absolute;
-  inset: 0;
-}
-body.logged-in .cbi-progressbar::before {
-  width: var(--w, 0);
-}
-body.logged-in .cbi-progressbar[style*="width"] {
-  background: var(--fill-chip) !important;
 }
 body.logged-in .cbi-progressbar + em,
 body.logged-in em.cbi-progressbar-value,
@@ -6382,6 +6371,14 @@ body.login-page .ftc p {
     border-radius: 24px;
     max-width: 100%;
   }
+}
+/* Login autofill must stay white on the translucent glass pill */
+body.login-page input:-webkit-autofill,
+body.login-page input:-webkit-autofill:hover,
+body.login-page input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.15) inset !important;
+  caret-color: #fff !important;
 }
 /* =========================================================
  * Mobile adaptation — screens ≤768px (phones, small tablets)

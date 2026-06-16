@@ -55,6 +55,9 @@
     var menus = root.querySelectorAll(".cbi-tabmenu, .tabs");
     menus.forEach(function (m) {
       positionTabSlider(m);
+      // Guard against duplicate listeners across MutationObserver re-runs
+      if (m.dataset.lgInit === "1") return;
+      m.dataset.lgInit = "1";
       m.addEventListener("click", function () {
         requestAnimationFrame(function () { positionTabSlider(m); });
       });

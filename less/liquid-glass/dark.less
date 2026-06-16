@@ -119,12 +119,20 @@ body.logged-in .main-left .sidenav-header .brand {
 /* ---- Mobile dark mask ---- */
 body.logged-in .darkMask { background: rgba(0,0,0,.55) !important; }
 
-/* ---- Select chevron dark ---- */
+/* ---- Select chevron dark — solid dark chip, not the gradient var ---- */
 body.logged-in select {
   background-image:
-    linear-gradient(var(--fill-chip), var(--fill-chip)),
+    linear-gradient(rgba(70,70,75,.92), rgba(50,50,55,.85)),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23a1a1a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='1,1 6,7 11,1'/></svg>") !important;
 }
+
+/* ---- Ifacebox head dark (light rule hard-codes white) ---- */
+body.logged-in .ifacebox .ifacebox-head {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)) !important;
+  color: var(--t-primary);
+  border-bottom-color: var(--hairline) !important;
+}
+body.logged-in .ifacebox .ifacebox-body { color: var(--t-secondary); }
 
 /* ---- Inputs dark override (inputs have fill-chip which is dark via var, but placeholder needs light) ---- */
 body.logged-in input::placeholder,

@@ -167,7 +167,7 @@ body.logged-in {
   .table tr:last-child td:first-child { border-radius: 0 0 0 var(--r-control); }
   .table tr:last-child td:last-child  { border-radius: 0 0 var(--r-control) 0; }
 
-  /* ---------- Progress bar ---------- */
+  /* ---------- Progress bar (LuCI fills via child div with inline width %) ---------- */
   .cbi-progressbar {
     position: relative;
     display: inline-block;
@@ -179,22 +179,16 @@ body.logged-in {
     box-shadow: var(--spec-top), var(--edge-bottom);
     padding: 0;
     vertical-align: middle;
-    &::before {
-      content: "";
-      position: absolute; top: 0; left: 0; height: 100%;
-      background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white));
+    > div {
+      /* LuCI native filler — skin it instead of replacing with ::before */
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white)) !important;
       border-radius: 999px;
-      width: 0;
       box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
       transition: width .3s ease;
     }
-    > div {
-      position: absolute; inset: 0;
-    }
   }
-  .cbi-progressbar::before { width: var(--w, 0); }
-  /* If LuCI sets width via inline style it uses a background — catch that */
-  .cbi-progressbar[style*="width"] { background: var(--fill-chip) !important; }
   /* Label value next to bar */
   .cbi-progressbar + em,
   em.cbi-progressbar-value,
