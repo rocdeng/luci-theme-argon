@@ -4,25 +4,32 @@
  * ========================================================= */
 
 body.logged-in {
-  /* ---- Layout shell: body scrolls, sidebar fixed off-flow, right takes rest ---- */
+  /* ---- Reset html/body so the shell owns the viewport ---- */
+  html, body { height: auto !important; min-height: 100vh; background-color: #f5f5f7; }
+
+  /* ---- Layout shell: reset old argon flex/height, sidebar fixed off-flow ---- */
   .main {
-    position: relative;
+    position: relative !important;
     z-index: 1;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
     min-height: 100vh;
+    overflow: visible !important;
   }
 
-  /* ---- Sidebar fixed off the flow on the left edge, below toolbar for L-bend ---- */
+  /* ---- Sidebar fixed off the flow, welds below toolbar (L-bend) ---- */
   .main-left {
-    position: fixed;
+    position: fixed !important;
     top: 52px;
     left: 0;
     bottom: 0;
-    width: 240px;
+    width: 240px !important;
+    flex: none !important;
+    max-width: none !important;
     margin: 0 !important;
     padding: 14px 12px;
+    height: auto !important;
     border-radius: 0 var(--r-chrome) var(--r-chrome) 0;
     background: var(--fill-strong);
     -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
@@ -32,7 +39,7 @@ body.logged-in {
       8px 0 24px rgba(0,0,0,.06),
       inset 1px 0 0 rgba(255,255,255,.35);
     overflow-y: auto;
-    overflow-x: hidden;   /* submenus open downward, not to the right */
+    overflow-x: hidden;
     transition: transform .3s cubic-bezier(.2,.8,.2,1);
     z-index: 100;
   }
@@ -176,13 +183,15 @@ body.logged-in {
     }
   }
 
-  /* ---- Right column: takes remaining space next to fixed sidebar ---- */
+  /* ---- Right column — normal block flow next to fixed sidebar ---- */
   .main-right {
-    flex: 1 1 auto;
+    position: relative !important;
     margin-left: 240px;
+    flex: none !important;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    height: auto !important;
+    display: block !important;
+    overflow: visible !important;
     background: transparent !important;
   }
 
@@ -254,8 +263,8 @@ body.logged-in {
 
   /* ---- Main content area ---- */
   .main-right > #maincontent {
-    flex: 1;
-    overflow-y: auto;
+    flex: none;
+    overflow-y: visible;
     padding: 20px;
     position: relative;
     background: transparent;
