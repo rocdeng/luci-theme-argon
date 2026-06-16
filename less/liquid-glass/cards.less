@@ -20,12 +20,17 @@ body.logged-in {
     -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
     backdrop-filter: blur(var(--blur-regular)) var(--saturate);
     border-radius: var(--r-card);
-    padding: 22px 24px;
+    padding: 20px 22px;
     position: relative;
     overflow: hidden;
-    border: none;
-    box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+    border: 0.5px solid rgba(255,255,255,.45);
+    box-shadow:
+      var(--spec-hi),
+      var(--edge-bottom),
+      0 1px 0 rgba(255,255,255,.4),
+      var(--contact);
     color: var(--t-primary);
+    isolation: isolate;
   }
 
   /* Top specular sheen on card surface */
@@ -34,9 +39,11 @@ body.logged-in {
   .cbi-section-table::before {
     content: "";
     position: absolute;
-    top: 0; left: 10px; right: 10px;
-    height: 35%;
-    background: linear-gradient(180deg, rgba(255,255,255,.3), transparent);
+    top: 0; left: 0; right: 0;
+    height: 45%;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,.55), rgba(255,255,255,.12) 55%, transparent 75%),
+      linear-gradient(180deg, rgba(255,255,255,.25), transparent 70%);
     pointer-events: none;
     border-radius: var(--r-card) var(--r-card) 50% 50%;
     z-index: 0;
@@ -77,73 +84,81 @@ body.logged-in {
     &::before {
       content: "";
       display: inline-block;
-      width: 6px;
-      height: 20px;
-      border-radius: 3px;
-      background: var(--accent);
+      width: 4px;
+      height: 18px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #fff));
       flex-shrink: 0;
+      box-shadow: 0 2px 4px color-mix(in srgb, var(--accent) 35%, transparent);
     }
   }
   .cbi-section .cbi-section h2,
   .cbi-section .cbi-section h3 {
-    font-size: 16px !important;
+    font-size: 15px !important;
     margin: 0 0 10px !important;
-    &::before { height: 14px; width: 4px; }
+    &::before { height: 12px; width: 3px; border-radius: 3px; }
   }
 
-  /* ---------- Segmented tab rail ---------- */
+  /* ---------- Segmented tab rail (iOS-style capsule) ---------- */
   .cbi-tabmenu,
   .tabs {
     display: inline-flex;
-    padding: 3px;
-    margin-bottom: 18px;
-    border-radius: 999px;
-    background: var(--fill-regular);
+    padding: 4px;
+    margin: 0 0 16px 0;
+    border-radius: 14px;
+    background: rgba(255,255,255,.45);
     -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
     backdrop-filter: blur(var(--blur-regular)) var(--saturate);
-    box-shadow: var(--spec-top), var(--contact);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.9),
+      inset 0 -1px 0 rgba(0,0,0,.04),
+      0 1px 2px rgba(0,0,0,.05);
     position: relative;
     list-style: none;
-    gap: 0;
+    gap: 2px;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: none !important;
     li, > li, .tab {
       display: inline-block;
       list-style: none;
-      margin: 0;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: none !important;
+      border: none !important;
+      border-radius: 10px;
+      position: relative;
+      &::after { display: none !important; } /* kill native underline */
       a, > a {
         display: inline-block;
-        padding: 7px 18px;
-        border-radius: 999px;
+        padding: 7px 16px;
+        border-radius: 10px;
         font-size: 13px;
         font-weight: 600;
         color: var(--t-secondary);
-        transition: color .18s ease;
+        transition: color .2s ease, background .2s ease;
         text-decoration: none;
         background: none !important;
         border: none !important;
         box-shadow: none !important;
         text-shadow: none !important;
       }
-      &.slide a { color: var(--t-secondary); }
-      &.active a, &.active > a, a.active { color: var(--t-primary); }
+      &:hover a, &:hover > a { color: var(--t-primary); }
     }
-    /* Slider — JS updates --tab-left / --tab-width */
-    &::before {
-      content: "";
-      position: absolute;
-      top: 3px;
-      left: var(--tab-left, 3px);
-      width: var(--tab-width, 60px);
-      height: calc(100% - 6px);
-      border-radius: 999px;
-      background: linear-gradient(180deg, #fff, #ebebf5);
-      box-shadow: 0 2px 6px rgba(0,0,0,.12), 0 1px 0 rgba(255,255,255,1) inset;
-      transition: transform .28s cubic-bezier(.2,.8,.2,1), width .28s cubic-bezier(.2,.8,.2,1), left .28s cubic-bezier(.2,.8,.2,1);
-      z-index: 0;
-      pointer-events: none;
+    li[class~="cbi-tab"],
+    li.cbi-tab,
+    li.active,
+    .active.tab,
+    li[class~="active"] {
+      background: linear-gradient(180deg, #fff, #f2f2f7) !important;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,1) inset,
+        0 1px 3px rgba(0,0,0,.12),
+        0 0 0 0.5px rgba(0,0,0,.06);
+      a, > a {
+        color: var(--accent) !important;
+      }
     }
-    .tab, li, > li { position: relative; z-index: 1; }
-    /* Remove any legacy bottom border */
-    border-bottom: none !important;
   }
   .cbi-tabcontainer > .cbi-section { margin-top: 0; }
 
@@ -166,12 +181,20 @@ body.logged-in {
     }
   }
   #modal_overlay {
-    position: fixed; inset: 0;
     background: rgba(0,0,0,.3) !important;
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
+    z-index: 900;
+    /* Do NOT override position/inset/display — the original LuCI rules
+       hide #modal_overlay off-screen by default (left/right: ±10000px,
+       opacity: 0) and slide it in via body.modal-overlay-active.
+       Resetting any of those causes it to blanket the page as a full-
+       screen invisible overlay, eating every click (incl. sidebar). */
+  }
+  body.modal-overlay-active #modal_overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* ---------- Alerts / notices ---------- */

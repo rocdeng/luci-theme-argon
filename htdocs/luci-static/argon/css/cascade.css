@@ -4427,10 +4427,10 @@ div[style*="display:grid;grid-template-columns:repeat"] .ifacebox .ifacebox-body
   --sem-purple: #af52de;
   --sem-pink: #ff2d55;
   /* —— Glass fills (three-stop 180deg gradient for depth) —— */
-  --fill-strong: linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.38) 45%, rgba(255, 255, 255, 0.52) 100%);
-  --fill-regular: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.28) 45%, rgba(255, 255, 255, 0.42) 100%);
-  --fill-thin: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.18) 45%, rgba(255, 255, 255, 0.3) 100%);
-  --fill-chip: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.58) 100%);
+  --fill-strong: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.22) 45%, rgba(255, 255, 255, 0.35) 100%);
+  --fill-regular: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.18) 45%, rgba(255, 255, 255, 0.28) 100%);
+  --fill-thin: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0.2) 100%);
+  --fill-chip: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.4) 100%);
   /* —— Blur / saturate —— */
   --blur-strong: 32px;
   --blur-regular: 24px;
@@ -4480,8 +4480,8 @@ body {
 }
 /* ------ Wallpaper (logged-in shell) ------ */
 body.logged-in {
-  background-color: #f5f5f7;
-  background-image: var(--user-wallpaper, none);
+  background-color: #eceef2;
+  background-image: var(--user-wallpaper, linear-gradient(160deg, #d4d8e0 0%, #e0e2e8 35%, #eceef2 65%, #f3f4f6 100%));
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -4495,14 +4495,15 @@ body.logged-in::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.45));
+  background: rgba(255, 255, 255, 0.08);
   pointer-events: none;
   z-index: 0;
 }
-/* The main column needs to sit above the tint */
+/* Main flex row sits above the tint; DO NOT give .main its own z-index
+   — that creates a stacking context that can trap the sidebar under main-right.
+   Sidebar is first in DOM order; main-right is flex-grow so they don't overlap. */
 body.logged-in .main {
   position: relative;
-  z-index: 1;
 }
 /* ------ Poll indicator chip ------ */
 #xhr_poll_status {
@@ -4581,47 +4582,85 @@ input:-webkit-autofill:focus {
   }
 }
 /* =========================================================
- * Chrome — sidebar + header GLASS ONLY
- * PURE VISUAL RESKIN. No geometry changes here.
+ * Chrome — sidebar + header Liquid Glass
+ * PURE VISUAL RESKIN. Preserves argon's native flex layout;
+ * only overlays glass appearance (blur + sheen + shadow).
  * ========================================================= */
 body.logged-in {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: var(--t-primary);
-  background-color: #f5f5f7;
 }
-/* ---- Sidebar surface: original geometry untouched ---- */
+/* ---- Sidebar glass panel ---- */
 body.logged-in .main-left {
+  position: relative;
   background: var(--fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact), inset 0 0 0 rgba(255, 255, 255, 0.15);
+  box-shadow: var(--spec-hi), var(--edge-bottom), var(--contact);
   border: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0 !important;
+  /* welded to viewport edges */
   word-break: break-word;
   z-index: 100;
 }
+/* Subtle top-edge sheen on sidebar — no border-radius: sidebar is
+   welded to the viewport's top/left edges and must stay flush. */
+body.logged-in .main-left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 70%);
+  pointer-events: none;
+}
 /* Brand */
+body.logged-in .main-left .sidenav-header {
+  padding: 1.25rem 0.5rem 0.75rem;
+  position: relative;
+  z-index: 1;
+}
 body.logged-in .main-left .sidenav-header .brand {
   font-family: var(--font-sans);
   font-weight: 800;
+  font-size: 1.4rem !important;
+  letter-spacing: -0.01em;
   color: var(--t-primary) !important;
   background: none !important;
   border: none !important;
   box-shadow: none !important;
   text-shadow: none;
+  margin: 0 1.25rem;
 }
 body.logged-in .main-left .sidenav-header .brand .logo {
-  display: none;
+  max-width: 100%;
+  height: auto;
 }
-/* Nav colors only */
+/* Nav base */
+body.logged-in .main-left .nav {
+  position: relative;
+  z-index: 1;
+  padding: 0 8px 12px;
+}
 body.logged-in .main-left .nav > li > a,
 body.logged-in .main-left .nav > li > a:first-child {
   color: var(--t-secondary) !important;
   background: transparent !important;
   text-shadow: none !important;
   border: none !important;
+  border-radius: 10px;
+  /* DO NOT override left padding — native uses 2.5rem left for iconfont ::before at left:0.8rem */
+  padding-right: 2rem !important;
   transition: background 0.18s ease, color 0.18s ease;
+}
+body.logged-in .main-left .nav > li > a::before,
+body.logged-in .main-left .nav > li > a:first-child::before {
+  color: var(--t-tertiary) !important;
+  transition: color 0.18s ease;
 }
 body.logged-in .main-left .nav > li > a:hover,
 body.logged-in .main-left .nav > li > a:first-child:hover {
@@ -4630,19 +4669,25 @@ body.logged-in .main-left .nav > li > a:first-child:hover {
   backdrop-filter: blur(var(--blur-light)) var(--saturate);
   -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
 }
+body.logged-in .main-left .nav > li > a:hover::before,
+body.logged-in .main-left .nav > li > a:first-child:hover::before {
+  color: var(--t-secondary) !important;
+}
 body.logged-in .main-left .nav > li > a.active,
 body.logged-in .main-left .nav > li > a.active:hover,
 body.logged-in .main-left .nav > li > a:first-child.active {
   color: var(--accent) !important;
-  font-weight: 700;
-  background: var(--accent-tint) !important;
-  box-shadow: inset 3px 0 0 var(--accent);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) var(--saturate);
+  -webkit-backdrop-filter: blur(12px) var(--saturate);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 3px 0 0 var(--accent);
   text-shadow: none;
 }
-body.logged-in .main-left .nav > li > a.active::after {
-  color: var(--accent) !important;
-}
-body.logged-in .main-left .nav > li > a.active::before {
+body.logged-in .main-left .nav > li > a.active::before,
+body.logged-in .main-left .nav > li > a.active::after,
+body.logged-in .main-left .nav > li > a:first-child.active::before,
+body.logged-in .main-left .nav > li > a:first-child.active::after {
   color: var(--accent) !important;
 }
 /* Submenu */
@@ -4650,6 +4695,8 @@ body.logged-in .main-left .nav > li.slide ul,
 body.logged-in .main-left .nav > li.slide .slide-menu {
   background: none !important;
   box-shadow: none !important;
+  padding: 4px 8px 8px 28px !important;
+  margin: 0 !important;
 }
 body.logged-in .main-left .nav > li.slide ul li a,
 body.logged-in .main-left .nav > li.slide .slide-menu li a {
@@ -4657,17 +4704,40 @@ body.logged-in .main-left .nav > li.slide .slide-menu li a {
   background: transparent !important;
   text-shadow: none !important;
   border: none !important;
+  text-decoration: none !important;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem !important;
+  margin: 1px 0;
+}
+body.logged-in .main-left .nav > li.slide ul li:hover,
+body.logged-in .main-left .nav > li.slide .slide-menu li:hover {
+  background: none !important;
+}
+/* kill native underline ::after */
+body.logged-in .main-left .nav > li.slide ul li::after,
+body.logged-in .main-left .nav > li.slide .slide-menu li::after,
+body.logged-in .main-left .nav > li.slide ul li:hover::after,
+body.logged-in .main-left .nav > li.slide .slide-menu li:hover::after,
+body.logged-in .main-left .nav > li.slide ul .active::after,
+body.logged-in .main-left .nav > li.slide .slide-menu .active::after {
+  display: none !important;
 }
 body.logged-in .main-left .nav > li.slide ul li a:hover,
 body.logged-in .main-left .nav > li.slide .slide-menu li a:hover {
   background: var(--fill-thin) !important;
   color: var(--t-primary) !important;
 }
-body.logged-in .main-left .nav > li.slide ul li a.active,
-body.logged-in .main-left .nav > li.slide .slide-menu li a.active {
+body.logged-in .main-left .nav > li.slide ul .active,
+body.logged-in .main-left .nav > li.slide .slide-menu .active {
+  background: none !important;
+}
+body.logged-in .main-left .nav > li.slide ul .active a,
+body.logged-in .main-left .nav > li.slide .slide-menu .active a {
   color: var(--accent) !important;
-  font-weight: 700;
-  background: var(--accent-tint) !important;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 /* Sidebar scrollbar */
 body.logged-in .main-left::-webkit-scrollbar {
@@ -4680,13 +4750,13 @@ body.logged-in .main-left::-webkit-scrollbar-thumb {
 body.logged-in .main-left::-webkit-scrollbar-track {
   background: transparent;
 }
-/* Toggler */
+/* Mobile toggle button */
 body.logged-in .sidenav-toggler {
   background: var(--fill-chip);
   backdrop-filter: blur(var(--blur-light));
   -webkit-backdrop-filter: blur(var(--blur-light));
-  box-shadow: var(--spec-top);
-  border: none;
+  box-shadow: var(--spec-top), var(--contact);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
 }
 body.logged-in .sidenav-toggler:hover {
@@ -4700,33 +4770,60 @@ body.logged-in .sidenav-toggler .sidenav-toggler-line {
 body.logged-in .main-right {
   background: transparent !important;
 }
-/* Header */
+/* ---- Header glass ---- */
 body.logged-in header,
 body.logged-in header.bg-primary {
+  position: relative;
   background: var(--fill-strong) !important;
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow: var(--spec-top);
+  box-shadow: var(--spec-hi), var(--edge-bottom);
   color: var(--t-primary) !important;
   border: none;
-}
-body.logged-in header::after {
-  display: none !important;
+  flex-shrink: 0;
 }
 body.logged-in header::before {
   display: none !important;
+}
+body.logged-in header::after {
+  /* Native argon uses ::after as a 2rem high spacer under the primary fill.
+     Keep it transparent (glass shows through), keep the height so header
+     doesn't collapse. */
+  background: transparent !important;
+  z-index: -1;
+}
+body.logged-in header .fill {
+  padding: 0.6rem 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+body.logged-in header .fill .container {
+  height: 2.25rem;
 }
 body.logged-in header .container .brand,
 body.logged-in header .brand {
   font-family: var(--font-sans);
   font-weight: 700;
+  font-size: 1.05rem;
   color: var(--t-primary) !important;
   text-shadow: none !important;
+}
+body.logged-in header a,
+body.logged-in header .pull-right,
+body.logged-in header .left {
+  color: var(--t-secondary) !important;
+}
+body.logged-in header a:hover {
+  color: var(--t-primary) !important;
 }
 /* Main content & footer */
 body.logged-in .main-right > #maincontent,
 body.logged-in .main-right > #maincontent > .container {
   background: transparent;
+}
+body.logged-in .main-right > #maincontent > .container {
+  padding-top: 1rem;
+  gap: 1rem;
 }
 body.logged-in footer.mobile-hide {
   background: none !important;
@@ -4742,7 +4839,7 @@ body.logged-in footer.mobile-hide a:hover {
 body.logged-in footer.mobile-hide .footer-separator {
   opacity: 0.3;
 }
-/* Dark mask */
+/* Mobile dark mask */
 body.logged-in .darkMask {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
@@ -4756,7 +4853,7 @@ body.logged-in {
   /* Top specular sheen on card surface */
   /* Nested sections: thin glass */
   /* ---------- Section titles ---------- */
-  /* ---------- Segmented tab rail ---------- */
+  /* ---------- Segmented tab rail (iOS-style capsule) ---------- */
   /* ---------- Modal ---------- */
   /* ---------- Alerts / notices ---------- */
   /* ---------- Sticky page action bar ---------- */
@@ -4776,12 +4873,13 @@ body.logged-in .dashboard-bg {
   -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
   backdrop-filter: blur(var(--blur-regular)) var(--saturate);
   border-radius: var(--r-card);
-  padding: 22px 24px;
+  padding: 20px 22px;
   position: relative;
   overflow: hidden;
-  border: none;
-  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+  border: 0.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: var(--spec-hi), var(--edge-bottom), 0 1px 0 rgba(255, 255, 255, 0.4), var(--contact);
   color: var(--t-primary);
+  isolation: isolate;
 }
 body.logged-in .cbi-section::before,
 body.logged-in .cbi-map::before,
@@ -4789,10 +4887,10 @@ body.logged-in .cbi-section-table::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 10px;
-  right: 10px;
-  height: 35%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12) 55%, transparent 75%), linear-gradient(180deg, rgba(255, 255, 255, 0.25), transparent 70%);
   pointer-events: none;
   border-radius: var(--r-card) var(--r-card) 50% 50%;
   z-index: 0;
@@ -4841,37 +4939,39 @@ body.logged-in .cbi-section > h3::before,
 body.logged-in .cbi-section-table h3::before {
   content: "";
   display: inline-block;
-  width: 6px;
-  height: 20px;
-  border-radius: 3px;
-  background: var(--accent);
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #fff));
   flex-shrink: 0;
+  box-shadow: 0 2px 4px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 body.logged-in .cbi-section .cbi-section h2,
 body.logged-in .cbi-section .cbi-section h3 {
-  font-size: 16px !important;
+  font-size: 15px !important;
   margin: 0 0 10px !important;
 }
 body.logged-in .cbi-section .cbi-section h2::before,
 body.logged-in .cbi-section .cbi-section h3::before {
-  height: 14px;
-  width: 4px;
+  height: 12px;
+  width: 3px;
+  border-radius: 3px;
 }
 body.logged-in .cbi-tabmenu,
 body.logged-in .tabs {
   display: inline-flex;
-  padding: 3px;
-  margin-bottom: 18px;
-  border-radius: 999px;
-  background: var(--fill-regular);
+  padding: 4px;
+  margin: 0 0 16px 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.45);
   -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
   backdrop-filter: blur(var(--blur-regular)) var(--saturate);
-  box-shadow: var(--spec-top), var(--contact);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.05);
   position: relative;
   list-style: none;
-  gap: 0;
-  /* Slider — JS updates --tab-left / --tab-width */
-  /* Remove any legacy bottom border */
+  gap: 2px;
+  overflow-x: auto;
+  white-space: nowrap;
   border-bottom: none !important;
 }
 body.logged-in .cbi-tabmenu li,
@@ -4882,7 +4982,21 @@ body.logged-in .cbi-tabmenu .tab,
 body.logged-in .tabs .tab {
   display: inline-block;
   list-style: none;
-  margin: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 10px;
+  position: relative;
+  /* kill native underline */
+}
+body.logged-in .cbi-tabmenu li::after,
+body.logged-in .tabs li::after,
+body.logged-in .cbi-tabmenu > li::after,
+body.logged-in .tabs > li::after,
+body.logged-in .cbi-tabmenu .tab::after,
+body.logged-in .tabs .tab::after {
+  display: none !important;
 }
 body.logged-in .cbi-tabmenu li a,
 body.logged-in .tabs li a,
@@ -4897,69 +5011,66 @@ body.logged-in .tabs > li > a,
 body.logged-in .cbi-tabmenu .tab > a,
 body.logged-in .tabs .tab > a {
   display: inline-block;
-  padding: 7px 18px;
-  border-radius: 999px;
+  padding: 7px 16px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 600;
   color: var(--t-secondary);
-  transition: color 0.18s ease;
+  transition: color 0.2s ease, background 0.2s ease;
   text-decoration: none;
   background: none !important;
   border: none !important;
   box-shadow: none !important;
   text-shadow: none !important;
 }
-body.logged-in .cbi-tabmenu li.slide a,
-body.logged-in .tabs li.slide a,
-body.logged-in .cbi-tabmenu > li.slide a,
-body.logged-in .tabs > li.slide a,
-body.logged-in .cbi-tabmenu .tab.slide a,
-body.logged-in .tabs .tab.slide a {
-  color: var(--t-secondary);
-}
-body.logged-in .cbi-tabmenu li.active a,
-body.logged-in .tabs li.active a,
-body.logged-in .cbi-tabmenu > li.active a,
-body.logged-in .tabs > li.active a,
-body.logged-in .cbi-tabmenu .tab.active a,
-body.logged-in .tabs .tab.active a,
-body.logged-in .cbi-tabmenu li.active > a,
-body.logged-in .tabs li.active > a,
-body.logged-in .cbi-tabmenu > li.active > a,
-body.logged-in .tabs > li.active > a,
-body.logged-in .cbi-tabmenu .tab.active > a,
-body.logged-in .tabs .tab.active > a,
-body.logged-in .cbi-tabmenu li a.active,
-body.logged-in .tabs li a.active,
-body.logged-in .cbi-tabmenu > li a.active,
-body.logged-in .tabs > li a.active,
-body.logged-in .cbi-tabmenu .tab a.active,
-body.logged-in .tabs .tab a.active {
+body.logged-in .cbi-tabmenu li:hover a,
+body.logged-in .tabs li:hover a,
+body.logged-in .cbi-tabmenu > li:hover a,
+body.logged-in .tabs > li:hover a,
+body.logged-in .cbi-tabmenu .tab:hover a,
+body.logged-in .tabs .tab:hover a,
+body.logged-in .cbi-tabmenu li:hover > a,
+body.logged-in .tabs li:hover > a,
+body.logged-in .cbi-tabmenu > li:hover > a,
+body.logged-in .tabs > li:hover > a,
+body.logged-in .cbi-tabmenu .tab:hover > a,
+body.logged-in .tabs .tab:hover > a {
   color: var(--t-primary);
 }
-body.logged-in .cbi-tabmenu::before,
-body.logged-in .tabs::before {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: var(--tab-left, 3px);
-  width: var(--tab-width, 60px);
-  height: calc(100% - 6px);
-  border-radius: 999px;
-  background: linear-gradient(180deg, #fff, #ebebf5);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 0 #ffffff inset;
-  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 0;
-  pointer-events: none;
+body.logged-in .cbi-tabmenu li[class~="cbi-tab"],
+body.logged-in .tabs li[class~="cbi-tab"],
+body.logged-in .cbi-tabmenu li.cbi-tab,
+body.logged-in .tabs li.cbi-tab,
+body.logged-in .cbi-tabmenu li.active,
+body.logged-in .tabs li.active,
+body.logged-in .cbi-tabmenu .active.tab,
+body.logged-in .tabs .active.tab,
+body.logged-in .cbi-tabmenu li[class~="active"],
+body.logged-in .tabs li[class~="active"] {
+  background: linear-gradient(180deg, #fff, #f2f2f7) !important;
+  box-shadow: 0 1px 0 #ffffff inset, 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
 }
-body.logged-in .cbi-tabmenu .tab,
-body.logged-in .tabs .tab,
-body.logged-in .cbi-tabmenu li,
-body.logged-in .tabs li,
-body.logged-in .cbi-tabmenu > li,
-body.logged-in .tabs > li {
-  position: relative;
-  z-index: 1;
+body.logged-in .cbi-tabmenu li[class~="cbi-tab"] a,
+body.logged-in .tabs li[class~="cbi-tab"] a,
+body.logged-in .cbi-tabmenu li.cbi-tab a,
+body.logged-in .tabs li.cbi-tab a,
+body.logged-in .cbi-tabmenu li.active a,
+body.logged-in .tabs li.active a,
+body.logged-in .cbi-tabmenu .active.tab a,
+body.logged-in .tabs .active.tab a,
+body.logged-in .cbi-tabmenu li[class~="active"] a,
+body.logged-in .tabs li[class~="active"] a,
+body.logged-in .cbi-tabmenu li[class~="cbi-tab"] > a,
+body.logged-in .tabs li[class~="cbi-tab"] > a,
+body.logged-in .cbi-tabmenu li.cbi-tab > a,
+body.logged-in .tabs li.cbi-tab > a,
+body.logged-in .cbi-tabmenu li.active > a,
+body.logged-in .tabs li.active > a,
+body.logged-in .cbi-tabmenu .active.tab > a,
+body.logged-in .tabs .active.tab > a,
+body.logged-in .cbi-tabmenu li[class~="active"] > a,
+body.logged-in .tabs li[class~="active"] > a {
+  color: var(--accent) !important;
 }
 body.logged-in .cbi-tabcontainer > .cbi-section {
   margin-top: 0;
@@ -4987,12 +5098,17 @@ body.logged-in .modal::before {
   pointer-events: none;
 }
 body.logged-in #modal_overlay {
-  position: fixed;
-  inset: 0;
   background: rgba(0, 0, 0, 0.3) !important;
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  z-index: 200;
+  z-index: 900;
+  /* Do NOT override position/inset/display — the original LuCI rules
+       hide #modal_overlay off-screen by default (left/right: ±10000px,
+       opacity: 0) and slide it in via body.modal-overlay-active.
+       Resetting any of those causes it to blanket the page as a full-
+       screen invisible overlay, eating every click (incl. sidebar). */
+}
+body.logged-in body.modal-overlay-active #modal_overlay {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5410,9 +5526,9 @@ body.logged-in .dropdown li.active {
 body.logged-in input[type="checkbox"] {
   appearance: none !important;
   -webkit-appearance: none !important;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   background: var(--fill-chip);
   -webkit-backdrop-filter: blur(var(--blur-light));
   backdrop-filter: blur(var(--blur-light));
@@ -5422,24 +5538,27 @@ body.logged-in input[type="checkbox"] {
   position: relative;
   transition: all 0.18s ease;
   margin: 0;
-  vertical-align: middle;
+  vertical-align: -6px;
   flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 body.logged-in input[type="checkbox"]:checked {
   background: var(--accent) !important;
   border-color: transparent !important;
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 body.logged-in input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 11px;
+  /* checkmark geometry sized relative to 22px box, centered */
+  left: 28%;
+  top: 18%;
+  width: 32%;
+  height: 58%;
   border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(40deg);
 }
 body.logged-in input[type="checkbox"]:focus {
   box-shadow: 0 0 0 4px var(--accent-soft), var(--spec-top);
@@ -5585,8 +5704,7 @@ body.logged-in {
   /* ---------- Ifacebox (network interface cards) ---------- */
   /* Zone badges (firewall zones) */
   /* ---------- Tables ---------- */
-  /* ---------- Progress bar (LuCI fills via child div with inline width %) ---------- */
-  /* Label value next to bar */
+  /* ---------- Progress bar (LuCI fills via child div + ::after shows title text) ---------- */
   /* ---------- Terminal / command output ---------- */
   /* ---------- Tooltip ---------- */
   /* ---------- Toast / popups ---------- */
@@ -5784,36 +5902,48 @@ body.logged-in .table tr:last-child td:last-child {
 }
 body.logged-in .cbi-progressbar {
   position: relative;
-  display: inline-block;
-  height: 8px;
-  width: 160px;
-  background: var(--fill-chip);
+  display: block;
+  height: 1.1rem;
+  width: 100%;
+  background: transparent;
   border-radius: 999px;
-  overflow: hidden;
-  box-shadow: var(--spec-top), var(--edge-bottom);
   padding: 0;
-  vertical-align: middle;
+  overflow: visible;
+  /* 4px track at vertical center (1.1rem - 4px) / 2 = 6.6px ~= 7px from top */
+}
+body.logged-in .cbi-progressbar::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.12);
 }
 body.logged-in .cbi-progressbar > div {
-  /* LuCI native filler — skin it instead of replacing with ::before */
   position: absolute;
-  top: 0;
+  top: 7px;
   left: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white)) !important;
+  height: 4px;
   border-radius: 999px;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white)) !important;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 40%, transparent);
   transition: width 0.3s ease;
+  z-index: 1;
+}
+body.logged-in .cbi-progressbar::after {
+  color: var(--t-secondary) !important;
+  font-size: 11px !important;
+  font-family: var(--font-mono);
+  line-height: 1.1rem;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+  z-index: 2;
 }
 body.logged-in .cbi-progressbar + em,
 body.logged-in em.cbi-progressbar-value,
 body.logged-in .cbi-progressbar ~ em {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--t-secondary);
-  font-style: normal;
-  margin-left: 8px;
-  vertical-align: middle;
+  display: none !important;
 }
 body.logged-in pre.command-output,
 body.logged-in .commandbox {

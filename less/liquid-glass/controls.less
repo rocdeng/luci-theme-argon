@@ -250,8 +250,8 @@ body.logged-in {
   input[type="checkbox"] {
     appearance: none !important;
     -webkit-appearance: none !important;
-    width: 20px; height: 20px;
-    border-radius: 6px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
     background: var(--fill-chip);
     -webkit-backdrop-filter: blur(var(--blur-light)); backdrop-filter: blur(var(--blur-light));
     border: 1px solid rgba(0,0,0,.1) !important;
@@ -260,18 +260,25 @@ body.logged-in {
     position: relative;
     transition: all .18s ease;
     margin: 0;
-    vertical-align: middle;
+    vertical-align: -6px;
     flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
     &:checked {
       background: var(--accent) !important;
       border-color: transparent !important;
-      box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 35%, transparent);
+      box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 45%, transparent);
       &::after {
-        content: ""; position: absolute;
-        left: 6px; top: 2px;
-        width: 6px; height: 11px;
-        border: solid #fff; border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
+        content: "";
+        position: absolute;
+        /* checkmark geometry sized relative to 22px box, centered */
+        left: 28%;
+        top: 18%;
+        width: 32%;
+        height: 58%;
+        border: solid #fff;
+        border-width: 0 2.5px 2.5px 0;
+        transform: rotate(40deg);
       }
     }
     &:focus { box-shadow: 0 0 0 4px var(--accent-soft), var(--spec-top); }

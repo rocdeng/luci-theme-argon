@@ -16,8 +16,10 @@ html, body {
 
 /* ------ Wallpaper (logged-in shell) ------ */
 body.logged-in {
-  background-color: #f5f5f7;
-  background-image: var(--user-wallpaper, none);
+  background-color: #eceef2;
+  background-image: var(--user-wallpaper,
+    linear-gradient(160deg, #d4d8e0 0%, #e0e2e8 35%, #eceef2 65%, #f3f4f6 100%)
+  );
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -29,12 +31,14 @@ body.logged-in::before {
   content: "";
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.45));
+  background: rgba(255,255,255,.08);
   pointer-events: none;
   z-index: 0;
 }
-/* The main column needs to sit above the tint */
-body.logged-in .main { position: relative; z-index: 1; }
+/* Main flex row sits above the tint; DO NOT give .main its own z-index
+   — that creates a stacking context that can trap the sidebar under main-right.
+   Sidebar is first in DOM order; main-right is flex-grow so they don't overlap. */
+body.logged-in .main { position: relative; }
 
 /* ------ Poll indicator chip ------ */
 #xhr_poll_status {
