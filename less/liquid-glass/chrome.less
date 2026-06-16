@@ -4,15 +4,17 @@
  * ========================================================= */
 
 body.logged-in {
-  /* ---- Layout shell ---- */
+  /* ---- Layout shell: body scrolls, sidebar fixed off-flow, right takes rest ---- */
   .main {
     position: relative;
     z-index: 1;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
     min-height: 100vh;
   }
 
-  /* ---- Sidebar welded to left edge ---- */
+  /* ---- Sidebar fixed off the flow on the left edge, below toolbar for L-bend ---- */
   .main-left {
     position: fixed;
     top: 52px;
@@ -21,7 +23,6 @@ body.logged-in {
     width: 240px;
     margin: 0 !important;
     padding: 14px 12px;
-    height: auto !important;
     border-radius: 0 var(--r-chrome) var(--r-chrome) 0;
     background: var(--fill-strong);
     -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
@@ -31,7 +32,7 @@ body.logged-in {
       8px 0 24px rgba(0,0,0,.06),
       inset 1px 0 0 rgba(255,255,255,.35);
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: hidden;   /* submenus open downward, not to the right */
     transition: transform .3s cubic-bezier(.2,.8,.2,1);
     z-index: 100;
   }
@@ -58,10 +59,6 @@ body.logged-in {
       box-shadow: none !important;
       text-align: left;
       text-shadow: none;
-      &::before {
-        content: "🪟 ";
-        font-size: 20px;
-      }
     }
     .brand .logo { display: none; }
     .ml-auto { margin-left: auto; }
@@ -84,7 +81,7 @@ body.logged-in {
     color: var(--t-secondary) !important;
     background: transparent;
     position: relative;
-    transition: all .18s ease;
+    transition: background .18s ease, color .18s ease;
     text-shadow: none !important;
     border: none !important;
 
@@ -93,7 +90,6 @@ body.logged-in {
       background: var(--fill-chip) !important;
       -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
       backdrop-filter: blur(var(--blur-light)) var(--saturate);
-      transform: translateX(2px);
     }
     &.active, &.active:hover {
       color: var(--accent) !important;
@@ -106,12 +102,14 @@ body.logged-in {
     }
   }
 
-  /* ---- Submenu items ---- */
+  /* ---- Submenu items: submenu panel itself must be transparent ---- */
   .main-left .nav > li.slide > ul,
-  .main-left .nav > li.slide .slide-menu {
+  .main-left .nav > li.slide .slide-menu,
+  .main-left .nav > li.slide .slide-menu.active {
     padding: 4px 0;
     background: none !important;
     box-shadow: none !important;
+    border-radius: 0;
   }
   .main-left .nav > li.slide .slide-menu li a,
   .main-left .nav > li.slide ul li a {
@@ -126,11 +124,13 @@ body.logged-in {
     text-shadow: none;
     background: transparent !important;
     border: none !important;
+    box-shadow: none !important;
     &:hover { background: var(--fill-thin) !important; color: var(--t-primary) !important; }
     &.active {
       color: var(--accent) !important;
       font-weight: 700;
       background: var(--accent-tint) !important;
+      box-shadow: none !important;
       &::before {
         content: "•";
         position: absolute;
@@ -176,17 +176,13 @@ body.logged-in {
     }
   }
 
-  /* ---- Right column sits to the right of sidebar ---- */
+  /* ---- Right column: takes remaining space next to fixed sidebar ---- */
   .main-right {
-    position: absolute;
-    top: 0;
-    left: 240px;
-    right: 0;
-    bottom: 0;
-    margin: 0;
+    flex: 1 1 auto;
+    margin-left: 240px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     background: transparent !important;
   }
 

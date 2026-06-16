@@ -4606,14 +4606,14 @@ input:-webkit-autofill:focus {
  * footer absorbed into content cards.
  * ========================================================= */
 body.logged-in {
-  /* ---- Layout shell ---- */
-  /* ---- Sidebar welded to left edge ---- */
+  /* ---- Layout shell: body scrolls, sidebar fixed off-flow, right takes rest ---- */
+  /* ---- Sidebar fixed off the flow on the left edge, below toolbar for L-bend ---- */
   /* ---- Brand block in sidebar ---- */
   /* ---- Nav list ---- */
-  /* ---- Submenu items ---- */
+  /* ---- Submenu items: submenu panel itself must be transparent ---- */
   /* ---- Sidebar scrollbar ---- */
   /* ---- Sidenav toggler (desktop pin) ---- */
-  /* ---- Right column sits to the right of sidebar ---- */
+  /* ---- Right column: takes remaining space next to fixed sidebar ---- */
   /* ---- Toolbar welded to top ---- */
   /* Decorative sheen band at right */
   /* ---- Main content area ---- */
@@ -4623,7 +4623,9 @@ body.logged-in {
 body.logged-in .main {
   position: relative;
   z-index: 1;
-  display: block;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   min-height: 100vh;
 }
 body.logged-in .main-left {
@@ -4634,7 +4636,6 @@ body.logged-in .main-left {
   width: 240px;
   margin: 0 !important;
   padding: 14px 12px;
-  height: auto !important;
   border-radius: 0 var(--r-chrome) var(--r-chrome) 0;
   background: var(--fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
@@ -4642,6 +4643,7 @@ body.logged-in .main-left {
   box-shadow: var(--edge-bottom), 8px 0 24px rgba(0, 0, 0, 0.06), inset 1px 0 0 rgba(255, 255, 255, 0.35);
   overflow-y: auto;
   overflow-x: hidden;
+  /* submenus open downward, not to the right */
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 100;
 }
@@ -4667,10 +4669,6 @@ body.logged-in .main-left .sidenav-header .brand {
   text-align: left;
   text-shadow: none;
 }
-body.logged-in .main-left .sidenav-header .brand::before {
-  content: "🪟 ";
-  font-size: 20px;
-}
 body.logged-in .main-left .sidenav-header .brand .logo {
   display: none;
 }
@@ -4694,7 +4692,7 @@ body.logged-in .main-left .nav > li > a:first-child {
   color: var(--t-secondary) !important;
   background: transparent;
   position: relative;
-  transition: all 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease;
   text-shadow: none !important;
   border: none !important;
 }
@@ -4704,7 +4702,6 @@ body.logged-in .main-left .nav > li > a:first-child:hover {
   background: var(--fill-chip) !important;
   -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
   backdrop-filter: blur(var(--blur-light)) var(--saturate);
-  transform: translateX(2px);
 }
 body.logged-in .main-left .nav > li > a.active,
 body.logged-in .main-left .nav > li > a:first-child.active,
@@ -4730,10 +4727,12 @@ body.logged-in .main-left .nav > li > a:first-child.active:hover::after {
   transform: rotate(90deg);
 }
 body.logged-in .main-left .nav > li.slide > ul,
-body.logged-in .main-left .nav > li.slide .slide-menu {
+body.logged-in .main-left .nav > li.slide .slide-menu,
+body.logged-in .main-left .nav > li.slide .slide-menu.active {
   padding: 4px 0;
   background: none !important;
   box-shadow: none !important;
+  border-radius: 0;
 }
 body.logged-in .main-left .nav > li.slide .slide-menu li a,
 body.logged-in .main-left .nav > li.slide ul li a {
@@ -4748,6 +4747,7 @@ body.logged-in .main-left .nav > li.slide ul li a {
   text-shadow: none;
   background: transparent !important;
   border: none !important;
+  box-shadow: none !important;
 }
 body.logged-in .main-left .nav > li.slide .slide-menu li a:hover,
 body.logged-in .main-left .nav > li.slide ul li a:hover {
@@ -4759,6 +4759,7 @@ body.logged-in .main-left .nav > li.slide ul li a.active {
   color: var(--accent) !important;
   font-weight: 700;
   background: var(--accent-tint) !important;
+  box-shadow: none !important;
 }
 body.logged-in .main-left .nav > li.slide .slide-menu li a.active::before,
 body.logged-in .main-left .nav > li.slide ul li a.active::before {
@@ -4806,15 +4807,11 @@ body.logged-in .sidenav-toggler .sidenav-toggler-line {
   border-radius: 2px;
 }
 body.logged-in .main-right {
-  position: absolute;
-  top: 0;
-  left: 240px;
-  right: 0;
-  bottom: 0;
-  margin: 0;
+  flex: 1 1 auto;
+  margin-left: 240px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   background: transparent !important;
 }
 body.logged-in header,
