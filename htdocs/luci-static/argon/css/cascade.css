@@ -5263,7 +5263,513 @@ body.logged-in .cbi-page-actions {
   flex-wrap: wrap;
   border-top: 1px solid var(--hairline);
 }
-/* liquid-glass/controls.less */
+/* =========================================================
+ * Controls — buttons, inputs, selects, checkboxes, switches,
+ * dynlist tags, file upload button
+ * ========================================================= */
+body.logged-in {
+  /* ---------- Buttons (three tiers: primary/secondary/danger) ---------- */
+  /* Primary */
+  /* Danger */
+  /* Edit/add/fieldadd = secondary (already set) */
+  /* Link-style button */
+  /* Disabled */
+  /* ---------- Inputs (text/password/number/email/search/url/tel/select/textarea) ---------- */
+  /* LuCI uses .cbi-input-text wrappers too */
+  /* Select chevron */
+  /* cbi-value-field wrapper */
+  /* ---------- Dropdown ---------- */
+  /* ---------- Checkbox & radio ---------- */
+  /* ---------- iOS glass-bead switch ---------- */
+  /* ---------- Dynlist tags ---------- */
+  /* ---------- File upload button ---------- */
+}
+body.logged-in .btn,
+body.logged-in .cbi-button,
+body.logged-in button,
+body.logged-in input[type="submit"],
+body.logged-in input[type="button"],
+body.logged-in input[type="reset"] {
+  border-radius: var(--r-pill) !important;
+  font-weight: 600;
+  height: 34px;
+  padding: 0 18px !important;
+  font-size: 13px;
+  border: none !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, background 0.18s ease, color 0.18s ease;
+  text-shadow: none !important;
+  background-image: none !important;
+  background-color: transparent;
+  line-height: 1;
+  vertical-align: middle;
+  margin-right: 4px;
+  /* default = (secondary) glass chip */
+  background: var(--fill-chip);
+  color: var(--t-primary) !important;
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+  -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  text-decoration: none !important;
+}
+body.logged-in .btn:hover,
+body.logged-in .cbi-button:hover,
+body.logged-in button:hover,
+body.logged-in input[type="submit"]:hover,
+body.logged-in input[type="button"]:hover,
+body.logged-in input[type="reset"]:hover {
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact-lift);
+  transform: translateY(-1px);
+  color: var(--accent) !important;
+}
+body.logged-in .btn:active,
+body.logged-in .cbi-button:active,
+body.logged-in button:active,
+body.logged-in input[type="submit"]:active,
+body.logged-in input[type="button"]:active,
+body.logged-in input[type="reset"]:active {
+  transform: translateY(0);
+  box-shadow: var(--spec-top), var(--edge-bottom);
+}
+body.logged-in .btn i,
+body.logged-in .cbi-button i,
+body.logged-in button i,
+body.logged-in input[type="submit"] i,
+body.logged-in input[type="button"] i,
+body.logged-in input[type="reset"] i,
+body.logged-in .btn [class*="icon-"],
+body.logged-in .cbi-button [class*="icon-"],
+body.logged-in button [class*="icon-"],
+body.logged-in input[type="submit"] [class*="icon-"],
+body.logged-in input[type="button"] [class*="icon-"],
+body.logged-in input[type="reset"] [class*="icon-"] {
+  margin-right: 4px;
+}
+body.logged-in .cbi-button-apply,
+body.logged-in .cbi-button-save,
+body.logged-in .cbi-button-positive,
+body.logged-in .cbi-button-action,
+body.logged-in .btn-primary,
+body.logged-in .save,
+body.logged-in input[type="submit"] {
+  background: linear-gradient(180deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 85%, black) 100%) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  padding: 0 20px !important;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent), var(--spec-top), inset 0 -1px 0 rgba(0, 0, 0, 0.15) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.logged-in .cbi-button-apply:hover,
+body.logged-in .cbi-button-save:hover,
+body.logged-in .cbi-button-positive:hover,
+body.logged-in .cbi-button-action:hover,
+body.logged-in .btn-primary:hover,
+body.logged-in .save:hover,
+body.logged-in input[type="submit"]:hover {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  color: #fff !important;
+}
+body.logged-in .cbi-button-apply:active,
+body.logged-in .cbi-button-save:active,
+body.logged-in .cbi-button-positive:active,
+body.logged-in .cbi-button-action:active,
+body.logged-in .btn-primary:active,
+body.logged-in .save:active,
+body.logged-in input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 40%, transparent), var(--spec-top) !important;
+}
+body.logged-in .cbi-button-remove,
+body.logged-in .cbi-button-negative,
+body.logged-in .btn-danger,
+body.logged-in .reset {
+  background: linear-gradient(180deg, var(--sem-red) 0%, color-mix(in srgb, var(--sem-red) 85%, black) 100%) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  padding: 0 18px !important;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--sem-red) 40%, transparent), var(--spec-top), inset 0 -1px 0 rgba(0, 0, 0, 0.15) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.logged-in .cbi-button-remove:hover,
+body.logged-in .cbi-button-negative:hover,
+body.logged-in .btn-danger:hover,
+body.logged-in .reset:hover {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  color: #fff !important;
+}
+body.logged-in .cbi-button-reset,
+body.logged-in .cbi-button-cancel,
+body.logged-in .cbi-button-edit,
+body.logged-in .cbi-button-add,
+body.logged-in .cbi-button-fieldadd,
+body.logged-in .cbi-button-download,
+body.logged-in .cbi-button-link.secondary {
+  /* inherits secondary glass; fine */
+}
+body.logged-in .cbi-button-link,
+body.logged-in .cbi-button[name="zero"],
+body.logged-in .btn-link {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--accent) !important;
+  padding: 0 8px !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.logged-in .cbi-button-link:hover,
+body.logged-in .cbi-button[name="zero"]:hover,
+body.logged-in .btn-link:hover {
+  text-decoration: underline;
+  transform: none;
+  color: var(--accent) !important;
+}
+body.logged-in .btn:disabled,
+body.logged-in .btn[disabled],
+body.logged-in .cbi-button:disabled,
+body.logged-in .cbi-button[disabled],
+body.logged-in .btn[aria-disabled="true"],
+body.logged-in .cbi-button[aria-disabled="true"],
+body.logged-in .btn.disabled,
+body.logged-in .cbi-button.disabled {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2)) !important;
+  color: var(--t-tertiary) !important;
+  box-shadow: var(--spec-top) !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none !important;
+  filter: none !important;
+}
+body.logged-in input[type="text"],
+body.logged-in input[type="password"],
+body.logged-in input[type="number"],
+body.logged-in input[type="email"],
+body.logged-in input[type="search"],
+body.logged-in input[type="url"],
+body.logged-in input[type="tel"],
+body.logged-in select,
+body.logged-in textarea {
+  font-family: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+  outline: none;
+  width: auto;
+  max-width: 100%;
+  background: var(--fill-chip);
+  -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  border: none !important;
+  box-shadow: var(--spec-top), var(--edge-bottom), 0 2px 6px rgba(0, 0, 0, 0.04);
+  color: var(--t-primary);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+body.logged-in input[type="text"]::placeholder,
+body.logged-in input[type="password"]::placeholder,
+body.logged-in input[type="number"]::placeholder,
+body.logged-in input[type="email"]::placeholder,
+body.logged-in input[type="search"]::placeholder,
+body.logged-in input[type="url"]::placeholder,
+body.logged-in input[type="tel"]::placeholder,
+body.logged-in select::placeholder,
+body.logged-in textarea::placeholder {
+  color: var(--t-tertiary);
+  opacity: 1;
+}
+body.logged-in input[type="text"]:focus,
+body.logged-in input[type="password"]:focus,
+body.logged-in input[type="number"]:focus,
+body.logged-in input[type="email"]:focus,
+body.logged-in input[type="search"]:focus,
+body.logged-in input[type="url"]:focus,
+body.logged-in input[type="tel"]:focus,
+body.logged-in select:focus,
+body.logged-in textarea:focus {
+  box-shadow: 0 0 0 4px var(--accent-soft), var(--spec-top), var(--edge-bottom);
+}
+body.logged-in input[type="text"]:disabled,
+body.logged-in input[type="password"]:disabled,
+body.logged-in input[type="number"]:disabled,
+body.logged-in input[type="email"]:disabled,
+body.logged-in input[type="search"]:disabled,
+body.logged-in input[type="url"]:disabled,
+body.logged-in input[type="tel"]:disabled,
+body.logged-in select:disabled,
+body.logged-in textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+body.logged-in input[type="text"],
+body.logged-in input[type="password"],
+body.logged-in input[type="number"],
+body.logged-in input[type="email"],
+body.logged-in input[type="search"],
+body.logged-in input[type="url"],
+body.logged-in input[type="tel"],
+body.logged-in select {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+}
+body.logged-in textarea {
+  height: auto;
+  min-height: 90px;
+  padding: 12px 16px;
+  border-radius: var(--r-control);
+  line-height: 1.5;
+  resize: vertical;
+}
+body.logged-in .cbi-input-text input,
+body.logged-in .cbi-input-password input,
+body.logged-in .cbi-input-number input,
+body.logged-in .cbi-input-select select {
+  width: 100%;
+}
+body.logged-in select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 36px;
+  background-image: linear-gradient(var(--fill-chip), var(--fill-chip)), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='1,1 6,7 11,1'/></svg>");
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, right 12px center;
+  background-size: auto, 10px 7px;
+}
+body.logged-in .cbi-value-field input,
+body.logged-in .cbi-value-field select,
+body.logged-in .cbi-value-field textarea {
+  width: 100%;
+  max-width: 28rem;
+}
+body.logged-in .cbi-value-field .cbi-dropdown,
+body.logged-in .cbi-value-field input {
+  width: 100%;
+}
+body.logged-in .cbi-dropdown > ul.dropdown,
+body.logged-in .dropdown-menu,
+body.logged-in .dropdown {
+  border-radius: var(--r-control) !important;
+  background: var(--fill-strong) !important;
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  border: none !important;
+  box-shadow: var(--spec-top), var(--contact-lift) !important;
+  padding: 6px !important;
+}
+body.logged-in .cbi-dropdown > ul.dropdown li,
+body.logged-in .dropdown-menu li,
+body.logged-in .dropdown li {
+  border-radius: 10px;
+  padding: 0 12px !important;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--t-primary);
+  background: transparent !important;
+  border: none !important;
+  transition: background 0.15s;
+}
+body.logged-in .cbi-dropdown > ul.dropdown li a,
+body.logged-in .dropdown-menu li a,
+body.logged-in .dropdown li a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  line-height: 36px;
+}
+body.logged-in .cbi-dropdown > ul.dropdown li:hover,
+body.logged-in .dropdown-menu li:hover,
+body.logged-in .dropdown li:hover,
+body.logged-in .cbi-dropdown > ul.dropdown li.focus,
+body.logged-in .dropdown-menu li.focus,
+body.logged-in .dropdown li.focus,
+body.logged-in .cbi-dropdown > ul.dropdown li[selected],
+body.logged-in .dropdown-menu li[selected],
+body.logged-in .dropdown li[selected],
+body.logged-in .cbi-dropdown > ul.dropdown li.selected,
+body.logged-in .dropdown-menu li.selected,
+body.logged-in .dropdown li.selected,
+body.logged-in .cbi-dropdown > ul.dropdown li.active,
+body.logged-in .dropdown-menu li.active,
+body.logged-in .dropdown li.active {
+  background: var(--accent-tint) !important;
+  color: var(--accent) !important;
+}
+body.logged-in input[type="checkbox"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--fill-chip);
+  -webkit-backdrop-filter: blur(var(--blur-light));
+  backdrop-filter: blur(var(--blur-light));
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: var(--spec-top), var(--edge-bottom);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.18s ease;
+  margin: 0;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+body.logged-in input[type="checkbox"]:checked {
+  background: var(--accent) !important;
+  border-color: transparent !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+body.logged-in input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 11px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+body.logged-in input[type="checkbox"]:focus {
+  box-shadow: 0 0 0 4px var(--accent-soft), var(--spec-top);
+}
+body.logged-in input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+body.logged-in input[type="radio"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--fill-chip);
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: var(--spec-top);
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+body.logged-in input[type="radio"]:checked {
+  border-color: var(--accent) !important;
+}
+body.logged-in input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+body.logged-in .cbi-input-checkbox .cbi-value-title,
+body.logged-in .cbi-input-checkbox > label,
+body.logged-in .cbi-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"],
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:only-child {
+  width: 54px !important;
+  height: 32px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.25s;
+}
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]::after,
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:only-child::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, #ebebf5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border: none;
+}
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:checked,
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:only-child:checked {
+  background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 80%, black)) !important;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 40%, transparent), var(--spec-top) !important;
+}
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:checked::after,
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:only-child:checked::after {
+  transform: translateX(22px);
+}
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:focus,
+body.logged-in .cbi-input-checkbox.switch input[type="checkbox"]:only-child:focus {
+  box-shadow: 0 0 0 4px var(--accent-soft), var(--spec-top) !important;
+}
+body.logged-in .cbi-dynlist .item,
+body.logged-in .cbi-dynlist .item-add,
+body.logged-in .cbi-dynlist span[data-dynlist-item] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  margin: 3px;
+  border-radius: 999px;
+  background: var(--fill-chip);
+  -webkit-backdrop-filter: blur(var(--blur-light));
+  backdrop-filter: blur(var(--blur-light));
+  box-shadow: var(--spec-top);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--t-primary);
+}
+body.logged-in .cbi-dynlist .cbi-icon-remove,
+body.logged-in .cbi-dynlist .close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 59, 48, 0.15);
+  color: var(--sem-red);
+  cursor: pointer;
+  border: none;
+  font-size: 11px;
+  line-height: 1;
+  margin-left: 2px;
+}
+body.logged-in .cbi-dynlist .cbi-icon-remove:hover,
+body.logged-in .cbi-dynlist .close:hover {
+  background: var(--sem-red);
+  color: #fff;
+}
+body.logged-in ::-webkit-file-upload-button {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--fill-chip);
+  color: var(--t-primary);
+  border: none;
+  border-radius: var(--r-pill);
+  height: 28px;
+  padding: 0 14px;
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  box-shadow: var(--spec-top);
+  cursor: pointer;
+}
+body.logged-in ::-webkit-file-upload-button:hover {
+  background: var(--fill-strong);
+}
 /* liquid-glass/components.less */
 /* liquid-glass/login.less */
 /* liquid-glass/mobile.less */
