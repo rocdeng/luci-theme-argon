@@ -4644,7 +4644,6 @@ body.logged-in .main-left {
   overflow-x: hidden;
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 100;
-  background-color: transparent;
 }
 body.logged-in .main-left .sidenav-header {
   padding: 6px 10px 14px !important;
@@ -4829,7 +4828,6 @@ body.logged-in header.bg-primary {
   z-index: 90;
   padding: 0 !important;
   background: var(--fill-strong) !important;
-  background-color: transparent !important;
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   border-radius: 0;
