@@ -4602,42 +4602,32 @@ input:-webkit-autofill:focus {
   }
 }
 /* =========================================================
- * Chrome — L-welded toolbar + sidebar
- * STRATEGY: keep argon's native flex layout (.main flex row,
- * main-right flex column), just reskin sizes/colors/glass.
- * No position:fixed, no display:block override on the shell.
+ * Chrome — sidebar + header glass skin
+ *
+ * RULE: Do NOT change layout geometry (position/display/flex/
+ * overflow/height/width beyond the widths below). Only touch
+ * colors, radii, shadows, padding, backgrounds, blurs.
  * ========================================================= */
 body.logged-in {
-  /* Text + font resets that used to come from the mac block */
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: var(--t-primary);
   background-color: #f5f5f7;
 }
-/* ---- Shell stays native flex row; tighten heights slightly ---- */
-body.logged-in .main {
-  position: relative;
-  z-index: 1;
-  gap: 0;
-}
-/* ---- Sidebar (in-flow, flex child, full height of the shell) ---- */
+/* ---- Sidebar glass — keep argon's layout/position/flex/overflow intact ---- */
 body.logged-in .main-left {
   width: 240px !important;
-  flex: 0 0 240px !important;
-  margin: 10px 0 10px 10px !important;
+  flex-shrink: 0;
   padding: 14px 12px;
-  height: calc(100% - 20px) !important;
   border-radius: var(--r-chrome);
   background: var(--fill-strong);
+  background-color: transparent;
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   box-shadow: var(--spec-top), var(--edge-bottom), var(--contact), inset 1px 0 0 rgba(255, 255, 255, 0.35);
-  overflow-y: auto;
-  overflow-x: hidden;
   z-index: 100;
   border: none;
-  transition: margin 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 /* ---- Brand block ---- */
 body.logged-in .main-left .sidenav-header {
@@ -4668,7 +4658,7 @@ body.logged-in .main-left .sidenav-header .brand .logo {
 body.logged-in .main-left .sidenav-header .ml-auto {
   margin-left: auto;
 }
-/* ---- Nav list ---- */
+/* ---- Nav items ---- */
 body.logged-in .main-left .nav {
   margin-top: 4px;
 }
@@ -4695,8 +4685,8 @@ body.logged-in .main-left .nav > li > a:hover,
 body.logged-in .main-left .nav > li > a:first-child:hover {
   color: var(--t-primary) !important;
   background: var(--fill-chip) !important;
-  -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
   backdrop-filter: blur(var(--blur-light)) var(--saturate);
+  -webkit-backdrop-filter: blur(var(--blur-light)) var(--saturate);
 }
 body.logged-in .main-left .nav > li > a.active,
 body.logged-in .main-left .nav > li > a:first-child.active,
@@ -4721,7 +4711,7 @@ body.logged-in .main-left .nav > li > a:first-child.active:hover::after {
   color: var(--accent) !important;
   transform: rotate(90deg);
 }
-/* ---- Submenu panel transparent; sub-items glass on active ---- */
+/* ---- Submenu ---- */
 body.logged-in .main-left .nav > li.slide > ul,
 body.logged-in .main-left .nav > li.slide .slide-menu,
 body.logged-in .main-left .nav > li.slide .slide-menu.active {
@@ -4768,7 +4758,7 @@ body.logged-in .main-left .nav > li.slide ul li a.active::before {
   font-weight: bold;
   font-size: 16px;
 }
-/* ---- Sidebar scrollbar ---- */
+/* Sidebar scrollbar */
 body.logged-in .main-left::-webkit-scrollbar {
   width: 6px;
 }
@@ -4779,7 +4769,7 @@ body.logged-in .main-left::-webkit-scrollbar-thumb {
 body.logged-in .main-left::-webkit-scrollbar-track {
   background: transparent;
 }
-/* ---- Pin toggler (hamburger) ---- */
+/* Hamburger/pin toggler */
 body.logged-in .sidenav-toggler {
   width: 28px;
   height: 28px;
@@ -4805,30 +4795,21 @@ body.logged-in .sidenav-toggler .sidenav-toggler-line {
   background: var(--t-secondary);
   border-radius: 2px;
 }
-/* ---- Right column stays flex child — just remove any bg ---- */
+/* ---- Right column: keep argon's flex-column layout ---- */
 body.logged-in .main-right {
-  flex: 1 1 auto;
-  margin: 0;
   background: transparent !important;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
-/* ---- Toolbar: full-width glass pill welded to main-right top ---- */
+/* ---- Header glass pill (keep argon's position/display, only reskin) ---- */
 body.logged-in header,
 body.logged-in header.bg-primary {
-  position: relative;
-  width: auto;
-  height: 52px;
-  margin: 10px 10px 0 10px !important;
-  padding: 0 !important;
   background: var(--fill-strong) !important;
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  border-radius: var(--r-chrome) var(--r-chrome) 0 0;
+  border-radius: var(--r-chrome);
   box-shadow: var(--spec-top), 0 1px 0 rgba(0, 0, 0, 0.06);
   color: var(--t-primary) !important;
   overflow: visible;
+  margin-left: 0;
 }
 body.logged-in header::after,
 body.logged-in header.bg-primary::after {
@@ -4840,7 +4821,8 @@ body.logged-in header.bg-primary::before {
 }
 body.logged-in header .fill {
   padding: 0 20px !important;
-  height: 52px;
+  height: auto;
+  min-height: 52px;
   display: flex !important;
   align-items: center;
   gap: 16px;
@@ -4882,42 +4864,22 @@ body.logged-in header .fill::after {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   pointer-events: none;
 }
-/* ---- Main content: occupies remaining flex space, scrolls internally ---- */
+/* ---- Main content (keep argon layout, remove any hard bg) ---- */
 body.logged-in .main-right > #maincontent {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: 20px;
-  position: relative;
   background: transparent;
 }
 body.logged-in .main-right > #maincontent > .container {
-  margin: 0 !important;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: none;
-  position: relative;
-  padding-bottom: 20px;
   background: transparent;
 }
 /* ---- Footer ---- */
 body.logged-in footer.mobile-hide {
-  position: relative;
-  width: 100%;
-  padding: 18px 0 4px !important;
-  text-align: right;
   background: none !important;
   border: none;
   color: var(--t-tertiary);
-  margin: 0 !important;
   box-shadow: none !important;
 }
 body.logged-in footer.mobile-hide .footer-content {
   font-size: 11px;
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
 }
 body.logged-in footer.mobile-hide .footer-content a {
   color: var(--t-tertiary);
@@ -4929,18 +4891,11 @@ body.logged-in footer.mobile-hide .footer-content a:hover {
 body.logged-in footer.mobile-hide .footer-content .footer-separator {
   opacity: 0.3;
 }
-/* ---- Mobile overlay ---- */
+/* ---- Mobile dark-mask overlay ---- */
 body.logged-in .darkMask {
-  display: none;
-  position: fixed;
-  inset: 0;
   background: rgba(0, 0, 0, 0.3);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-  z-index: 95;
-}
-body.logged-in .darkMask.show {
-  display: block;
 }
 /* =========================================================
  * Cards, modals, tab rail, alerts, page-action bar
