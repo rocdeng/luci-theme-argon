@@ -1,1 +1,225 @@
-/* liquid-glass/cards.less */
+/* =========================================================
+ * Cards, modals, tab rail, alerts, page-action bar
+ * ========================================================= */
+
+body.logged-in {
+
+  /* ---------- Section cards ---------- */
+  .cbi-section,
+  .cbi-section-error,
+  #iptables,
+  .FireStatus,
+  .ZoneForwards,
+  .cbi-map,
+  .cbi-section-table,
+  .cbi-section-form,
+  .cbi-section-named,
+  .Dashboard .settings-info,
+  .dashboard-bg {
+    background: var(--fill-regular);
+    -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    border-radius: var(--r-card);
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+    color: var(--t-primary);
+  }
+
+  /* Top specular sheen on card surface */
+  .cbi-section::before,
+  .cbi-map::before,
+  .cbi-section-table::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 10px; right: 10px;
+    height: 35%;
+    background: linear-gradient(180deg, rgba(255,255,255,.3), transparent);
+    pointer-events: none;
+    border-radius: var(--r-card) var(--r-card) 50% 50%;
+    z-index: 0;
+  }
+  .cbi-section > *, .cbi-map > *, .cbi-section-table > * { position: relative; z-index: 1; }
+
+  /* Nested sections: thin glass */
+  .cbi-section .cbi-section,
+  .cbi-modal .cbi-section,
+  .cbi-map .cbi-map {
+    background: var(--fill-thin) !important;
+    -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    border-radius: var(--r-control);
+    box-shadow: var(--spec-top);
+    padding: 14px 18px;
+    margin: 8px 0;
+  }
+  .cbi-section .cbi-section::before,
+  .cbi-map .cbi-map::before { display: none; }
+
+  /* ---------- Section titles ---------- */
+  .cbi-section h2,
+  .cbi-section h3,
+  .cbi-map h2,
+  .cbi-section > h3,
+  .cbi-section-table h3 {
+    font-family: var(--font-sans);
+    font-weight: 800 !important;
+    font-size: 22px !important;
+    color: var(--t-primary);
+    margin: 0 0 16px !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 20px;
+      border-radius: 3px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+  }
+  .cbi-section .cbi-section h2,
+  .cbi-section .cbi-section h3 {
+    font-size: 16px !important;
+    margin: 0 0 10px !important;
+    &::before { height: 14px; width: 4px; }
+  }
+
+  /* ---------- Segmented tab rail ---------- */
+  .cbi-tabmenu,
+  .tabs {
+    display: inline-flex;
+    padding: 3px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    background: var(--fill-regular);
+    -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    box-shadow: var(--spec-top), var(--contact);
+    position: relative;
+    list-style: none;
+    gap: 0;
+    li, > li, .tab {
+      display: inline-block;
+      list-style: none;
+      margin: 0;
+      a, > a {
+        display: inline-block;
+        padding: 7px 18px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--t-secondary);
+        transition: color .18s ease;
+        text-decoration: none;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+      &.slide a { color: var(--t-secondary); }
+      &.active a, &.active > a, a.active { color: var(--t-primary); }
+    }
+    /* Slider — JS updates --tab-left / --tab-width */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: var(--tab-left, 3px);
+      width: var(--tab-width, 60px);
+      height: calc(100% - 6px);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #ebebf5);
+      box-shadow: 0 2px 6px rgba(0,0,0,.12), 0 1px 0 rgba(255,255,255,1) inset;
+      transition: transform .28s cubic-bezier(.2,.8,.2,1), width .28s cubic-bezier(.2,.8,.2,1), left .28s cubic-bezier(.2,.8,.2,1);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .tab, li, > li { position: relative; z-index: 1; }
+    /* Remove any legacy bottom border */
+    border-bottom: none !important;
+  }
+  .cbi-tabcontainer > .cbi-section { margin-top: 0; }
+
+  /* ---------- Modal ---------- */
+  .modal {
+    background: var(--fill-strong) !important;
+    -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+    backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+    border-radius: 24px !important;
+    padding: 28px !important;
+    max-width: 560px;
+    box-shadow: var(--spec-top), var(--edge-bottom), var(--contact-lift), 0 24px 60px rgba(0,0,0,.25) !important;
+    border: none !important;
+    color: var(--t-primary);
+    &::before {
+      content: "";
+      position: absolute; top: 0; left: 12px; right: 12px; height: 40%;
+      background: linear-gradient(180deg, rgba(255,255,255,.3), transparent);
+      border-radius: 24px 24px 50% 50%; pointer-events: none;
+    }
+  }
+  #modal_overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.3) !important;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ---------- Alerts / notices ---------- */
+  .alert-message, .alert, .notice {
+    border-radius: var(--r-control) !important;
+    padding: 14px 18px !important;
+    margin: 0 0 14px;
+    -webkit-backdrop-filter: blur(var(--blur-light));
+    backdrop-filter: blur(var(--blur-light));
+    position: relative;
+    border: none !important;
+    color: var(--t-primary);
+    h4 { margin-top: 0 !important; font-weight: 700; font-size: 14px; }
+    p  { margin-bottom: 0; font-size: 13px; }
+  }
+  .alert-message.success, .notice.success, .success {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sem-green) 22%, rgba(255,255,255,.6)), color-mix(in srgb, var(--sem-green) 10%, rgba(255,255,255,.3))) !important;
+    box-shadow: var(--spec-top), inset 3px 0 0 var(--sem-green);
+    color: color-mix(in srgb, var(--sem-green) 70%, black) !important;
+  }
+  .alert-message.warning, .notice.warning, .warning {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sem-orange) 25%, rgba(255,255,255,.6)), color-mix(in srgb, var(--sem-orange) 12%, rgba(255,255,255,.3))) !important;
+    box-shadow: var(--spec-top), inset 3px 0 0 var(--sem-orange);
+    color: color-mix(in srgb, var(--sem-orange) 70%, black) !important;
+  }
+  .alert-message.error, .notice.danger, .danger, .error,
+  .alert-message.danger {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sem-red) 22%, rgba(255,255,255,.6)), color-mix(in srgb, var(--sem-red) 10%, rgba(255,255,255,.3))) !important;
+    box-shadow: var(--spec-top), inset 3px 0 0 var(--sem-red);
+    color: color-mix(in srgb, var(--sem-red) 70%, black) !important;
+  }
+  .alert-message.important, .notice.important, .important {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 22%, rgba(255,255,255,.6)), color-mix(in srgb, var(--accent) 10%, rgba(255,255,255,.3))) !important;
+    box-shadow: var(--spec-top), inset 3px 0 0 var(--accent);
+    color: var(--accent) !important;
+  }
+
+  /* ---------- Sticky page action bar ---------- */
+  .cbi-page-actions {
+    position: sticky;
+    bottom: 0;
+    margin: 20px -24px -22px !important;
+    padding: 14px 24px !important;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.6) 30%, rgba(255,255,255,.85) 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-radius: 0 0 var(--r-card) var(--r-card);
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    border-top: 1px solid var(--hairline);
+  }
+}

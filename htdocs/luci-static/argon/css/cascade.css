@@ -4944,7 +4944,325 @@ body.logged-in .darkMask {
 body.logged-in .darkMask.show {
   display: block;
 }
-/* liquid-glass/cards.less */
+/* =========================================================
+ * Cards, modals, tab rail, alerts, page-action bar
+ * ========================================================= */
+body.logged-in {
+  /* ---------- Section cards ---------- */
+  /* Top specular sheen on card surface */
+  /* Nested sections: thin glass */
+  /* ---------- Section titles ---------- */
+  /* ---------- Segmented tab rail ---------- */
+  /* ---------- Modal ---------- */
+  /* ---------- Alerts / notices ---------- */
+  /* ---------- Sticky page action bar ---------- */
+}
+body.logged-in .cbi-section,
+body.logged-in .cbi-section-error,
+body.logged-in #iptables,
+body.logged-in .FireStatus,
+body.logged-in .ZoneForwards,
+body.logged-in .cbi-map,
+body.logged-in .cbi-section-table,
+body.logged-in .cbi-section-form,
+body.logged-in .cbi-section-named,
+body.logged-in .Dashboard .settings-info,
+body.logged-in .dashboard-bg {
+  background: var(--fill-regular);
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  border-radius: var(--r-card);
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+  color: var(--t-primary);
+}
+body.logged-in .cbi-section::before,
+body.logged-in .cbi-map::before,
+body.logged-in .cbi-section-table::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10px;
+  right: 10px;
+  height: 35%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  pointer-events: none;
+  border-radius: var(--r-card) var(--r-card) 50% 50%;
+  z-index: 0;
+}
+body.logged-in .cbi-section > *,
+body.logged-in .cbi-map > *,
+body.logged-in .cbi-section-table > * {
+  position: relative;
+  z-index: 1;
+}
+body.logged-in .cbi-section .cbi-section,
+body.logged-in .cbi-modal .cbi-section,
+body.logged-in .cbi-map .cbi-map {
+  background: var(--fill-thin) !important;
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  border-radius: var(--r-control);
+  box-shadow: var(--spec-top);
+  padding: 14px 18px;
+  margin: 8px 0;
+}
+body.logged-in .cbi-section .cbi-section::before,
+body.logged-in .cbi-map .cbi-map::before {
+  display: none;
+}
+body.logged-in .cbi-section h2,
+body.logged-in .cbi-section h3,
+body.logged-in .cbi-map h2,
+body.logged-in .cbi-section > h3,
+body.logged-in .cbi-section-table h3 {
+  font-family: var(--font-sans);
+  font-weight: 800 !important;
+  font-size: 22px !important;
+  color: var(--t-primary);
+  margin: 0 0 16px !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.2;
+}
+body.logged-in .cbi-section h2::before,
+body.logged-in .cbi-section h3::before,
+body.logged-in .cbi-map h2::before,
+body.logged-in .cbi-section > h3::before,
+body.logged-in .cbi-section-table h3::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 20px;
+  border-radius: 3px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+body.logged-in .cbi-section .cbi-section h2,
+body.logged-in .cbi-section .cbi-section h3 {
+  font-size: 16px !important;
+  margin: 0 0 10px !important;
+}
+body.logged-in .cbi-section .cbi-section h2::before,
+body.logged-in .cbi-section .cbi-section h3::before {
+  height: 14px;
+  width: 4px;
+}
+body.logged-in .cbi-tabmenu,
+body.logged-in .tabs {
+  display: inline-flex;
+  padding: 3px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: var(--fill-regular);
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  box-shadow: var(--spec-top), var(--contact);
+  position: relative;
+  list-style: none;
+  gap: 0;
+  /* Slider — JS updates --tab-left / --tab-width */
+  /* Remove any legacy bottom border */
+  border-bottom: none !important;
+}
+body.logged-in .cbi-tabmenu li,
+body.logged-in .tabs li,
+body.logged-in .cbi-tabmenu > li,
+body.logged-in .tabs > li,
+body.logged-in .cbi-tabmenu .tab,
+body.logged-in .tabs .tab {
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+}
+body.logged-in .cbi-tabmenu li a,
+body.logged-in .tabs li a,
+body.logged-in .cbi-tabmenu > li a,
+body.logged-in .tabs > li a,
+body.logged-in .cbi-tabmenu .tab a,
+body.logged-in .tabs .tab a,
+body.logged-in .cbi-tabmenu li > a,
+body.logged-in .tabs li > a,
+body.logged-in .cbi-tabmenu > li > a,
+body.logged-in .tabs > li > a,
+body.logged-in .cbi-tabmenu .tab > a,
+body.logged-in .tabs .tab > a {
+  display: inline-block;
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-secondary);
+  transition: color 0.18s ease;
+  text-decoration: none;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+body.logged-in .cbi-tabmenu li.slide a,
+body.logged-in .tabs li.slide a,
+body.logged-in .cbi-tabmenu > li.slide a,
+body.logged-in .tabs > li.slide a,
+body.logged-in .cbi-tabmenu .tab.slide a,
+body.logged-in .tabs .tab.slide a {
+  color: var(--t-secondary);
+}
+body.logged-in .cbi-tabmenu li.active a,
+body.logged-in .tabs li.active a,
+body.logged-in .cbi-tabmenu > li.active a,
+body.logged-in .tabs > li.active a,
+body.logged-in .cbi-tabmenu .tab.active a,
+body.logged-in .tabs .tab.active a,
+body.logged-in .cbi-tabmenu li.active > a,
+body.logged-in .tabs li.active > a,
+body.logged-in .cbi-tabmenu > li.active > a,
+body.logged-in .tabs > li.active > a,
+body.logged-in .cbi-tabmenu .tab.active > a,
+body.logged-in .tabs .tab.active > a,
+body.logged-in .cbi-tabmenu li a.active,
+body.logged-in .tabs li a.active,
+body.logged-in .cbi-tabmenu > li a.active,
+body.logged-in .tabs > li a.active,
+body.logged-in .cbi-tabmenu .tab a.active,
+body.logged-in .tabs .tab a.active {
+  color: var(--t-primary);
+}
+body.logged-in .cbi-tabmenu::before,
+body.logged-in .tabs::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: var(--tab-left, 3px);
+  width: var(--tab-width, 60px);
+  height: calc(100% - 6px);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff, #ebebf5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 0 #ffffff inset;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+body.logged-in .cbi-tabmenu .tab,
+body.logged-in .tabs .tab,
+body.logged-in .cbi-tabmenu li,
+body.logged-in .tabs li,
+body.logged-in .cbi-tabmenu > li,
+body.logged-in .tabs > li {
+  position: relative;
+  z-index: 1;
+}
+body.logged-in .cbi-tabcontainer > .cbi-section {
+  margin-top: 0;
+}
+body.logged-in .modal {
+  background: var(--fill-strong) !important;
+  -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  backdrop-filter: blur(var(--blur-strong)) var(--saturate);
+  border-radius: 24px !important;
+  padding: 28px !important;
+  max-width: 560px;
+  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact-lift), 0 24px 60px rgba(0, 0, 0, 0.25) !important;
+  border: none !important;
+  color: var(--t-primary);
+}
+body.logged-in .modal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 24px 24px 50% 50%;
+  pointer-events: none;
+}
+body.logged-in #modal_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.logged-in .alert-message,
+body.logged-in .alert,
+body.logged-in .notice {
+  border-radius: var(--r-control) !important;
+  padding: 14px 18px !important;
+  margin: 0 0 14px;
+  -webkit-backdrop-filter: blur(var(--blur-light));
+  backdrop-filter: blur(var(--blur-light));
+  position: relative;
+  border: none !important;
+  color: var(--t-primary);
+}
+body.logged-in .alert-message h4,
+body.logged-in .alert h4,
+body.logged-in .notice h4 {
+  margin-top: 0 !important;
+  font-weight: 700;
+  font-size: 14px;
+}
+body.logged-in .alert-message p,
+body.logged-in .alert p,
+body.logged-in .notice p {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+body.logged-in .alert-message.success,
+body.logged-in .notice.success,
+body.logged-in .success {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sem-green) 22%, rgba(255, 255, 255, 0.6)), color-mix(in srgb, var(--sem-green) 10%, rgba(255, 255, 255, 0.3))) !important;
+  box-shadow: var(--spec-top), inset 3px 0 0 var(--sem-green);
+  color: color-mix(in srgb, var(--sem-green) 70%, black) !important;
+}
+body.logged-in .alert-message.warning,
+body.logged-in .notice.warning,
+body.logged-in .warning {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sem-orange) 25%, rgba(255, 255, 255, 0.6)), color-mix(in srgb, var(--sem-orange) 12%, rgba(255, 255, 255, 0.3))) !important;
+  box-shadow: var(--spec-top), inset 3px 0 0 var(--sem-orange);
+  color: color-mix(in srgb, var(--sem-orange) 70%, black) !important;
+}
+body.logged-in .alert-message.error,
+body.logged-in .notice.danger,
+body.logged-in .danger,
+body.logged-in .error,
+body.logged-in .alert-message.danger {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sem-red) 22%, rgba(255, 255, 255, 0.6)), color-mix(in srgb, var(--sem-red) 10%, rgba(255, 255, 255, 0.3))) !important;
+  box-shadow: var(--spec-top), inset 3px 0 0 var(--sem-red);
+  color: color-mix(in srgb, var(--sem-red) 70%, black) !important;
+}
+body.logged-in .alert-message.important,
+body.logged-in .notice.important,
+body.logged-in .important {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 22%, rgba(255, 255, 255, 0.6)), color-mix(in srgb, var(--accent) 10%, rgba(255, 255, 255, 0.3))) !important;
+  box-shadow: var(--spec-top), inset 3px 0 0 var(--accent);
+  color: var(--accent) !important;
+}
+body.logged-in .cbi-page-actions {
+  position: sticky;
+  bottom: 0;
+  margin: 20px -24px -22px !important;
+  padding: 14px 24px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.85) 100%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-radius: 0 0 var(--r-card) var(--r-card);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--hairline);
+}
 /* liquid-glass/controls.less */
 /* liquid-glass/components.less */
 /* liquid-glass/login.less */
