@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8f6fa"/>
+      <stop offset="100%" stop-color="#eef2f7"/>
+    </linearGradient>
+    <radialGradient id="b1" cx="15%" cy="20%" r="40%">
+      <stop offset="0%" stop-color="#ffb7a3" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#ffb7a3" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b2" cx="85%" cy="25%" r="35%">
+      <stop offset="0%" stop-color="#a3d4ff" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#a3d4ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b3" cx="70%" cy="80%" r="45%">
+      <stop offset="0%" stop-color="#c7b0ff" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#c7b0ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b4" cx="25%" cy="80%" r="35%">
+      <stop offset="0%" stop-color="#ffd4a3" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#ffd4a3" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="b"><feGaussianBlur stdDeviation="40"/></filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g filter="url(#b)">
+    <circle cx="240" cy="200" r="380" fill="url(#b1)"/>
+    <circle cx="1360" cy="250" r="340" fill="url(#b2)"/>
+    <circle cx="1120" cy="800" r="420" fill="url(#b3)"/>
+    <circle cx="400" cy="800" r="320" fill="url(#b4)"/>
+  </g>
+</svg>
