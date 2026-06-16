@@ -51,5 +51,6 @@
 	});
 </script>
 <script type="text/javascript">L.require('menu-argon')</script>
+<script src="{{ media }}/js/liquid-glass.js" defer></script>
 </body>
 </html>

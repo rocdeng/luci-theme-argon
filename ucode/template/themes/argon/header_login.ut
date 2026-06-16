@@ -47,6 +47,32 @@
 		bar_color = (mode == 'dark') ? '#0a84ff' : '#007aff';
 	}
 
+	// Determine wallpaper URL — share logic with header.ut
+	let bg_url = '';
+	if (access('/www/luci-static/argon/img/background.png')) {
+		bg_url = media + '/img/background.png';
+	} else if (access('/www/luci-static/argon/img/background.jpg')) {
+		bg_url = media + '/img/background.jpg';
+	}
+	let bg_enabled = cfg.get_first('argon', 'global', 'bg_enabled');
+	let online_bg_url = cfg.get_first('argon', 'global', 'online_bg_url');
+	if (!bg_url && bg_enabled == 'on' && online_bg_url && string.len(online_bg_url) > 0) {
+		bg_url = online_bg_url;
+	}
+	if (!bg_url) {
+		bg_url = media + '/background/default-abstract.svg';
+	}
+
+	// Accent preset map
+	const ACCENT_MAP = {
+		"#007aff": "blue", "#5e72e4": "blue", "#483d8b": "blue", "#0a84ff": "blue",
+		"#af52de": "purple", "#bf5af2": "purple",
+		"#ff2d55": "pink", "#ff375f": "pink",
+		"#34c759": "green", "#30d158": "green",
+		"#ff9500": "orange", "#ff9f0a": "orange"
+	};
+	let accent_preset = ACCENT_MAP[primary] || "blue";
+
 -%}
 <!DOCTYPE html>
 <html lang="{{ dispatcher.lang }}">
@@ -103,8 +129,7 @@
 		:root {
 			--argon-user-primary: {{ primary }};
 			--argon-user-dark-primary: {{ dark_primary }};
-			--primary: #007aff;
-			--dark-primary: #0a84ff;
+			--accent: {{ bar_color }};
 			--blur-radius:{{ blur_radius }}px;
 			--blur-opacity:{{ blur_opacity }};
 			--blur-radius-dark:{{ blur_radius_dark }}px;
@@ -124,4 +149,10 @@
 
 </head>
 
-<body>
+<body class="login-page" data-accent-preset="{{ accent_preset }}">
+	<div class="main-bg"></div>
+	<div class="login-container">
+		<div class="hostname">{{ hostname }}</div>
+		<div class="clock" id="lg-clock">--:--</div>
+		<div class="avatar" aria-hidden="true"></div>
+		<div class="login-form">
