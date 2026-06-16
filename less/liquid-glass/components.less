@@ -1,1 +1,308 @@
-/* liquid-glass/components.less */
+/* =========================================================
+ * Long-tail LuCI components
+ * badges · ifacebox · tables · progress · terminal · tooltip
+ * toasts · breadcrumb · spinner · misc
+ * ========================================================= */
+
+body.logged-in {
+
+  /* ---------- Badges / labels ---------- */
+  .label,
+  .badge,
+  .zonebadge,
+  .cbi-tooltip-container .label,
+  .cbi-value .label,
+  .Dashboard .settings-info .label {
+    display: inline-flex !important;
+    align-items: center;
+    padding: 3px 10px !important;
+    border-radius: 999px;
+    font-size: 11px !important;
+    font-weight: 600;
+    background: var(--fill-chip);
+    -webkit-backdrop-filter: blur(var(--blur-light));
+    backdrop-filter: blur(var(--blur-light));
+    box-shadow: var(--spec-top);
+    color: var(--t-primary);
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    border: none !important;
+    text-shadow: none !important;
+    line-height: 1.4;
+    margin: 2px;
+    vertical-align: middle;
+  }
+  .label.success,
+  .cbi-button-success,
+  .cbi-button-download,
+  .label[style*="5cb85c"], .label[style*="green"], .label.ifacebadge-up {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sem-green) 80%, white), color-mix(in srgb, var(--sem-green) 40%, white)) !important;
+    color: color-mix(in srgb, var(--sem-green) 70%, black) !important;
+    text-shadow: none !important;
+  }
+  .label.warning,
+  .label[style*="f0ad4e"], .label[style*="orange"] {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sem-orange) 60%, white), color-mix(in srgb, var(--sem-orange) 25%, white)) !important;
+    color: color-mix(in srgb, var(--sem-orange) 75%, black) !important;
+  }
+  .label.danger, .label.error, .label.err,
+  .label[style*="d9534f"], .label[style*="red"] {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sem-red) 60%, white), color-mix(in srgb, var(--sem-red) 25%, white)) !important;
+    color: var(--sem-red) !important;
+  }
+  .label.primary, .label[style*="007aff"], .label[style*="5e72e4"],
+  header .status span[data-style="active"],
+  .cbi-page-actions .label {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 80%, white), color-mix(in srgb, var(--accent) 30%, white)) !important;
+    color: var(--accent) !important;
+  }
+
+  /* ---------- Ifacebox (network interface cards) ---------- */
+  .ifacebox {
+    border-radius: var(--r-card) !important;
+    background: var(--fill-regular) !important;
+    -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    box-shadow: var(--spec-top), var(--edge-bottom), var(--contact);
+    border: none !important;
+    overflow: hidden;
+    position: relative;
+    padding: 0 !important;
+    margin: 4px;
+    .ifacebox-head {
+      padding: 10px 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.2)) !important;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--t-primary);
+      border-bottom: 1px solid var(--hairline) !important;
+      display: flex; align-items: center; gap: 8px;
+      border-top: none !important; border-left: none !important; border-right: none !important;
+    }
+    .ifacebox-head.active {
+      box-shadow: inset 3px 0 0 var(--sem-green);
+      color: var(--t-primary) !important;
+    }
+    .ifacebox-body {
+      padding: 14px !important;
+      font-size: 12px;
+      color: var(--t-secondary);
+      font-family: var(--font-mono);
+      background: transparent !important;
+    }
+    &::before {
+      /* surface specular */
+      content: ""; position: absolute; top: 0; left: 10px; right: 10px; height: 35%;
+      background: linear-gradient(180deg, rgba(255,255,255,.28), transparent);
+      border-radius: var(--r-card) var(--r-card) 50% 50%; pointer-events: none;
+    }
+  }
+  [style*="display:grid"] .ifacebox,
+  .cbi-section .ifacebox { margin: 4px; }
+
+  /* Zone badges (firewall zones) */
+  .zonebadge {
+    border-radius: 999px !important;
+    border: none !important;
+    padding: 4px 12px !important;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--t-primary);
+    strong { color: var(--accent); }
+  }
+  .zonebadge > .ifacebadge {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  /* ---------- Tables ---------- */
+  .table,
+  table,
+  .cbi-section-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    background: transparent;
+    border: none !important;
+    border-radius: var(--r-control);
+    overflow: hidden;
+  }
+  .table th,
+  table th,
+  .cbi-section-table th {
+    text-align: left;
+    font-weight: 700;
+    color: var(--t-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    padding: 10px 14px;
+    background: var(--fill-thin);
+    border: none !important;
+  }
+  .table td,
+  table td,
+  .cbi-section-table td {
+    padding: 10px 14px;
+    border-top: 1px solid var(--hairline);
+    color: var(--t-primary);
+    background: transparent;
+    border-left: none !important; border-right: none !important;
+  }
+  .table tr:nth-child(even) td,
+  table tr:nth-child(even) td,
+  .cbi-section-table tr:nth-child(even) td {
+    background: rgba(255,255,255,.35);
+  }
+  .table tr:hover td,
+  table tr:hover td,
+  .cbi-section-table tr:hover td {
+    background: var(--accent-tint) !important;
+  }
+  .table tr:first-child th:first-child { border-radius: var(--r-control) 0 0 0; }
+  .table tr:first-child th:last-child  { border-radius: 0 var(--r-control) 0 0; }
+  .table tr:last-child td:first-child { border-radius: 0 0 0 var(--r-control); }
+  .table tr:last-child td:last-child  { border-radius: 0 0 var(--r-control) 0; }
+
+  /* ---------- Progress bar ---------- */
+  .cbi-progressbar {
+    position: relative;
+    display: inline-block;
+    height: 8px;
+    width: 160px;
+    background: var(--fill-chip);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: var(--spec-top), var(--edge-bottom);
+    padding: 0;
+    vertical-align: middle;
+    &::before {
+      content: "";
+      position: absolute; top: 0; left: 0; height: 100%;
+      background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, white));
+      border-radius: 999px;
+      width: 0;
+      box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);
+      transition: width .3s ease;
+    }
+    > div {
+      position: absolute; inset: 0;
+    }
+  }
+  .cbi-progressbar::before { width: var(--w, 0); }
+  /* If LuCI sets width via inline style it uses a background — catch that */
+  .cbi-progressbar[style*="width"] { background: var(--fill-chip) !important; }
+  /* Label value next to bar */
+  .cbi-progressbar + em,
+  em.cbi-progressbar-value,
+  .cbi-progressbar ~ em {
+    font-family: var(--font-mono); font-size: 11px; color: var(--t-secondary); font-style: normal;
+    margin-left: 8px; vertical-align: middle;
+  }
+
+  /* ---------- Terminal / command output ---------- */
+  pre.command-output,
+  .commandbox {
+    background: rgba(28,28,30,.75) !important;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    color: #f5f5f7 !important;
+    border-radius: var(--r-control) !important;
+    padding: 16px !important;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow: auto;
+    border: none !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  }
+  .commandbox {
+    border-bottom: none !important;
+    h3 { color: #f5f5f7 !important; }
+    code {
+      background: rgba(255,255,255,.08) !important;
+      color: #f5f5f7 !important;
+      padding: 2px 6px !important; border-radius: 6px;
+    }
+    div { left: auto !important; }
+  }
+  #command-rc-output .alert-message { top: 60px !important; right: 40px !important; }
+
+  /* ---------- Tooltip ---------- */
+  .cbi-tooltip, .tip, .cbi-tooltip-container > .cbi-tooltip {
+    background: var(--fill-strong) !important;
+    -webkit-backdrop-filter: blur(var(--blur-regular));
+    backdrop-filter: blur(var(--blur-regular));
+    color: var(--t-primary) !important;
+    border-radius: 10px;
+    padding: 8px 12px !important;
+    font-size: 12px; font-weight: 500;
+    box-shadow: var(--spec-top), var(--contact-lift);
+    border: none !important;
+  }
+
+  /* ---------- Toast / popups ---------- */
+  #popups > .alert-message,
+  .pc-bg,
+  #_system_notification {
+    position: fixed !important;
+    top: 72px !important; right: 20px !important;
+    min-width: 240px; max-width: 360px;
+    min-height: 48px;
+    border-radius: 18px !important;
+    padding: 14px 18px !important;
+    background: var(--fill-strong) !important;
+    -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+    box-shadow: var(--spec-top), var(--contact-lift) !important;
+    z-index: 300;
+    color: var(--t-primary);
+    font-size: 13px; font-weight: 500;
+    animation: lg-toast-in .35s cubic-bezier(.2,.8,.2,1);
+    border: none !important;
+  }
+  @keyframes lg-toast-in {
+    from { transform: translateY(-10px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ---------- Breadcrumb ---------- */
+  .breadcrumb {
+    font-size: 12px;
+    color: var(--t-secondary);
+    padding: 0 !important;
+    background: none !important;
+    li { display: inline; }
+    a { color: var(--t-tertiary); text-decoration: none; &:hover { color: var(--accent); } }
+    li + li::before { content: " › "; color: var(--t-tertiary); opacity: .5; padding: 0 4px; }
+  }
+
+  /* ---------- Spinner ---------- */
+  .spinning::before, .loading::before, .spinner::before {
+    border-color: color-mix(in srgb, var(--accent) 15%, transparent) !important;
+    border-top-color: var(--accent) !important;
+  }
+
+  /* ---------- Section caret ---------- */
+  h4 > small .caret, .cbi-section-title .caret { color: var(--t-tertiary); transition: transform .2s; }
+
+  /* ---------- Misc ---------- */
+  hr { border-color: var(--hairline); opacity: 1; border-top: 1px solid var(--hairline); }
+  code, kbd {
+    background: var(--fill-thin);
+    padding: 2px 6px; border-radius: 6px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--t-primary);
+  }
+  pre { background: rgba(28,28,30,.75); color: #f5f5f7; border-radius: var(--r-control); padding: 16px; font-family: var(--font-mono); font-size: 12px; }
+
+  /* Restore semantic color vars (the previous mac build had --green aliased to blue) */
+  :root {
+    --green: var(--sem-green);
+    --red: var(--sem-red);
+    --orange: var(--sem-orange);
+  }
+}
