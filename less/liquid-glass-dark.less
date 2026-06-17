@@ -1,0 +1,374 @@
+// out: false
+// Dark liquid glass overrides. This file is appended to dark.css because
+// LuCI injects dark.css after cascade.css in both automatic and forced modes.
+
+:root {
+  --apple-blue: #0a84ff;
+  --apple-blue-soft: rgba(10, 132, 255, 0.22);
+  --apple-blue-deep: #0066cc;
+  --apple-blue-light: #64d2ff;
+  --apple-pink: #ff375f;
+  --apple-red: #ff453a;
+  --apple-orange: #ff9f0a;
+  --apple-yellow: #ffd60a;
+  --apple-green: #0a84ff;
+  --apple-mint: #63e6e2;
+  --apple-teal: #40c8e0;
+  --apple-cyan: #64d2ff;
+  --apple-label: #f5f5f7;
+  --apple-secondary-label: #c7c7cc;
+  --apple-tertiary-label: #98989d;
+  --apple-separator: rgba(235, 235, 245, 0.18);
+  --glass-page-bg: #101014;
+  --glass-bg: rgba(28, 28, 30, 0.62);
+  --glass-bg-strong: rgba(44, 44, 46, 0.76);
+  --glass-bg-soft: rgba(28, 28, 30, 0.42);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-hairline: rgba(235, 235, 245, 0.13);
+  --glass-shadow: 0 22px 56px rgba(0, 0, 0, 0.36), 0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  --glass-shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.30);
+  --primary: var(--apple-blue);
+  --dark-primary: var(--apple-blue);
+  --header-color: var(--apple-label);
+  --menu-bg-color: var(--glass-bg);
+  --menu-color: var(--apple-secondary-label);
+  --main-menu-color: var(--apple-label);
+  --gray: var(--apple-secondary-label);
+  --gray-dark: var(--apple-label);
+  --background-color: var(--glass-page-bg);
+  --login-form-bg-color: var(--glass-bg);
+}
+
+body {
+  color: var(--apple-label);
+  background:
+    radial-gradient(circle at 16% 12%, rgba(10, 132, 255, 0.22), transparent 28rem),
+    radial-gradient(circle at 84% 8%, rgba(100, 210, 255, 0.14), transparent 26rem),
+    linear-gradient(135deg, #16161a 0%, #101014 48%, #050507 100%);
+}
+
+header::after {
+  display: none !important;
+}
+
+header,
+header.bg-primary,
+.main .main-left,
+.cbi-section,
+.cbi-section-error,
+#iptables,
+#cbi-network > .cbi-section-node,
+#cbi-wireless > .cbi-section-node,
+#cbi-wireless > #wifi_assoclist_table,
+[data-page^="admin-system-admin"]:not(.node-main-login) .cbi-map:not(#cbi-dropbear),
+[data-page="admin-system-opkg"] #maincontent > .container,
+.modal,
+.alert,
+.alert-message {
+  border-color: var(--glass-border) !important;
+  background:
+    linear-gradient(145deg, var(--glass-bg-strong), var(--glass-bg-soft)),
+    var(--glass-bg) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur));
+  backdrop-filter: saturate(180%) blur(var(--glass-blur));
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.main .main-right,
+h2,
+h3,
+.cbi-section > h3:first-child,
+.cbi-section > h4:first-child {
+  color: var(--apple-label);
+  background: transparent !important;
+}
+
+.main .main-left .sidenav-header .brand {
+  color: var(--apple-label);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.main .main-left .nav li a {
+  color: var(--apple-secondary-label) !important;
+}
+
+.main .main-left .nav li a:hover,
+.main .main-left .nav .slide .menu.active,
+.main .main-left .nav li .menu.active {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--apple-blue), var(--apple-blue-deep)) !important;
+}
+
+.main .main-left .nav li.slide .slide-menu li:hover,
+.main .main-left .nav li.slide .slide-menu li.active {
+  background: rgba(10, 132, 255, 0.18) !important;
+}
+
+.main .main-left .nav li.slide .slide-menu li.active a,
+.main .main-left .nav li.slide .slide-menu li:hover a {
+  color: var(--apple-blue) !important;
+}
+
+.main .main-left .nav .slide-menu li,
+.main .main-left .nav .slide-menu li.active,
+.main .main-left .nav .slide-menu .active,
+.main .main-left .nav .slide-menu li:hover {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+.main .main-left .nav .slide-menu li::after,
+.main .main-left .nav .slide-menu li.active::after,
+.main .main-left .nav .slide-menu .active::after,
+.main .main-left .nav .slide-menu li a::after,
+.main .main-left .nav .slide-menu li.active a::after,
+.main .main-left .nav .slide-menu .active a::after {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  content: none !important;
+}
+
+#xhr_poll_status *,
+header .status * {
+  color: var(--apple-label) !important;
+}
+
+header .status span[data-style="active"],
+#xhr_poll_status > .label.success,
+.label.success,
+.cbi-button-success,
+.cbi-button-download {
+  color: #fff !important;
+  border-color: transparent !important;
+  background: linear-gradient(135deg, var(--apple-blue), var(--apple-blue-deep)) !important;
+  box-shadow: 0 8px 18px rgba(10, 132, 255, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.btn,
+button,
+select,
+input,
+textarea,
+.cbi-dropdown,
+.cbi-button {
+  border-color: var(--glass-hairline);
+  color: var(--apple-label);
+  background-color: rgba(44, 44, 46, 0.72) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.btn,
+button,
+.cbi-button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  min-height: 2.1rem;
+  height: auto;
+  padding: 0.38rem 0.78rem;
+  line-height: 1.25rem;
+}
+
+.cbi-value-field .cbi-button,
+.cbi-value-field input[type="button"],
+.cbi-value-field input[type="submit"] {
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
+}
+
+/* Final button state fallback for LuCI action buttons. */
+.btn.cbi-button-action:not(:disabled):not([disabled]):not([aria-disabled=true]),
+button.btn.cbi-button-action:not(:disabled):not([disabled]):not([aria-disabled=true]) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border: thin solid var(--apple-blue) !important;
+  background: var(--apple-blue) !important;
+}
+
+.btn:disabled,
+.btn[disabled],
+.btn[aria-disabled=true],
+.btn.disabled,
+.cbi-button:disabled,
+.cbi-button[disabled],
+.cbi-button[aria-disabled=true],
+.cbi-button.disabled {
+  color: #98989d !important;
+  -webkit-text-fill-color: #98989d !important;
+  border: 1px solid rgba(235, 235, 245, 0.12) !important;
+  background: rgba(58, 58, 60, 0.72) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.cbi-button-apply,
+.cbi-button-save,
+.cbi-button-positive,
+.cbi-button-reload,
+.cbi-input-reload,
+.cbi-button-refresh,
+.cbi-input-refresh,
+.cbi-button[value="Refresh"],
+.cbi-button[value="刷新"],
+.cbi-button[value="Reload"],
+.cbi-button[value="重新加载"],
+input[value="Refresh"],
+input[value="刷新"],
+input[value="Reload"],
+input[value="重新加载"],
+button[value="Refresh"],
+button[value="刷新"],
+button[value="Reload"],
+button[value="重新加载"],
+button[onclick*="reload"],
+input[onclick*="reload"],
+button[onclick*="location.reload"],
+input[onclick*="location.reload"],
+.cbi-button-action.important,
+.btn.primary {
+  color: #fff !important;
+  border-color: transparent !important;
+  background: linear-gradient(135deg, var(--apple-blue), var(--apple-blue-deep)) !important;
+  box-shadow: 0 12px 28px rgba(10, 132, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+table,
+.table,
+.cbi-section-node {
+  color: var(--apple-label);
+  background: transparent !important;
+}
+
+.table .table-titles th,
+.table[width="100%"] > .tr:first-child > .td,
+.tr.table-titles > .th,
+.tr.cbi-section-table-titles > .th,
+table > tbody > tr > th,
+table > tfoot > tr > th,
+table > thead > tr > th,
+.tr.cbi-section-table-titles.named::before,
+.cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
+  color: var(--apple-secondary-label);
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.cbi-section-table-row,
+div > table > tbody > tr:nth-of-type(2n),
+div > .table > .tr:nth-of-type(2n),
+.container > .cbi-section .cbi-section-node:nth-of-type(2n),
+.cbi-section .cbi-section-remove:nth-of-type(2n) {
+  background: rgba(255, 255, 255, 0.055) !important;
+}
+
+.tabs,
+.cbi-tabmenu {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.35rem;
+  border-radius: 999px;
+  border-color: var(--glass-hairline);
+  background: rgba(44, 44, 46, 0.58) !important;
+}
+
+.tabs > li,
+.cbi-tabmenu > li {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+}
+
+.tabs > li > a,
+.cbi-tabmenu > li > a {
+  display: block;
+  padding: 0.56rem 0.95rem !important;
+  border-radius: 999px;
+  color: var(--apple-secondary-label) !important;
+}
+
+.tabs > li:hover > a,
+.cbi-tabmenu > li:hover > a {
+  color: var(--apple-label) !important;
+  background: rgba(255, 255, 255, 0.10) !important;
+}
+
+.tabs > li[class~="active"],
+.tabs > li[class~="active"] > a,
+.cbi-tabmenu > li[class~="cbi-tab"],
+.cbi-tabmenu > li[class~="cbi-tab"] > a {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--apple-blue), var(--apple-blue-deep)) !important;
+  box-shadow: 0 8px 18px rgba(10, 132, 255, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.cbi-tabmenu + .cbi-section,
+.cbi-map > .cbi-tabmenu + div {
+  margin-top: 0.75rem;
+  border-radius: var(--glass-radius-lg) !important;
+}
+
+.cbi-progressbar {
+  height: 0.82rem;
+  border-radius: 999px;
+  background-color: rgba(235, 235, 245, 0.12) !important;
+}
+
+.cbi-progressbar > div {
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--apple-blue), var(--apple-blue-light)) !important;
+}
+
+.cbi-progressbar::after {
+  color: var(--apple-label);
+  line-height: 0.82rem;
+}
+
+.cbi-dropdown > ul.dropdown,
+.dropdown-menu {
+  border-color: var(--glass-border);
+  background:
+    linear-gradient(145deg, rgba(58, 58, 60, 0.88), rgba(28, 28, 30, 0.76)),
+    var(--glass-bg) !important;
+}
+
+#modal_overlay {
+  background: rgba(0, 0, 0, 0.46) !important;
+}
+
+.login-page .login-container {
+  border-color: var(--glass-border);
+  background:
+    linear-gradient(145deg, rgba(58, 58, 60, 0.70), rgba(28, 28, 30, 0.48)),
+    var(--login-form-bg-color) !important;
+}
+
+.login-page .login-container .login-form .brand,
+.login-page .login-container footer {
+  color: var(--apple-label);
+}
+
+.login-page .login-container .login-form .form-login .input-group input {
+  color: var(--apple-label);
+  border-color: var(--glass-hairline) !important;
+  background-color: rgba(44, 44, 46, 0.62) !important;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .main .main-left,
+  header,
+  .cbi-section,
+  .cbi-section-error,
+  .modal,
+  .alert,
+  .alert-message,
+  .login-page .login-container {
+    background: rgba(28, 28, 30, 0.96) !important;
+  }
+}
