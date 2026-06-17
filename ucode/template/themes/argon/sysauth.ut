@@ -23,28 +23,134 @@
 
 {% include("themes/" + theme + "/out_header_login") %}
 {%
-	// Login form rendered inside .login-form (opened by header_login.ut).
-	// Wallpaper, hostname, clock, avatar are handled by header_login.ut / footer_login.ut.
+	import * as fs from 'fs';
+	import { cursor } from 'uci';
+	import { rand } from 'math';
+
+	let cfg = cursor();
+
+	//Fetch Local Background Media
+
+	const imageTypes = " jpg jpeg png gif webp ";
+	const videoTypes = " mp4 webm ";
+	const allTypes = imageTypes + videoTypes;
+
+	function fetchMedia(path, themeDir) {
+		let backgroundTable = [];
+		for (f in (fs.lsdir(path))) {
+			let ext = lc(split(f, '.')?.[1]);
+			if (ext && index(allTypes, " " + ext + " ") != -1) {
+				let bg = {};
+				bg.type = ext;
+				bg.url = themeDir + f;
+				push(backgroundTable, bg);
+			}
+		}
+		return backgroundTable;
+	}
+
+	function selectBackground(themeDir) {
+		let bgUrl = media + "/img/bg1.jpg";
+		let backgroundType = "Image";
+		let mimeType = "";
+
+		// If server-side plugin can give us a Bing/online URL, use it.
+		if (fs.access("/etc/config/argon")) {
+			let online_wallpaper = cfg.get_first('argon', 'global', 'online_wallpaper');
+			if (online_wallpaper == null && cfg.get_first('argon', 'global', 'bing_background') == '1') {
+				online_wallpaper = "bing";
+			}
+			if (online_wallpaper && online_wallpaper != "none") {
+				try {
+					const picurl = ubus.call("luci.argon_wallpaper", "get_url") ?? {};
+					if (picurl?.url) {
+						bgUrl = picurl.url;
+						if (substr(bgUrl, 0, 2) == "//") bgUrl = "https:" + bgUrl;
+						return {bgUrl, backgroundType, mimeType};
+					}
+				} catch (e) {}
+			}
+		}
+
+		let background = fetchMedia("/www" + themeDir, themeDir);
+		if ( length(background) > 0 ) {
+			let currentBg = background[(rand() % length(background))];
+			bgUrl = currentBg.url;
+			if (index(videoTypes, " " + currentBg.type + " ") != -1) {
+				backgroundType = "Video";
+				mimeType = "video/" + currentBg.type;
+			}
+		}
+
+		return {bgUrl, backgroundType, mimeType};
+	}
 
 	const boardinfo = ubus.call("system", "board");
 	const hostname = striptags(boardinfo?.hostname ?? '?');
-%}
+	const themeDir = media + "/background/";
+	const bgArry = selectBackground(themeDir);
 
-			<form method="post" action="{{ http.getenv('REQUEST_URI') }}">
+%}
+<!-- Login Page Start -->
+<div class="login-page">
+	{% if ( bgArry.backgroundType == "Video" ): %}
+	<!-- Video Player Start -->
+	<div class="video">
+		<video autoplay loop muted id="video">
+			<source src="{{ bgArry.bgUrl }}" type="{{ bgArry.mimeType }}">
+		</video>
+	</div>
+	<div class="volume-control mute"></div>
+	<script>
+		document.querySelector(".volume-control").addEventListener("click", function(){
+			if(this.classList.contains("mute")){
+				this.classList.remove("mute");
+				document.getElementById("video").muted = false;
+			}else{
+				this.classList.add("mute");
+				document.getElementById("video").muted = true;
+			}
+		});
+	</script>
+	<!-- Video Player End -->
+	{% else %}
+	<!-- Image Background Start -->
+	<div class="main-bg" id="main-bg" style="background-image:url({{ bgArry.bgUrl }})"></div>
+	<!-- Image Background End -->
+	{% endif %}
+	<!-- Login Container Start -->
+	<div class="login-container">
+		<div class="login-form">
+			<!-- Logo Start -->
+			<a class="brand" href="/"><img src="{{ media }}/img/argon.svg" class="icon">
+				<span class="brand-text">{{ hostname }}</span>
+			</a>
+			<!-- Logo End -->
+			<!-- Login Form Start -->
+			<form class="form-login" method="post" action="{{ http.getenv("REQUEST_URI") }}">
+
 				{%- if (fuser): %}
 				<div class="errorbox">{{ _('Invalid username and/or password! Please try again.') }}</div>
 				{% endif -%}
 
-				{% if (typeof duser != 'undefined' && duser): %}
-				<input type="hidden" name="luci_username" value="{{ entityencode(duser, true) }}">
-				{% else %}
-				<input type="text" name="luci_username" autocomplete="username" placeholder="{{ _('Username') }}" value="{{ entityencode(duser, true) }}">
-				{% endif %}
-				<input type="password" name="luci_password" autocomplete="current-password" autofocus placeholder="{{ _('Password') }}">
-				<input type="submit" value="{{ _('Login') }}" class="cbi-button cbi-button-apply">
+				<div class="input-container">
+					<div class="input-group user-icon">
+						<input class="cbi-input-user" id="cbi-input-user" type="text" name="luci_username" value="{{ entityencode(duser, true) }}" />
+						<label class="border" for="cbi-input-user"></label>
+					</div>
+					<div class="input-group pass-icon">
+						<input class="cbi-input-password" id="cbi-input-password" type="password" name="luci_password" />
+						<label class="border" for="cbi-input-password"></label>
+					</div>
+				</div>
+				<div>
+					<input type="submit" value="{{ _('Log in') }}" class="cbi-button cbi-button-apply" />
+				</div>
 			</form>
+			<!-- Login Form End -->
 			<script type="text/javascript">//<![CDATA[
 				var input = document.getElementsByName('luci_password')[0];
-				if (input) input.focus();
+				if (input)
+					input.focus();
 			//]]></script>
 {% include("themes/" + theme + "/footer_login") %}

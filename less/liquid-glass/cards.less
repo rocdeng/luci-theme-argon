@@ -164,21 +164,190 @@ body.logged-in {
 
   /* ---------- Modal ---------- */
   .modal {
-    background: var(--fill-strong) !important;
-    -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-    backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-    border-radius: 24px !important;
+    background: rgba(255,255,255,.82) !important;
+    background-image: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72)) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    backdrop-filter: blur(40px) saturate(180%);
+    border-radius: 20px !important;
     padding: 28px !important;
     max-width: 560px;
-    box-shadow: var(--spec-top), var(--edge-bottom), var(--contact-lift), 0 24px 60px rgba(0,0,0,.25) !important;
-    border: none !important;
+    border: 0.5px solid rgba(255,255,255,.7) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.9) inset,
+      0 20px 60px rgba(0,0,0,.18),
+      0 2px 12px rgba(0,0,0,.08) !important;
     color: var(--t-primary);
     &::before {
-      content: "";
-      position: absolute; top: 0; left: 12px; right: 12px; height: 40%;
-      background: linear-gradient(180deg, rgba(255,255,255,.3), transparent);
-      border-radius: 24px 24px 50% 50%; pointer-events: none;
+      display: none !important;
     }
+    /* Modal title */
+    > h4, > h3, > .modal-title, .tr:first-child, :first-child > h4, p:first-of-type {
+      font-weight: 700;
+      font-size: 20px !important;
+      letter-spacing: -0.01em;
+      margin-top: 0 !important;
+      margin-bottom: 16px !important;
+      color: var(--t-primary);
+    }
+    /* Body text */
+    p, .cbi-section-descr, .tr, li, ul, ol, span, pre, code, small, label, td, th {
+      color: var(--t-secondary) !important;
+      -webkit-text-fill-color: var(--t-secondary) !important;
+      font-size: 14px;
+      line-height: 1.5;
+      text-shadow: none !important;
+    }
+    /* Title text strong */
+    h1, h2, h3, h4, h5, strong, b {
+      color: var(--t-primary) !important;
+      -webkit-text-fill-color: var(--t-primary) !important;
+      text-shadow: none !important;
+    }
+    /* Metadata list (大小/MD5/SHA256) */
+    ul, ol { padding-left: 1.2em; }
+    li { margin-bottom: 4px; }
+    pre, code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      word-break: break-all;
+    }
+    /* Footer / button bar */
+    > .modal-footer, > div:last-child, > form > .cbi-page-actions,
+    > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 0.5px solid rgba(0,0,0,.08);
+      .cbi-button, .btn {
+        margin: 0 !important;
+        border-radius: 999px !important;
+        padding: 0 20px !important;
+        height: 36px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        border: none !important;
+        box-shadow: none !important;
+        &:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action) {
+          background: rgba(0,0,0,.05) !important;
+          color: var(--t-primary) !important;
+          -webkit-text-fill-color: var(--t-primary) !important;
+          &:hover { background: rgba(0,0,0,.1) !important; }
+        }
+        &.cbi-button-apply, &.primary, &.cbi-button-save, &.cbi-button-action {
+          background: var(--accent) !important;
+          color: #fff !important;
+          -webkit-text-fill-color: #fff !important;
+          &:hover { filter: brightness(1.08); }
+          &.disabled, &[disabled], &:disabled { opacity: .4; }
+        }
+      }
+    }
+    /* File input / choose-file row */
+    .cbi-input-file, input[type="file"] {
+      font-size: 13px;
+    }
+    /* Terminal / log output block (apk/opkg output, errors, command lines).
+       LuCI renders command output/errors inside <pre><code> or .alert.danger/error blocks.
+       Make sure any dark/grey box inside modal has light text. */
+    pre, code, .code, .terminal, .console,
+    .cbi-section > pre, .modal pre, .modal code,
+    [class*="output"], [class*="terminal"], [class*="console"],
+    .alert-message pre, .alert-message code, .notice pre, .notice code,
+    .modal > .error, .modal > .danger, .modal > .alert.danger, .modal > .alert.error,
+    .modal .alert-message.danger, .modal .alert-message.error {
+      display: block !important;
+      background: #1d1d1f !important;
+      background-image: none !important;
+      color: #f5f5f7 !important;
+      -webkit-text-fill-color: #f5f5f7 !important;
+      font-family: "SF Mono", ui-monospace, Menlo, Consolas, "PingFang SC", monospace !important;
+      font-size: 12.5px !important;
+      font-weight: 400 !important;
+      line-height: 1.6 !important;
+      padding: 14px 18px !important;
+      border-radius: 14px !important;
+      border: none !important;
+      box-shadow: inset 0 0 0 0.5px rgba(255,255,255,.08) !important;
+      text-shadow: none !important;
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+      overflow-x: auto !important;
+      margin: 12px 0 !important;
+      * {
+        color: #f5f5f7 !important;
+        -webkit-text-fill-color: #f5f5f7 !important;
+        background: transparent !important;
+        text-shadow: none !important;
+        font-size: 12.5px !important;
+      }
+    }
+    /* Modal secondary description text: keep readable */
+    > p, > .muted, .text-muted, .muted {
+      color: var(--t-secondary) !important;
+      -webkit-text-fill-color: var(--t-secondary) !important;
+      font-size: 14px !important;
+    }
+    /* System notifications — clean white pill card (small centered top toast) */
+    &.alert-message, &.notice {
+      position: fixed !important;
+      top: 16px !important;
+      left: 50% !important;
+      right: auto !important;
+      bottom: auto !important;
+      transform: translateX(-50%) !important;
+      display: block !important;
+      width: auto !important;
+      max-width: 90vw !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
+      margin: 0 !important;
+      padding: 8px 18px !important;
+      border-radius: 999px !important;
+      background: #ffffff !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+      border: none !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.1), 0 0 0 0.5px rgba(0,0,0,.07) !important;
+      z-index: 9000 !important;
+      color: #1d1d1f !important;
+      -webkit-text-fill-color: #1d1d1f !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      font-family: var(--font-sans) !important;
+      line-height: 1.4 !important;
+      letter-spacing: 0 !important;
+      text-align: center !important;
+      text-shadow: none !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      animation: lg-toast-center .25s cubic-bezier(.2,.8,.2,1);
+    }
+    &.alert-message::before, &.alert-message::after,
+    &.notice::before, &.notice::after { display: none !important; }
+    @keyframes lg-toast-center {
+      from { transform: translateX(-50%) translateY(-8px); opacity: 0; }
+      to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+  }
+  /* Notification inner p tag — undo LuCI browser default paragraph styles */
+  body.logged-in .modal.alert-message p,
+  body.logged-in .modal.notice p {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    color: #1d1d1f !important;
+    -webkit-text-fill-color: #1d1d1f !important;
+    font-family: var(--font-sans) !important;
+    text-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
   }
   #modal_overlay {
     background: rgba(0,0,0,.3) !important;
@@ -207,6 +376,7 @@ body.logged-in {
     position: relative;
     border: none !important;
     color: var(--t-primary);
+    background: var(--fill-regular);
     h4 { margin-top: 0 !important; font-weight: 700; font-size: 14px; }
     p  { margin-bottom: 0; font-size: 13px; }
   }

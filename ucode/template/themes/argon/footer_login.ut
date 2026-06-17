@@ -4,42 +4,57 @@
 	luci-theme-argon
 	Copyright 2020 Jerrykuku <jerrykuku@qq.com>
 
-	Have a bug? Please create an issue here on GitHub!
-	https://github.com/jerrykuku/luci-theme-argon/issues
-
-	luci-theme-material:
-	Copyright 2015 Lutty Yang <lutty@wcan.in>
-
-	Agron Theme
-	https://demos.creative-tim.com/argon-dashboard/index.html
-
 	Licensed to the public under the Apache License 2.0
 -#}
 
-		</div><!-- /.login-form -->
-	</div><!-- /.login-container -->
-
-	<div class="ftc">
+</div>
+<!-- added style="text-wrap: auto" but on this page it is still not the best solution. I will take it to consideration next time :) -->
+<footer style="text-wrap: auto">
+	<div>
 		<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by {{ version.luciname }} ({{ version.luciversion }})</a>
-		<span style="opacity:.5">|</span>
-		<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme</a>
-		<p>{{ version.distname }} {{ version.distversion }}-{{ version.distrevision }}</p>
+		<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme {# vPKG_VERSION #}</a>
+		<a class="luci-link" href="{{ version.disturl }}" target="_blank">{{ version.distname }} {{ version.distversion }}-{{ version.distrevision }}</a>
 	</div>
-
-	<script>
-		(function(){
-			var el = document.getElementById('lg-clock');
-			function tick(){
-				var d = new Date();
-				var h = String(d.getHours()).padStart(2,'0');
-				var m = String(d.getMinutes()).padStart(2,'0');
-				el.textContent = h + ':' + m;
+</footer>
+</div>
+</div>
+<script>
+	var luciLocation = {{ ctx.path }};
+	var winHeight = window.innerHeight;
+	window.addEventListener('resize', function () {
+		var winWidth = window.innerWidth;
+		if(winWidth < 600){
+			var newHeight = window.innerHeight;
+			var keyboradHeight = newHeight - winHeight;
+			var ftcElement = document.querySelector(".ftc");
+			if (ftcElement) {
+				ftcElement.style.bottom = (keyboradHeight + 30) + "px";
 			}
-			tick(); setInterval(tick, 1000);
-		})();
-	</script>
-	<style id="lg-wallpaper-css">
-		:root { --login-wallpaper: url('{{ bg_url }}'); }
-	</style>
+		}
+	});
+</script>
+<script>
+	// Load Bing daily wallpaper on the login page. Image requests are NOT subject
+	// to CORS, so we can use a public 302-redirect mirror directly, no JSON fetch needed.
+	(function(){
+		var bg = document.getElementById('main-bg');
+		if (!bg) return;
+		var cur = (bg.style.backgroundImage || '');
+		// If server-side already provided a non-default wallpaper, don't override.
+		if (cur && cur.indexOf('/img/bg1.jpg') === -1 && cur.indexOf('undefined') === -1) return;
+		var mirrors = [
+			'https://bing.img.run/1920x1080.php',
+			'https://api.dujin.org/bing/1920.php'
+		];
+		function tryLoad(i){
+			if (i >= mirrors.length) return;
+			var img = new Image();
+			img.onload = function(){ bg.style.backgroundImage = 'url("' + mirrors[i] + '")'; };
+			img.onerror = function(){ tryLoad(i+1); };
+			img.src = mirrors[i];
+		}
+		tryLoad(0);
+	})();
+</script>
 </body>
 </html>

@@ -1,189 +1,352 @@
 /* =========================================================
  * Login page — macOS lock-screen aesthetic.
- * Used on body.login-page (LuCI sets this class automatically).
+ * Targets argon's original DOM; ucode template adds class="login"
+ * to <body> so these rules never leak into the logged-in shell.
  * ========================================================= */
 
-body.login-page {
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color: #1c1c1e;
-  /* --login-wallpaper is injected from footer_login.ut */
-  background-image: var(--login-wallpaper, radial-gradient(ellipse at 30% 20%, rgba(255,154,123,.5), transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(10,132,255,.4), transparent 50%), linear-gradient(135deg,#2c2c2e,#1c1c1e));
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: #fff;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 10vh;
+/* Reset body for full-screen wallpaper */
+body.login {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  background: transparent !important;
 }
 
-/* Vignette darkens form area slightly */
-body.login-page::before {
-  content: "";
-  position: fixed; inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.3) 100%);
-  pointer-events: none; z-index: 0;
-}
-
-/* Hide the LuCI background wrapper (we paint directly on body) */
-body.login-page .main-bg {
+/* Full-screen backdrop wrapper */
+body.login .login-page {
   position: fixed !important;
   inset: 0 !important;
-  background: none !important;
-  z-index: -1 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  z-index: 0 !important;
+  background: transparent !important;
 }
 
-/* Lock screen container */
-body.login-page .login-container {
-  position: relative; z-index: 1;
-  width: 100%;
-  max-width: 360px;
-  display: flex; flex-direction: column; align-items: center;
-  text-align: center;
-  padding: 0 32px;
-  animation: lg-lock-in .7s cubic-bezier(.2,.8,.2,1);
+/* Wallpaper fills screen, dimmed for readability.
+   The .main-bg gets its background-image via inline style from ucode
+   (background-image:url(user-wallpaper)). We only dim and set a fallback
+   color; we do NOT force a background-image (that would override the
+   user's custom wallpaper). */
+body.login .login-page > .main-bg,
+body.login .login-page > .video {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-color: #2c3e5c !important;
+  z-index: 0 !important;
+  filter: brightness(.65) saturate(.9) !important;
+}
+body.login .login-page > .main-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, transparent 20%, rgba(0,0,0,.35) 100%);
+  pointer-events: none;
+}
+body.login .login-page > .video video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+body.login .login-page > .volume-control { display: none !important; }
+
+/* Centered container (kill argon's 26rem left white panel) */
+body.login .login-page .login-container {
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  max-width: 320px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 0 80px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: lg-lock-in .8s cubic-bezier(.2,.8,.2,1);
 }
 @keyframes lg-lock-in {
-  from { transform: translateY(12px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(20px) scale(.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* Hostname */
-body.login-page .login-container .hostname {
-  font-family: var(--font-sans);
-  font-weight: 800; font-size: 28px;
-  text-shadow: 0 4px 30px rgba(0,0,0,.5);
-  letter-spacing: -.5px;
-  margin-bottom: 4px;
+/* Brand: replace argon logo+text with glass avatar+hostname */
+body.login .login-page .login-container .login-form .brand {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 0 20px 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  color: #fff !important;
+  text-decoration: none !important;
+  width: 100% !important;
 }
-/* Clock */
-body.login-page .login-container .clock {
-  font-family: var(--font-sans);
-  font-weight: 200; font-size: 56px;
-  text-shadow: 0 4px 30px rgba(0,0,0,.5);
-  margin-bottom: 40px;
-  letter-spacing: -2px;
+body.login .login-page .login-container .login-form .brand .icon { display: none !important; }
+body.login .login-page .login-container .login-form .brand::before {
+  /* Emoji avatar only, no glass ring */
+  content: "🙄";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  font-size: 110px;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Avatar */
-body.login-page .login-container .avatar {
-  width: 100px; height: 100px; border-radius: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.4));
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  backdrop-filter: blur(24px) saturate(200%);
-  box-shadow: 0 8px 28px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.9);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 46px; line-height: 1;
-  margin-bottom: 22px;
-  position: relative;
-}
-body.login-page .login-container .avatar::before { content: "👤"; }
-
-/* Login form glass card */
-body.login-page .login-container .login-form {
-  width: 100%;
-  max-width: 300px;
-  background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.12));
-  -webkit-backdrop-filter: blur(40px) saturate(220%);
-  backdrop-filter: blur(40px) saturate(220%);
-  border-radius: 28px;
-  padding: 24px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.35),
-              inset 0 1px 0 rgba(255,255,255,.5),
-              inset 0 -1px 0 rgba(0,0,0,.2);
-  display: flex; flex-direction: column; gap: 12px;
-  position: relative;
-  .brand { display: none !important; }
-}
-
-/* Inputs on login form — centered white text on glass */
-body.login-page .login-container .login-form input[type="password"],
-body.login-page .login-container .login-form input[type="text"] {
-  width: 100%;
-  height: 44px;
-  padding: 0 16px;
-  box-sizing: border-box;
-  border-radius: 999px;
+  background: transparent;
   border: none;
-  background: rgba(255,255,255,.25);
-  color: #fff;
-  text-align: center;
-  font-size: 15px;
-  font-family: var(--font-sans);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
-  outline: none;
-  transition: box-shadow .2s;
-  &::placeholder { color: rgba(255,255,255,.6); text-align: center; }
-  &:focus { box-shadow: 0 0 0 4px rgba(255,255,255,.25), inset 0 1px 0 rgba(255,255,255,.4); }
+  box-shadow: none;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 20px rgba(0,0,0,.35);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
-body.login-page .login-container .login-form input[type="submit"],
-body.login-page .login-container .login-form .cbi-button-apply,
-body.login-page .login-container .login-form button[type="submit"] {
-  width: 100%;
-  height: 44px;
-  border-radius: 999px; border: none;
-  background: linear-gradient(180deg, var(--accent, #0a84ff), color-mix(in srgb, var(--accent,#0a84ff) 85%, black));
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
-  font-family: var(--font-sans);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent,#0a84ff) 50%, transparent);
-  cursor: pointer;
-  transition: transform .2s, filter .2s;
-  &:hover { filter: brightness(1.05); transform: translateY(-1px); }
+body.login .login-page .login-container .login-form .brand .brand-text {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  font-family: "TypoGraphica", var(--font-sans) !important;
+  color: #fff !important;
+  text-shadow: 0 2px 20px rgba(0,0,0,.45);
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  width: auto !important;
 }
 
-/* Error box */
-body.login-page .login-container .login-form .errorbox,
-body.login-page .login-container .login-form .alert-message,
-body.login-page .login-container .login-form .alert {
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255,69,58,.3);
-  -webkit-backdrop-filter: blur(20px);
+/* Glass card */
+body.login .login-page .login-container .login-form {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  max-width: 320px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 30px 24px 26px !important;
+  background: rgba(255,255,255,.55) !important;
+  background-image: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.05)) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(100%) !important;
+  backdrop-filter: blur(40px) saturate(100%) !important;
+  border-radius: 28px !important;
+  border: 0.5px solid rgba(255,255,255,.3) !important;
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.45),
+    inset 0 -1px 0 rgba(0,0,0,.1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+/* Form wrapper */
+body.login .login-page .login-container .login-form form.form-login {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  background: none !important;
+}
+
+/* Inputs */
+body.login .login-page .login-container .login-form .input-container { margin: 0 !important; padding: 0 !important; }
+body.login .login-page .login-container .login-form .input-group {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 0 10px 0 !important;
+}
+body.login .login-page .login-container .login-form input[type="text"],
+body.login .login-page .login-container .login-form input[type="password"] {
+  width: 100% !important;
+  height: 42px !important;
+  padding: 0 14px 0 42px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  border-radius: 999px !important;
+  border: none !important;
+  background: rgba(255,255,255,.22) !important;
+  background-color: rgba(255,255,255,.22) !important;
+  background-image: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  caret-color: #fff !important;
+  font-size: 15px !important;
+  font-family: var(--font-sans) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3) !important;
+  outline: none !important;
+  transition: box-shadow .2s, background .2s;
+  line-height: 1.5 !important;
+}
+/* Hide Safari/Chrome password gear icon and strong-password suggestions */
+body.login .login-page .login-container .login-form input::-webkit-credentials-auto-fill-button,
+body.login .login-page .login-container .login-form input::-webkit-contacts-auto-fill-button,
+body.login .login-page .login-container .login-form input::-webkit-strong-password-auto-fill-button {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  right: 0 !important;
+}
+body.login .login-page .login-container .login-form input::placeholder { color: rgba(255,255,255,.6) !important; -webkit-text-fill-color: rgba(255,255,255,.6) !important; }
+body.login .login-page .login-container .login-form input:focus {
+  box-shadow: 0 0 0 4px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.4) !important;
+  background: rgba(255,255,255,.3) !important;
+  background-color: rgba(255,255,255,.3) !important;
+}
+body.login .login-page .login-container .login-form .input-group label.border { display: none !important; }
+body.login .login-page .login-container .login-form .input-group::before { display: none !important; }
+body.login .login-page .login-container .login-form .input-group.user-icon::after {
+  content: "👤"; position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%); font-size: 14px; opacity: .85; pointer-events: none;
+}
+body.login .login-page .login-container .login-form .input-group.pass-icon::after {
+  content: "🔒"; position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%); font-size: 13px; opacity: .85; pointer-events: none;
+}
+body.login .login-page .login-container .login-form .input-group .cbi-input-password { margin-bottom: 0 !important; }
+
+/* Submit button */
+body.login .login-page .login-container .login-form input[type="submit"],
+body.login .login-page .login-container .login-form .cbi-button-apply {
+  width: 100% !important;
+  height: 44px !important;
+  margin: 6px 0 0 0 !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  border: none !important;
+  background: linear-gradient(180deg, var(--accent, #0a84ff), color-mix(in srgb, var(--accent,#0a84ff) 85%, black)) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  font-family: var(--font-sans) !important;
+  box-shadow:
+    0 6px 22px color-mix(in srgb, var(--accent,#0a84ff) 55%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.3) !important;
+  cursor: pointer !important;
+  transition: filter .2s, transform .2s;
+  letter-spacing: 4px;
+  text-shadow: none !important;
+}
+body.login .login-page .login-container .login-form input[type="submit"]:hover,
+body.login .login-page .login-container .login-form .cbi-button-apply:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* Error */
+body.login .login-page .login-container .login-form .errorbox {
+  padding: 8px 14px !important;
+  margin: 0 0 10px 0 !important;
+  border-radius: 999px !important;
+  background: rgba(255,69,58,.4) !important;
   backdrop-filter: blur(20px);
-  color: #fff; font-size: 12px; font-weight: 600;
-  border: none;
-  margin: 0;
+  -webkit-backdrop-filter: blur(20px);
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 500;
+  border: none !important;
+  text-align: center !important;
+  text-shadow: none !important;
 }
 
-/* Footer */
-body.login-page .ftc {
-  position: fixed; bottom: 24px; left: 0; right: 0;
-  text-align: center; font-size: 11px; color: rgba(255,255,255,.65);
-  text-shadow: 0 2px 10px rgba(0,0,0,.4);
-  z-index: 1;
-  a { color: rgba(255,255,255,.85); text-decoration: none; margin: 0 8px; }
-  p { margin: 4px 0; }
+/* Footer pinned at bottom */
+body.login footer {
+  position: fixed !important;
+  bottom: 18px !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1 !important;
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  color: rgba(255,255,255,.7) !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
+  height: auto !important;
+  text-wrap: auto;
+  pointer-events: auto !important;
+}
+body.login footer a {
+  color: rgba(255,255,255,.85) !important;
+  text-decoration: none !important;
+  margin: 0 6px !important;
+  background: none !important;
+}
+body.login footer div {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+  line-height: 1.6 !important;
+}
+
+/* Autofill — keep glass look, kill WebKit yellow/white flash */
+body.login .login-page input:-webkit-autofill,
+body.login .login-page input:-webkit-autofill:hover,
+body.login .login-page input:-webkit-autofill:focus,
+body.login .login-page input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,.22) inset !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  caret-color: #fff !important;
+  color: #fff !important;
+  background-color: rgba(255,255,255,.22) !important;
+  border-radius: 999px;
+  transition: background-color 9999s ease-in-out 0s;
+}
+body.login .login-page input:-internal-autofill-selected {
+  background-color: rgba(255,255,255,.22) !important;
+  color: #fff !important;
 }
 
 /* Mobile */
-@media (max-width: 768px) {
-  body.login-page {
-    padding: 8vh 20px 20px;
-  }
-  body.login-page .login-container .clock { font-size: 44px; }
-  body.login-page .login-container .login-form {
-    padding: 20px; border-radius: 24px; max-width: 100%;
-  }
+@media (max-width: 480px) {
+  body.login .login-page .login-container { max-width: 100% !important; padding: 0 20px 90px 20px !important; }
+  body.login .login-page .login-container .login-form { padding: 18px 18px 20px !important; border-radius: 22px !important; }
+  body.login .login-page .login-container .login-form .brand::before { width: 110px !important; height: 110px !important; font-size: 84px !important; margin-bottom: 14px !important; }
+  body.login .login-page .login-container .login-form .brand .brand-text { font-size: 20px !important; }
+  body.login footer { font-size: 10px !important; bottom: 10px !important; }
 }
 
-/* Login autofill must stay white on the translucent glass pill */
-body.login-page input:-webkit-autofill,
-body.login-page input:-webkit-autofill:hover,
-body.login-page input:-webkit-autofill:focus {
+/* ---- Hard reset: neutralize legacy/dark.css rules on login page ---- */
+body.login .login-page .login-container {
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+body.login .login-page .login-container .login-form {
+  background-color: transparent !important;
+}
+body.login .login-page .login-container .login-form input {
+  background-color: rgba(255,255,255,.22) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3) !important;
+  color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-  -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,.15) inset !important;
-  caret-color: #fff !important;
 }

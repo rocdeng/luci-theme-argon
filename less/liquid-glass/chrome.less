@@ -19,7 +19,7 @@ body.logged-in .main-left {
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   box-shadow: var(--spec-hi), var(--edge-bottom), var(--contact);
   border: none;
-  border-right: 1px solid rgba(255,255,255,.18);
+  border-right: none;
   border-radius: 0 !important; /* welded to viewport edges */
   word-break: break-word;
   z-index: 100;
@@ -37,9 +37,14 @@ body.logged-in .main-left::before {
 
 /* Brand */
 body.logged-in .main-left .sidenav-header {
-  padding: 1.25rem 0.5rem 0.75rem;
+  padding: 0.6rem 0.5rem;
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--spec-hi), var(--edge-bottom);
+  box-sizing: border-box;
+  min-height: 3.45rem; /* match main header total height */
 }
 body.logged-in .main-left .sidenav-header .brand {
   font-family: var(--font-sans);

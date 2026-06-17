@@ -4600,7 +4600,7 @@ body.logged-in .main-left {
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   box-shadow: var(--spec-hi), var(--edge-bottom), var(--contact);
   border: none;
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  border-right: none;
   border-radius: 0 !important;
   /* welded to viewport edges */
   word-break: break-word;
@@ -4620,9 +4620,15 @@ body.logged-in .main-left::before {
 }
 /* Brand */
 body.logged-in .main-left .sidenav-header {
-  padding: 1.25rem 0.5rem 0.75rem;
+  padding: 0.6rem 0.5rem;
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--spec-hi), var(--edge-bottom);
+  box-sizing: border-box;
+  min-height: 3.45rem;
+  /* match main header total height */
 }
 body.logged-in .main-left .sidenav-header .brand {
   font-family: var(--font-sans);
@@ -4855,6 +4861,7 @@ body.logged-in {
   /* ---------- Section titles ---------- */
   /* ---------- Segmented tab rail (iOS-style capsule) ---------- */
   /* ---------- Modal ---------- */
+  /* Notification inner p tag — undo LuCI browser default paragraph styles */
   /* ---------- Alerts / notices ---------- */
   /* ---------- Sticky page action bar ---------- */
 }
@@ -5076,26 +5083,451 @@ body.logged-in .cbi-tabcontainer > .cbi-section {
   margin-top: 0;
 }
 body.logged-in .modal {
-  background: var(--fill-strong) !important;
-  -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px) saturate(180%);
+  border-radius: 20px !important;
   padding: 28px !important;
   max-width: 560px;
-  box-shadow: var(--spec-top), var(--edge-bottom), var(--contact-lift), 0 24px 60px rgba(0, 0, 0, 0.25) !important;
-  border: none !important;
+  border: 0.5px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 20px 60px rgba(0, 0, 0, 0.18), 0 2px 12px rgba(0, 0, 0, 0.08) !important;
   color: var(--t-primary);
+  /* Modal title */
+  /* Body text */
+  /* Title text strong */
+  /* Metadata list (大小/MD5/SHA256) */
+  /* Footer / button bar */
+  /* File input / choose-file row */
+  /* Terminal / log output block (apk/opkg output, errors, command lines).
+       LuCI renders command output/errors inside <pre><code> or .alert.danger/error blocks.
+       Make sure any dark/grey box inside modal has light text. */
+  /* Modal secondary description text: keep readable */
+  /* System notifications — clean white pill card (small centered top toast) */
 }
 body.logged-in .modal::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 12px;
-  right: 12px;
-  height: 40%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
-  border-radius: 24px 24px 50% 50%;
-  pointer-events: none;
+  display: none !important;
+}
+body.logged-in .modal > h4,
+body.logged-in .modal > h3,
+body.logged-in .modal > .modal-title,
+body.logged-in .modal .tr:first-child,
+body.logged-in .modal :first-child > h4,
+body.logged-in .modal p:first-of-type {
+  font-weight: 700;
+  font-size: 20px !important;
+  letter-spacing: -0.01em;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  color: var(--t-primary);
+}
+body.logged-in .modal p,
+body.logged-in .modal .cbi-section-descr,
+body.logged-in .modal .tr,
+body.logged-in .modal li,
+body.logged-in .modal ul,
+body.logged-in .modal ol,
+body.logged-in .modal span,
+body.logged-in .modal pre,
+body.logged-in .modal code,
+body.logged-in .modal small,
+body.logged-in .modal label,
+body.logged-in .modal td,
+body.logged-in .modal th {
+  color: var(--t-secondary) !important;
+  -webkit-text-fill-color: var(--t-secondary) !important;
+  font-size: 14px;
+  line-height: 1.5;
+  text-shadow: none !important;
+}
+body.logged-in .modal h1,
+body.logged-in .modal h2,
+body.logged-in .modal h3,
+body.logged-in .modal h4,
+body.logged-in .modal h5,
+body.logged-in .modal strong,
+body.logged-in .modal b {
+  color: var(--t-primary) !important;
+  -webkit-text-fill-color: var(--t-primary) !important;
+  text-shadow: none !important;
+}
+body.logged-in .modal ul,
+body.logged-in .modal ol {
+  padding-left: 1.2em;
+}
+body.logged-in .modal li {
+  margin-bottom: 4px;
+}
+body.logged-in .modal pre,
+body.logged-in .modal code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  word-break: break-all;
+}
+body.logged-in .modal > .modal-footer,
+body.logged-in .modal > div:last-child,
+body.logged-in .modal > form > .cbi-page-actions,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+body.logged-in .modal > .modal-footer .cbi-button,
+body.logged-in .modal > div:last-child .cbi-button,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button,
+body.logged-in .modal > .modal-footer .btn,
+body.logged-in .modal > div:last-child .btn,
+body.logged-in .modal > form > .cbi-page-actions .btn,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn {
+  margin: 0 !important;
+  border-radius: 999px !important;
+  padding: 0 20px !important;
+  height: 36px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body.logged-in .modal > .modal-footer .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > div:last-child .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > form > .cbi-page-actions .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > .modal-footer .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > div:last-child .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > form > .cbi-page-actions .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action),
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action) {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: var(--t-primary) !important;
+  -webkit-text-fill-color: var(--t-primary) !important;
+}
+body.logged-in .modal > .modal-footer .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > div:last-child .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > .modal-footer .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > div:last-child .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > form > .cbi-page-actions .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn:not(.cbi-button-apply):not(.primary):not(.cbi-button-save):not(.cbi-button-action):hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-apply,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-apply,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-apply,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-apply,
+body.logged-in .modal > .modal-footer .btn.cbi-button-apply,
+body.logged-in .modal > div:last-child .btn.cbi-button-apply,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-apply,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-apply,
+body.logged-in .modal > .modal-footer .cbi-button.primary,
+body.logged-in .modal > div:last-child .cbi-button.primary,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.primary,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.primary,
+body.logged-in .modal > .modal-footer .btn.primary,
+body.logged-in .modal > div:last-child .btn.primary,
+body.logged-in .modal > form > .cbi-page-actions .btn.primary,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.primary,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-save,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-save,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-save,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-save,
+body.logged-in .modal > .modal-footer .btn.cbi-button-save,
+body.logged-in .modal > div:last-child .btn.cbi-button-save,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-save,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-save,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-action,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-action,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-action,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-action,
+body.logged-in .modal > .modal-footer .btn.cbi-button-action,
+body.logged-in .modal > div:last-child .btn.cbi-button-action,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-action,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-action {
+  background: var(--accent) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-apply:hover,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-apply:hover,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-apply:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-apply:hover,
+body.logged-in .modal > .modal-footer .btn.cbi-button-apply:hover,
+body.logged-in .modal > div:last-child .btn.cbi-button-apply:hover,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-apply:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-apply:hover,
+body.logged-in .modal > .modal-footer .cbi-button.primary:hover,
+body.logged-in .modal > div:last-child .cbi-button.primary:hover,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.primary:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.primary:hover,
+body.logged-in .modal > .modal-footer .btn.primary:hover,
+body.logged-in .modal > div:last-child .btn.primary:hover,
+body.logged-in .modal > form > .cbi-page-actions .btn.primary:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.primary:hover,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-save:hover,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-save:hover,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-save:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-save:hover,
+body.logged-in .modal > .modal-footer .btn.cbi-button-save:hover,
+body.logged-in .modal > div:last-child .btn.cbi-button-save:hover,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-save:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-save:hover,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-action:hover,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-action:hover,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-action:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-action:hover,
+body.logged-in .modal > .modal-footer .btn.cbi-button-action:hover,
+body.logged-in .modal > div:last-child .btn.cbi-button-action:hover,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-action:hover,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-action:hover {
+  filter: brightness(1.08);
+}
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-apply.disabled,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-apply.disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-apply.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-apply.disabled,
+body.logged-in .modal > .modal-footer .btn.cbi-button-apply.disabled,
+body.logged-in .modal > div:last-child .btn.cbi-button-apply.disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-apply.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-apply.disabled,
+body.logged-in .modal > .modal-footer .cbi-button.primary.disabled,
+body.logged-in .modal > div:last-child .cbi-button.primary.disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.primary.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.primary.disabled,
+body.logged-in .modal > .modal-footer .btn.primary.disabled,
+body.logged-in .modal > div:last-child .btn.primary.disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.primary.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.primary.disabled,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-save.disabled,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-save.disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-save.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-save.disabled,
+body.logged-in .modal > .modal-footer .btn.cbi-button-save.disabled,
+body.logged-in .modal > div:last-child .btn.cbi-button-save.disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-save.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-save.disabled,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-action.disabled,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-action.disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-action.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-action.disabled,
+body.logged-in .modal > .modal-footer .btn.cbi-button-action.disabled,
+body.logged-in .modal > div:last-child .btn.cbi-button-action.disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-action.disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-action.disabled,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-apply[disabled],
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-apply[disabled],
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-apply[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-apply[disabled],
+body.logged-in .modal > .modal-footer .btn.cbi-button-apply[disabled],
+body.logged-in .modal > div:last-child .btn.cbi-button-apply[disabled],
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-apply[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-apply[disabled],
+body.logged-in .modal > .modal-footer .cbi-button.primary[disabled],
+body.logged-in .modal > div:last-child .cbi-button.primary[disabled],
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.primary[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.primary[disabled],
+body.logged-in .modal > .modal-footer .btn.primary[disabled],
+body.logged-in .modal > div:last-child .btn.primary[disabled],
+body.logged-in .modal > form > .cbi-page-actions .btn.primary[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.primary[disabled],
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-save[disabled],
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-save[disabled],
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-save[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-save[disabled],
+body.logged-in .modal > .modal-footer .btn.cbi-button-save[disabled],
+body.logged-in .modal > div:last-child .btn.cbi-button-save[disabled],
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-save[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-save[disabled],
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-action[disabled],
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-action[disabled],
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-action[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-action[disabled],
+body.logged-in .modal > .modal-footer .btn.cbi-button-action[disabled],
+body.logged-in .modal > div:last-child .btn.cbi-button-action[disabled],
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-action[disabled],
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-action[disabled],
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-apply:disabled,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-apply:disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-apply:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-apply:disabled,
+body.logged-in .modal > .modal-footer .btn.cbi-button-apply:disabled,
+body.logged-in .modal > div:last-child .btn.cbi-button-apply:disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-apply:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-apply:disabled,
+body.logged-in .modal > .modal-footer .cbi-button.primary:disabled,
+body.logged-in .modal > div:last-child .cbi-button.primary:disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.primary:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.primary:disabled,
+body.logged-in .modal > .modal-footer .btn.primary:disabled,
+body.logged-in .modal > div:last-child .btn.primary:disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.primary:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.primary:disabled,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-save:disabled,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-save:disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-save:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-save:disabled,
+body.logged-in .modal > .modal-footer .btn.cbi-button-save:disabled,
+body.logged-in .modal > div:last-child .btn.cbi-button-save:disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-save:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-save:disabled,
+body.logged-in .modal > .modal-footer .cbi-button.cbi-button-action:disabled,
+body.logged-in .modal > div:last-child .cbi-button.cbi-button-action:disabled,
+body.logged-in .modal > form > .cbi-page-actions .cbi-button.cbi-button-action:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .cbi-button.cbi-button-action:disabled,
+body.logged-in .modal > .modal-footer .btn.cbi-button-action:disabled,
+body.logged-in .modal > div:last-child .btn.cbi-button-action:disabled,
+body.logged-in .modal > form > .cbi-page-actions .btn.cbi-button-action:disabled,
+body.logged-in .modal > :last-child:not(h4):not(h3):not(p):not(.tr):not(.cbi-section-descr) .btn.cbi-button-action:disabled {
+  opacity: 0.4;
+}
+body.logged-in .modal .cbi-input-file,
+body.logged-in .modal input[type="file"] {
+  font-size: 13px;
+}
+body.logged-in .modal pre,
+body.logged-in .modal code,
+body.logged-in .modal .code,
+body.logged-in .modal .terminal,
+body.logged-in .modal .console,
+body.logged-in .modal .cbi-section > pre,
+body.logged-in .modal .modal pre,
+body.logged-in .modal .modal code,
+body.logged-in .modal [class*="output"],
+body.logged-in .modal [class*="terminal"],
+body.logged-in .modal [class*="console"],
+body.logged-in .modal .alert-message pre,
+body.logged-in .modal .alert-message code,
+body.logged-in .modal .notice pre,
+body.logged-in .modal .notice code,
+body.logged-in .modal .modal > .error,
+body.logged-in .modal .modal > .danger,
+body.logged-in .modal .modal > .alert.danger,
+body.logged-in .modal .modal > .alert.error,
+body.logged-in .modal .modal .alert-message.danger,
+body.logged-in .modal .modal .alert-message.error {
+  display: block !important;
+  background: #1d1d1f !important;
+  background-image: none !important;
+  color: #f5f5f7 !important;
+  -webkit-text-fill-color: #f5f5f7 !important;
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, "PingFang SC", monospace !important;
+  font-size: 12.5px !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  padding: 14px 18px !important;
+  border-radius: 14px !important;
+  border: none !important;
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.08) !important;
+  text-shadow: none !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  overflow-x: auto !important;
+  margin: 12px 0 !important;
+}
+body.logged-in .modal pre *,
+body.logged-in .modal code *,
+body.logged-in .modal .code *,
+body.logged-in .modal .terminal *,
+body.logged-in .modal .console *,
+body.logged-in .modal .cbi-section > pre *,
+body.logged-in .modal .modal pre *,
+body.logged-in .modal .modal code *,
+body.logged-in .modal [class*="output"] *,
+body.logged-in .modal [class*="terminal"] *,
+body.logged-in .modal [class*="console"] *,
+body.logged-in .modal .alert-message pre *,
+body.logged-in .modal .alert-message code *,
+body.logged-in .modal .notice pre *,
+body.logged-in .modal .notice code *,
+body.logged-in .modal .modal > .error *,
+body.logged-in .modal .modal > .danger *,
+body.logged-in .modal .modal > .alert.danger *,
+body.logged-in .modal .modal > .alert.error *,
+body.logged-in .modal .modal .alert-message.danger *,
+body.logged-in .modal .modal .alert-message.error * {
+  color: #f5f5f7 !important;
+  -webkit-text-fill-color: #f5f5f7 !important;
+  background: transparent !important;
+  text-shadow: none !important;
+  font-size: 12.5px !important;
+}
+body.logged-in .modal > p,
+body.logged-in .modal > .muted,
+body.logged-in .modal .text-muted,
+body.logged-in .modal .muted {
+  color: var(--t-secondary) !important;
+  -webkit-text-fill-color: var(--t-secondary) !important;
+  font-size: 14px !important;
+}
+body.logged-in .modal.alert-message,
+body.logged-in .modal.notice {
+  position: fixed !important;
+  top: 16px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  display: block !important;
+  width: auto !important;
+  max-width: 90vw !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 28px rgba(0, 0, 0, 0.1), 0 0 0 0.5px rgba(0, 0, 0, 0.07) !important;
+  z-index: 9000 !important;
+  color: #1d1d1f !important;
+  -webkit-text-fill-color: #1d1d1f !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-family: var(--font-sans) !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  text-shadow: none !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  animation: lg-toast-center 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+body.logged-in .modal.alert-message::before,
+body.logged-in .modal.alert-message::after,
+body.logged-in .modal.notice::before,
+body.logged-in .modal.notice::after {
+  display: none !important;
+}
+@keyframes lg-toast-center {
+  from {
+    transform: translateX(-50%) translateY(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+body.logged-in body.logged-in .modal.alert-message p,
+body.logged-in body.logged-in .modal.notice p {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  color: #1d1d1f !important;
+  -webkit-text-fill-color: #1d1d1f !important;
+  font-family: var(--font-sans) !important;
+  text-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
 }
 body.logged-in #modal_overlay {
   background: rgba(0, 0, 0, 0.3) !important;
@@ -5124,6 +5556,7 @@ body.logged-in .notice {
   position: relative;
   border: none !important;
   color: var(--t-primary);
+  background: var(--fill-regular);
 }
 body.logged-in .alert-message h4,
 body.logged-in .alert h4,
@@ -5708,6 +6141,8 @@ body.logged-in {
   /* ---------- Terminal / command output ---------- */
   /* ---------- Tooltip ---------- */
   /* ---------- Toast / popups ---------- */
+  /* Catch-all: any system notification/toast/alert placed at body level.
+     Uses high-specificity selectors to override inline styles or legacy rules. */
   /* ---------- Breadcrumb ---------- */
   /* ---------- Spinner ---------- */
   /* ---------- Section caret ---------- */
@@ -5993,27 +6428,49 @@ body.logged-in .cbi-tooltip-container > .cbi-tooltip {
   box-shadow: var(--spec-top), var(--contact-lift);
   border: none !important;
 }
+body.logged-in body.logged-in > .alert-message,
+body.logged-in body.logged-in > .notice,
+body.logged-in body.logged-in > #_system_notification,
+body.logged-in body.logged-in > #_system_notification > *,
+body.logged-in body.logged-in > [class*="notification"],
+body.logged-in body.logged-in > [class*="alert"],
+body.logged-in body.logged-in .main-right > .alert-message,
+body.logged-in body.logged-in .main-right > .notice,
+body.logged-in body.logged-in .main-right > #_system_notification,
+body.logged-in body.logged-in .main-right > header + .alert-message,
+body.logged-in body.logged-in .main-right > header + .notice,
+body.logged-in body.logged-in #maincontent > .alert-message:first-child,
+body.logged-in body.logged-in #maincontent > .notice:first-child,
+body.logged-in body.logged-in #maincontent > .alert:first-child,
+body.logged-in body.logged-in .modal.alert-message,
+body.logged-in body.logged-in .modal.notice,
 body.logged-in #popups > .alert-message,
+body.logged-in #popups > *,
 body.logged-in .pc-bg,
 body.logged-in #_system_notification {
   position: fixed !important;
   top: 72px !important;
   right: 20px !important;
-  min-width: 240px;
-  max-width: 360px;
-  min-height: 48px;
+  left: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  max-width: 360px !important;
+  min-width: 240px !important;
+  min-height: 48px !important;
   border-radius: 18px !important;
   padding: 14px 18px !important;
+  margin: 0 !important;
   background: var(--fill-strong) !important;
-  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate);
-  backdrop-filter: blur(var(--blur-regular)) var(--saturate);
+  -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate) !important;
+  backdrop-filter: blur(var(--blur-regular)) var(--saturate) !important;
   box-shadow: var(--spec-top), var(--contact-lift) !important;
-  z-index: 300;
-  color: var(--t-primary);
-  font-size: 13px;
-  font-weight: 500;
+  z-index: 9999 !important;
+  color: var(--t-primary) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
   animation: lg-toast-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   border: none !important;
+  transform: none !important;
 }
 @keyframes lg-toast-in {
   from {
@@ -6087,232 +6544,389 @@ body.logged-in :root {
 }
 /* =========================================================
  * Login page — macOS lock-screen aesthetic.
- * Used on body.login-page (LuCI sets this class automatically).
+ * Targets argon's original DOM; ucode template adds class="login"
+ * to <body> so these rules never leak into the logged-in shell.
  * ========================================================= */
-body.login-page {
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color: #1c1c1e;
-  /* --login-wallpaper is injected from footer_login.ut */
-  background-image: var(--login-wallpaper, radial-gradient(ellipse at 30% 20%, rgba(255, 154, 123, 0.5), transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(10, 132, 255, 0.4), transparent 50%), linear-gradient(135deg, #2c2c2e, #1c1c1e));
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: #fff;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 10vh;
+/* Reset body for full-screen wallpaper */
+body.login {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  background: transparent !important;
 }
-/* Vignette darkens form area slightly */
-body.login-page::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-/* Hide the LuCI background wrapper (we paint directly on body) */
-body.login-page .main-bg {
+/* Full-screen backdrop wrapper */
+body.login .login-page {
   position: fixed !important;
   inset: 0 !important;
-  background: none !important;
-  z-index: -1 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  z-index: 0 !important;
+  background: transparent !important;
 }
-/* Lock screen container */
-body.login-page .login-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 360px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 32px;
-  animation: lg-lock-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+/* Wallpaper fills screen, dimmed for readability.
+   The .main-bg gets its background-image via inline style from ucode
+   (background-image:url(user-wallpaper)). We only dim and set a fallback
+   color; we do NOT force a background-image (that would override the
+   user's custom wallpaper). */
+body.login .login-page > .main-bg,
+body.login .login-page > .video {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-color: #2c3e5c !important;
+  z-index: 0 !important;
+  filter: brightness(0.65) saturate(0.9) !important;
+}
+body.login .login-page > .main-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, transparent 20%, rgba(0, 0, 0, 0.35) 100%);
+  pointer-events: none;
+}
+body.login .login-page > .video video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+body.login .login-page > .volume-control {
+  display: none !important;
+}
+/* Centered container (kill argon's 26rem left white panel) */
+body.login .login-page .login-container {
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  max-width: 320px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 0 80px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: lg-lock-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 @keyframes lg-lock-in {
   from {
-    transform: translateY(12px);
+    transform: translateY(20px) scale(0.98);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
-/* Hostname */
-body.login-page .login-container .hostname {
-  font-family: var(--font-sans);
-  font-weight: 800;
-  font-size: 28px;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
+/* Brand: replace argon logo+text with glass avatar+hostname */
+body.login .login-page .login-container .login-form .brand {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 0 20px 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  color: #fff !important;
+  text-decoration: none !important;
+  width: 100% !important;
 }
-/* Clock */
-body.login-page .login-container .clock {
-  font-family: var(--font-sans);
-  font-weight: 200;
-  font-size: 56px;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-  margin-bottom: 40px;
-  letter-spacing: -2px;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+body.login .login-page .login-container .login-form .brand .icon {
+  display: none !important;
 }
-/* Avatar */
-body.login-page .login-container .avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  backdrop-filter: blur(24px) saturate(200%);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+body.login .login-page .login-container .login-form .brand::before {
+  /* Emoji avatar only, no glass ring */
+  content: "🙄";
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 46px;
+  width: 140px;
+  height: 140px;
+  font-size: 110px;
   line-height: 1;
-  margin-bottom: 22px;
-  position: relative;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
-body.login-page .login-container .avatar::before {
-  content: "👤";
+body.login .login-page .login-container .login-form .brand .brand-text {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  font-family: "TypoGraphica", var(--font-sans) !important;
+  color: #fff !important;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  width: auto !important;
 }
-/* Login form glass card */
-body.login-page .login-container .login-form {
-  width: 100%;
-  max-width: 300px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.12));
-  -webkit-backdrop-filter: blur(40px) saturate(220%);
-  backdrop-filter: blur(40px) saturate(220%);
-  border-radius: 28px;
-  padding: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
+/* Glass card */
+body.login .login-page .login-container .login-form {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  max-width: 320px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 30px 24px 26px !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05)) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(100%) !important;
+  backdrop-filter: blur(40px) saturate(100%) !important;
+  border-radius: 28px !important;
+  border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
 }
-body.login-page .login-container .login-form .brand {
+/* Form wrapper */
+body.login .login-page .login-container .login-form form.form-login {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  background: none !important;
+}
+/* Inputs */
+body.login .login-page .login-container .login-form .input-container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.login .login-page .login-container .login-form .input-group {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 0 10px 0 !important;
+}
+body.login .login-page .login-container .login-form input[type="text"],
+body.login .login-page .login-container .login-form input[type="password"] {
+  width: 100% !important;
+  height: 42px !important;
+  padding: 0 14px 0 42px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  border-radius: 999px !important;
+  border: none !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  background-image: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  caret-color: #fff !important;
+  font-size: 15px !important;
+  font-family: var(--font-sans) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  outline: none !important;
+  transition: box-shadow 0.2s, background 0.2s;
+  line-height: 1.5 !important;
+}
+/* Hide Safari/Chrome password gear icon and strong-password suggestions */
+body.login .login-page .login-container .login-form input::-webkit-credentials-auto-fill-button,
+body.login .login-page .login-container .login-form input::-webkit-contacts-auto-fill-button,
+body.login .login-page .login-container .login-form input::-webkit-strong-password-auto-fill-button {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  right: 0 !important;
+}
+body.login .login-page .login-container .login-form input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.6) !important;
+}
+body.login .login-page .login-container .login-form input:focus {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+body.login .login-page .login-container .login-form .input-group label.border {
   display: none !important;
 }
-/* Inputs on login form — centered white text on glass */
-body.login-page .login-container .login-form input[type="password"],
-body.login-page .login-container .login-form input[type="text"] {
-  width: 100%;
-  height: 44px;
-  padding: 0 16px;
-  box-sizing: border-box;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255, 255, 255, 0.25);
-  color: #fff;
-  text-align: center;
-  font-size: 15px;
-  font-family: var(--font-sans);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  outline: none;
-  transition: box-shadow 0.2s;
+body.login .login-page .login-container .login-form .input-group::before {
+  display: none !important;
 }
-body.login-page .login-container .login-form input[type="password"]::placeholder,
-body.login-page .login-container .login-form input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
+body.login .login-page .login-container .login-form .input-group.user-icon::after {
+  content: "👤";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  opacity: 0.85;
+  pointer-events: none;
 }
-body.login-page .login-container .login-form input[type="password"]:focus,
-body.login-page .login-container .login-form input[type="text"]:focus {
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+body.login .login-page .login-container .login-form .input-group.pass-icon::after {
+  content: "🔒";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  opacity: 0.85;
+  pointer-events: none;
 }
-body.login-page .login-container .login-form input[type="submit"],
-body.login-page .login-container .login-form .cbi-button-apply,
-body.login-page .login-container .login-form button[type="submit"] {
-  width: 100%;
-  height: 44px;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(180deg, var(--accent, #0a84ff), color-mix(in srgb, var(--accent, #0a84ff) 85%, black));
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
-  font-family: var(--font-sans);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent, #0a84ff) 50%, transparent);
-  cursor: pointer;
-  transition: transform 0.2s, filter 0.2s;
+body.login .login-page .login-container .login-form .input-group .cbi-input-password {
+  margin-bottom: 0 !important;
 }
-body.login-page .login-container .login-form input[type="submit"]:hover,
-body.login-page .login-container .login-form .cbi-button-apply:hover,
-body.login-page .login-container .login-form button[type="submit"]:hover {
-  filter: brightness(1.05);
+/* Submit button */
+body.login .login-page .login-container .login-form input[type="submit"],
+body.login .login-page .login-container .login-form .cbi-button-apply {
+  width: 100% !important;
+  height: 44px !important;
+  margin: 6px 0 0 0 !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  border: none !important;
+  background: linear-gradient(180deg, var(--accent, #0a84ff), color-mix(in srgb, var(--accent, #0a84ff) 85%, black)) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  font-family: var(--font-sans) !important;
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--accent, #0a84ff) 55%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  cursor: pointer !important;
+  transition: filter 0.2s, transform 0.2s;
+  letter-spacing: 4px;
+  text-shadow: none !important;
+}
+body.login .login-page .login-container .login-form input[type="submit"]:hover,
+body.login .login-page .login-container .login-form .cbi-button-apply:hover {
+  filter: brightness(1.08);
   transform: translateY(-1px);
 }
-/* Error box */
-body.login-page .login-container .login-form .errorbox,
-body.login-page .login-container .login-form .alert-message,
-body.login-page .login-container .login-form .alert {
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255, 69, 58, 0.3);
-  -webkit-backdrop-filter: blur(20px);
+/* Error */
+body.login .login-page .login-container .login-form .errorbox {
+  padding: 8px 14px !important;
+  margin: 0 0 10px 0 !important;
+  border-radius: 999px !important;
+  background: rgba(255, 69, 58, 0.4) !important;
   backdrop-filter: blur(20px);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  border: none;
-  margin: 0;
+  -webkit-backdrop-filter: blur(20px);
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 500;
+  border: none !important;
+  text-align: center !important;
+  text-shadow: none !important;
 }
-/* Footer */
-body.login-page .ftc {
-  position: fixed;
-  bottom: 24px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.65);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-  z-index: 1;
+/* Footer pinned at bottom */
+body.login footer {
+  position: fixed !important;
+  bottom: 18px !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1 !important;
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  height: auto !important;
+  text-wrap: auto;
+  pointer-events: auto !important;
 }
-body.login-page .ftc a {
-  color: rgba(255, 255, 255, 0.85);
-  text-decoration: none;
-  margin: 0 8px;
+body.login footer a {
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-decoration: none !important;
+  margin: 0 6px !important;
+  background: none !important;
 }
-body.login-page .ftc p {
-  margin: 4px 0;
+body.login footer div {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+  line-height: 1.6 !important;
+}
+/* Autofill — keep glass look, kill WebKit yellow/white flash */
+body.login .login-page input:-webkit-autofill,
+body.login .login-page input:-webkit-autofill:hover,
+body.login .login-page input:-webkit-autofill:focus,
+body.login .login-page input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.22) inset !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  caret-color: #fff !important;
+  color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  border-radius: 999px;
+  transition: background-color 9999s ease-in-out 0s;
+}
+body.login .login-page input:-internal-autofill-selected {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  color: #fff !important;
 }
 /* Mobile */
-@media (max-width: 768px) {
-  body.login-page {
-    padding: 8vh 20px 20px;
+@media (max-width: 480px) {
+  body.login .login-page .login-container {
+    max-width: 100% !important;
+    padding: 0 20px 90px 20px !important;
   }
-  body.login-page .login-container .clock {
-    font-size: 44px;
+  body.login .login-page .login-container .login-form {
+    padding: 18px 18px 20px !important;
+    border-radius: 22px !important;
   }
-  body.login-page .login-container .login-form {
-    padding: 20px;
-    border-radius: 24px;
-    max-width: 100%;
+  body.login .login-page .login-container .login-form .brand::before {
+    width: 110px !important;
+    height: 110px !important;
+    font-size: 84px !important;
+    margin-bottom: 14px !important;
+  }
+  body.login .login-page .login-container .login-form .brand .brand-text {
+    font-size: 20px !important;
+  }
+  body.login footer {
+    font-size: 10px !important;
+    bottom: 10px !important;
   }
 }
-/* Login autofill must stay white on the translucent glass pill */
-body.login-page input:-webkit-autofill,
-body.login-page input:-webkit-autofill:hover,
-body.login-page input:-webkit-autofill:focus {
+/* ---- Hard reset: neutralize legacy/dark.css rules on login page ---- */
+body.login .login-page .login-container {
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+body.login .login-page .login-container .login-form {
+  background-color: transparent !important;
+}
+body.login .login-page .login-container .login-form input {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.15) inset !important;
-  caret-color: #fff !important;
 }
 /* =========================================================
  * Mobile adaptation — screens ≤768px (phones, small tablets)
