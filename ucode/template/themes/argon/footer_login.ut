@@ -33,28 +33,5 @@
 		}
 	});
 </script>
-<script>
-	// Load Bing daily wallpaper on the login page. Image requests are NOT subject
-	// to CORS, so we can use a public 302-redirect mirror directly, no JSON fetch needed.
-	(function(){
-		var bg = document.getElementById('main-bg');
-		if (!bg) return;
-		var cur = (bg.style.backgroundImage || '');
-		// If server-side already provided a non-default wallpaper, don't override.
-		if (cur && cur.indexOf('/img/bg1.jpg') === -1 && cur.indexOf('undefined') === -1) return;
-		var mirrors = [
-			'https://bing.img.run/1920x1080.php',
-			'https://api.dujin.org/bing/1920.php'
-		];
-		function tryLoad(i){
-			if (i >= mirrors.length) return;
-			var img = new Image();
-			img.onload = function(){ bg.style.backgroundImage = 'url("' + mirrors[i] + '")'; };
-			img.onerror = function(){ tryLoad(i+1); };
-			img.src = mirrors[i];
-		}
-		tryLoad(0);
-	})();
-</script>
 </body>
 </html>

@@ -61,11 +61,24 @@
 				online_wallpaper = "bing";
 			}
 			if (online_wallpaper && online_wallpaper != "none") {
+				// Mirror the original Lua theme: exec the online_wallpaper
+				// helper directly (no ubus/rpcd registration needed).
 				try {
-					const picurl = ubus.call("luci.argon_wallpaper", "get_url") ?? {};
-					if (picurl?.url) {
-						bgUrl = picurl.url;
-						if (substr(bgUrl, 0, 2) == "//") bgUrl = "https:" + bgUrl;
+					let p = fs.popen("/usr/libexec/argon/online_wallpaper");
+					// Loop-read the pipe: a single read("a") may return
+					// early on a partial buffer and truncate the URL.
+					let picurl = "";
+					let chunk;
+					while ((chunk = p.read(1024)) != null && chunk != "") {
+						picurl += chunk;
+					}
+					p.close();
+					picurl = trim(picurl);
+					if (picurl) {
+						// Escape '&' for the HTML style attribute, else the
+						// browser parses '&rf=' etc. as an entity and
+						// truncates the URL.
+						bgUrl = replace(picurl, "&", "&amp;");
 						return {bgUrl, backgroundType, mimeType};
 					}
 				} catch (e) {}
