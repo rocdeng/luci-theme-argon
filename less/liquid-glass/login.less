@@ -80,8 +80,12 @@ body.login .login-page .login-container {
   animation: lg-lock-in .8s cubic-bezier(.2,.8,.2,1);
 }
 @keyframes lg-lock-in {
-  from { transform: translateY(20px) scale(.98); opacity: 0; }
-  to   { transform: translateY(0) scale(1); opacity: 1; }
+  /* opacity is intentionally NOT animated: animating the container's opacity
+     0->1 makes the card look more opaque after load than during load, and an
+     opacity<1 group also inhibits the child .login-form backdrop-filter.
+     Keep the slide/scale entrance only. */
+  from { transform: translateY(20px) scale(.98); }
+  to   { transform: translateY(0) scale(1); }
 }
 
 /* Brand: replace argon logo+text with glass avatar+hostname */
@@ -142,8 +146,10 @@ body.login .login-page .login-container .login-form {
   padding: 30px 24px 26px !important;
   background: rgba(255,255,255,.55) !important;
   background-image: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.05)) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(100%) !important;
-  backdrop-filter: blur(40px) saturate(100%) !important;
+  /* blur kept light: a heavy blur (e.g. 40px) turns a bright Bing backdrop
+     into a solid color so the wallpaper can't be seen through the card. */
+  -webkit-backdrop-filter: blur(14px) saturate(100%) !important;
+  backdrop-filter: blur(14px) saturate(100%) !important;
   border-radius: 28px !important;
   border: 0.5px solid rgba(255,255,255,.3) !important;
   box-shadow:
