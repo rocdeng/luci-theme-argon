@@ -354,49 +354,105 @@ body.logged-in {
       color: #0040a0 !important; -webkit-text-fill-color: #0040a0 !important;
     }
   }
-  /* ---- Standalone short toast (top-center white pill) — only when modal is a SINGLE-CHILD
-     notice like "没有待应用的更改", not when modal has other content (title/buttons/etc) ---- */
-  body.modal-overlay-active #modal_overlay > .modal.alert-message.notice:only-child {
+  /* ---- Standalone short toast (top-right glass pill) — applies to
+     notice/alert-message modals that contain ONLY a short text message
+     (like "配置更改已应用。", "没有待应用的更改").
+     Large modals (cbi-modal, spinning loader, those with titles/buttons)
+     are excluded and stay centered cards.
+     NOTE: does NOT require body.modal-overlay-active — LuCI sometimes
+     shows these without toggling that class. ---- */
+  #modal_overlay > .modal.alert-message:not(.cbi-modal):not(.spinning),
+  #modal_overlay > .modal.notice:not(.cbi-modal):not(.spinning) {
     position: fixed !important;
-    top: 16px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    display: block !important;
-    width: auto !important;
-    max-width: 90vw !important;
+    top: 72px !important;
+    right: 20px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
     margin: 0 !important;
-    padding: 8px 18px !important;
-    height: auto !important;
+    align-self: auto !important;
+    justify-self: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: -webkit-fit-content !important;
+    width: -moz-fit-content !important;
+    width: fit-content !important;
+    max-width: 360px !important;
+    min-width: 0 !important;
     min-height: 0 !important;
-    border-radius: 999px !important;
-    background: #ffffff !important;
-    background-image: none !important;
-    border: none !important;
+    padding: 12px 18px !important;
+    height: auto !important;
+    border-radius: 18px !important;
+    /* Opaque milky-white glass for toast: background content bleeds through
+       less than on cards because toasts float over everything and need to
+       stay legible over any wallpaper. */
+    background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.82) 100%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+    backdrop-filter: blur(40px) saturate(180%) !important;
+    border: 0.5px solid rgba(255,255,255,.7) !important;
     border-left: none !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.1), 0 0 0 0.5px rgba(0,0,0,.07) !important;
-    z-index: 9000 !important;
-    color: #1d1d1f !important;
-    -webkit-text-fill-color: #1d1d1f !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.95),
+      0 2px 0 rgba(0,0,0,.04),
+      0 14px 32px rgba(0,0,0,.12) !important;
+    z-index: 9999 !important;
+    color: var(--t-primary) !important;
+    -webkit-text-fill-color: var(--t-primary) !important;
     font-size: 13px !important;
     font-weight: 500 !important;
     font-family: var(--font-sans) !important;
     line-height: 1.4 !important;
-    text-align: center !important;
+    text-align: left !important;
     text-shadow: none !important;
     white-space: nowrap !important;
     overflow: hidden !important;
-    animation: lg-toast-center .25s cubic-bezier(.2,.8,.2,1);
-    p, span {
+    animation: lg-toast-in .3s cubic-bezier(.2,.8,.2,1);
+
+    /* Inner text reset */
+    p, span, div, strong, b, em {
       display: inline !important;
-      margin: 0 !important; padding: 0 !important;
-      font-size: 13px !important; font-weight: 500 !important;
-      color: #1d1d1f !important; -webkit-text-fill-color: #1d1d1f !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      line-height: 1.4 !important;
+      color: inherit !important;
+      -webkit-text-fill-color: inherit !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Semantic color tints — translucent color wash over a bright white
+       base so the pill stays light regardless of wallpaper. */
+    &.success, &.notice.success {
+      background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.75) 100%),
+                  linear-gradient(180deg, rgba(52,199,89,.40) 0%, rgba(52,199,89,.18) 100%) !important;
+      color: #176b30 !important;
+      -webkit-text-fill-color: #176b30 !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 2px 0 rgba(0,0,0,.04), 0 14px 32px rgba(52,199,89,.18) !important;
+    }
+    &.error, &.danger {
+      background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.75) 100%),
+                  linear-gradient(180deg, rgba(255,59,48,.35) 0%, rgba(255,59,48,.16) 100%) !important;
+      color: #a8201a !important;
+      -webkit-text-fill-color: #a8201a !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 2px 0 rgba(0,0,0,.04), 0 14px 32px rgba(255,59,48,.18) !important;
+    }
+    &.warning {
+      background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.75) 100%),
+                  linear-gradient(180deg, rgba(255,149,0,.38) 0%, rgba(255,149,0,.18) 100%) !important;
+      color: #8a4d00 !important;
+      -webkit-text-fill-color: #8a4d00 !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 2px 0 rgba(0,0,0,.04), 0 14px 32px rgba(255,149,0,.18) !important;
+    }
+    &.info, &.important, &.notice {
+      /* default milky white (no tint) for generic notices */
     }
   }
-  @keyframes lg-toast-center {
-    from { transform: translateX(-50%) translateY(-8px); opacity: 0; }
-    to   { transform: translateX(-50%) translateY(0); opacity: 1; }
-  }
+  /* Retained for backwards compat: when body.modal-overlay-active IS set,
+     use the same rule (already covered by the selector above) */
   #modal_overlay {
     background: rgba(0,0,0,.3) !important;
     -webkit-backdrop-filter: blur(12px);

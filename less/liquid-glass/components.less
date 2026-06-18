@@ -253,25 +253,29 @@ body.logged-in {
     border: none !important;
   }
 
-  /* ---------- Toast / popups ---------- */
-  /* Catch-all: any system notification/toast/alert placed at body level.
-     Uses high-specificity selectors to override inline styles or legacy rules. */
-  body.logged-in > .alert-message,
-  body.logged-in > .notice,
-  body.logged-in > #_system_notification,
-  body.logged-in > #_system_notification > *,
-  body.logged-in > [class*="notification"],
-  body.logged-in > [class*="alert"],
-  body.logged-in .main-right > .alert-message,
-  body.logged-in .main-right > .notice,
-  body.logged-in .main-right > #_system_notification,
-  body.logged-in .main-right > header + .alert-message,
-  body.logged-in .main-right > header + .notice,
-  body.logged-in #maincontent > .alert-message:first-child,
-  body.logged-in #maincontent > .notice:first-child,
-  body.logged-in #maincontent > .alert:first-child,
-  body.logged-in .modal.alert-message,
-  body.logged-in .modal.notice,
+  /* ---------- Toast / popups (short transient notices) ----------
+     Exclude .spinning (loading overlay) and in-modal inline alerts — those
+     are handled separately below.
+     NOTE: this block is already nested inside body.logged-in { }, so selectors
+     must NOT repeat `body.logged-in` (LESS would emit `body.logged-in body.logged-in…`,
+     which matches nothing). The `> .alert-message` combinators refer to
+     body.logged-in's direct children. */
+  > .alert-message:not(.spinning),
+  > .notice:not(.spinning),
+  > #_system_notification,
+  > #_system_notification > *,
+  > [class*="notification"]:not(.spinning),
+  > [class*="alert"]:not(.spinning),
+  .main-right > .alert-message:not(.spinning),
+  .main-right > .notice:not(.spinning),
+  .main-right > #_system_notification,
+  .main-right > header + .alert-message:not(.spinning),
+  .main-right > header + .notice:not(.spinning),
+  #maincontent > .alert-message:first-child:not(.spinning),
+  #maincontent > .notice:first-child:not(.spinning),
+  #maincontent > .alert:first-child:not(.spinning),
+  .modal.alert-message.notice:only-child:not(.spinning),
+  .modal.notice:only-child:not(.spinning),
   #popups > .alert-message,
   #popups > *,
   .pc-bg,
@@ -288,16 +292,20 @@ body.logged-in {
     border-radius: 18px !important;
     padding: 14px 18px !important;
     margin: 0 !important;
-    background: var(--fill-strong) !important;
-    -webkit-backdrop-filter: blur(var(--blur-regular)) var(--saturate) !important;
-    backdrop-filter: blur(var(--blur-regular)) var(--saturate) !important;
-    box-shadow: var(--spec-top), var(--contact-lift) !important;
+    /* Milky-white glass — toasts float over wallpaper and must stay legible */
+    background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.82) 100%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+    backdrop-filter: blur(40px) saturate(180%) !important;
+    border: 0.5px solid rgba(255,255,255,.7) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.95),
+      0 2px 0 rgba(0,0,0,.04),
+      0 14px 32px rgba(0,0,0,.12) !important;
     z-index: 9999 !important;
     color: var(--t-primary) !important;
     font-size: 13px !important;
     font-weight: 500 !important;
     animation: lg-toast-in .35s cubic-bezier(.2,.8,.2,1);
-    border: none !important;
     transform: none !important;
   }
   @keyframes lg-toast-in {
@@ -320,6 +328,125 @@ body.logged-in {
   .spinning::before, .loading::before, .spinner::before {
     border-color: color-mix(in srgb, var(--accent) 15%, transparent) !important;
     border-top-color: var(--accent) !important;
+  }
+
+  /* ---------- Loading overlay (e.g. "正在等待配置被应用…Xs") ----------
+     Full modal overlay with spinner + text, centered on screen.
+     Matches: #view > .spinning (LuCI apply wait), .modal.spinning (overlay variants),
+     and body/.main-right/#maincontent direct .alert-message.spinning children. */
+  .modal.alert-message.spinning,
+  .modal.spinning,
+  #modal_overlay > .modal.alert-message.spinning,
+  #view > .spinning,
+  #view > .spinning.alert-message,
+  #view > .alert-message.spinning,
+  > .spinning.alert-message,
+  > .alert-message.spinning,
+  .main-right > .spinning.alert-message,
+  .main-right > .alert-message.spinning,
+  #maincontent > .spinning.alert-message,
+  #maincontent > .alert-message.spinning {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: auto !important;
+    max-width: 80vw !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 14px 22px !important;
+    padding-left: 46px !important; /* leave room for spinner */
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.92) !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    border: 0.5px solid rgba(0,0,0,.08) !important;
+    border-left: none !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.9) inset,
+      0 10px 40px rgba(0,0,0,.18),
+      0 2px 8px rgba(0,0,0,.08) !important;
+    z-index: 9500 !important;
+    color: #1d1d1f !important;
+    -webkit-text-fill-color: #1d1d1f !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    font-family: var(--font-sans) !important;
+    line-height: 1.3 !important;
+    letter-spacing: 0 !important;
+    text-align: center !important;
+    text-shadow: none !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    animation: lg-loading-in .25s cubic-bezier(.2,.8,.2,1);
+  }
+  /* Spinner icon position: left of text */
+  .modal.alert-message.spinning::before,
+  .modal.spinning::before,
+  #view > .spinning::before,
+  #view > .spinning.alert-message::before,
+  #view > .alert-message.spinning::before,
+  > .spinning.alert-message::before,
+  > .alert-message.spinning::before,
+  .main-right > .spinning.alert-message::before,
+  .main-right > .alert-message.spinning::before,
+  #maincontent > .spinning.alert-message::before,
+  #maincontent > .alert-message.spinning::before {
+    position: absolute !important;
+    left: 16px !important;
+    top: 50% !important;
+    bottom: auto !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: -9px !important;
+    background-size: 18px !important;
+    animation: lg-spin .9s linear infinite;
+  }
+  /* Inner text reset */
+  .modal.alert-message.spinning p,
+  .modal.alert-message.spinning span,
+  .modal.spinning p,
+  .modal.spinning span,
+  #view > .spinning p,
+  #view > .spinning span,
+  #view > .spinning.alert-message p,
+  #view > .spinning.alert-message span,
+  #view > .alert-message.spinning p,
+  #view > .alert-message.spinning span,
+  > .spinning.alert-message p,
+  > .spinning.alert-message span,
+  > .alert-message.spinning p,
+  > .alert-message.spinning span,
+  .main-right > .spinning.alert-message p,
+  .main-right > .spinning.alert-message span,
+  .main-right > .alert-message.spinning p,
+  .main-right > .alert-message.spinning span,
+  #maincontent > .spinning.alert-message p,
+  #maincontent > .spinning.alert-message span,
+  #maincontent > .alert-message.spinning p,
+  #maincontent > .alert-message.spinning span {
+    all: unset !important;
+    display: inline !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #1d1d1f !important;
+    -webkit-text-fill-color: #1d1d1f !important;
+  }
+  @keyframes lg-loading-in {
+    from { opacity: 0; transform: translate(-50%, -48%) scale(.96); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  @keyframes lg-spin {
+    to { transform: rotate(360deg); }
   }
 
   /* ---------- Section caret ---------- */
