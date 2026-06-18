@@ -1,88 +1,184 @@
 /* =========================================================
  * Mobile adaptation — screens ≤768px (phones, small tablets)
+ * Overrides both responsive.less defaults and desktop chrome.
  * ========================================================= */
 
 @media (max-width: 768px) {
   body.logged-in {
-    /* Sidebar becomes off-canvas drawer */
+    /* ---- Sidebar: off-canvas drawer from left ---- */
     .main-left {
-      width: 280px !important;
+      position: fixed !important;
       top: 0 !important;
+      left: 0 !important;
       bottom: 0 !important;
-      border-radius: 0 22px 22px 0 !important;
-      transform: translateX(-105%);
-      box-shadow: var(--contact-lift) !important;
-      padding-top: 20px;
-      &.show, &.active, &.slide-in { transform: translateX(0); }
+      width: 280px !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border-radius: 0 20px 20px 0 !important;
+      transform: translateX(-100%) !important;
+      transition: transform .28s cubic-bezier(.2,.8,.2,1) !important;
+      z-index: 1000 !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 0 30px rgba(0,0,0,.2) !important;
+      padding-top: 0 !important;
+      .sidenav-header { padding: 14px 16px !important; min-height: 56px; }
+      .sidenav-header .brand { font-size: 1.2rem !important; margin: 0 !important; }
+      .nav { padding: 4px 10px 20px !important; }
+      /* Active state — slide in */
+      &.show, &.active, &.slide-in {
+        transform: translateX(0) !important;
+      }
     }
-    /* Right column goes full-bleed */
+    /* Overlay mask when sidebar open */
+    .darkMask {
+      position: fixed !important;
+      inset: 0 !important;
+      background: rgba(0,0,0,.4) !important;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 999 !important;
+      display: none !important;
+      opacity: 0;
+      transition: opacity .2s;
+      &.active, &.show { display: block !important; opacity: 1; }
+    }
+
+    /* ---- Right column: full viewport width ---- */
     .main-right {
       position: relative !important;
-      left: auto !important; top: auto !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      height: 100vh !important;
+      margin: 0 !important;
+      flex: none !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
     }
-    .main-right > #maincontent { padding: 12px; }
+    .main-right > #maincontent {
+      padding: 12px !important;
+    }
+    .main-right > #maincontent > .container {
+      margin: 0 !important;
+      gap: 10px !important;
+    }
 
-    /* Toolbar */
+    /* ---- Sticky header ---- */
     header, header.bg-primary {
-      height: 44px !important;
-      border-radius: 0 !important;
       position: sticky !important;
-      .fill { height: 44px !important; padding: 0 12px !important; }
+      top: 0 !important;
+      height: 56px !important;
+      min-height: 56px !important;
+      border-radius: 0 !important;
+      z-index: 500 !important;
+      flex-shrink: 0;
+      .fill {
+        height: 56px !important;
+        padding: 0 12px !important;
+      }
       .showSide {
         display: inline-flex !important;
-        align-items: center; justify-content: center;
-        width: 28px; height: 28px; border-radius: 50%;
-        background: var(--fill-chip);
-        cursor: pointer; flex-shrink: 0;
-        margin-right: 4px;
+        align-items: center;
+        justify-content: center;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        background: var(--fill-chip) !important;
+        cursor: pointer;
+        flex-shrink: 0;
+        margin-right: 8px !important;
         position: relative;
+        border: none !important;
+        box-shadow: var(--spec-top);
         &::before {
-          content: ""; display: block;
-          width: 14px; height: 2px; background: var(--t-primary);
+          content: "";
+          display: block;
+          width: 16px;
+          height: 2px;
+          background: var(--t-primary);
           border-radius: 2px;
           box-shadow: 0 5px 0 var(--t-primary), 0 -5px 0 var(--t-primary);
         }
       }
-      .brand { font-size: 15px !important; }
+      .brand { font-size: 16px !important; font-weight: 700 !important; }
     }
 
-    /* Cards tighter */
-    .cbi-section, .cbi-map {
+    /* ---- Cards tighter ---- */
+    .cbi-section, .cbi-map, .modal {
       padding: 16px !important;
       border-radius: 16px !important;
+      margin: 0 !important;
     }
-    .cbi-section h2, .cbi-section h3 { font-size: 18px !important; }
+    .cbi-section h2, .cbi-section h3, .cbi-map h2, .cbi-map h3 {
+      font-size: 18px !important;
+      margin-top: 0 !important;
+    }
 
-    /* Buttons / inputs tighten */
+    /* ---- Tab bar / tabmenu scrollable ---- */
+    .cbi-tabmenu, .tabs {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap !important;
+      padding-bottom: 4px !important;
+      margin: 0 -12px 12px !important;
+      padding: 0 12px 4px !important;
+      li { display: inline-block !important; float: none !important; }
+    }
+
+    /* ---- Buttons / inputs ---- */
     .btn, .cbi-button, button {
-      height: 32px !important;
-      padding: 0 14px !important;
-      font-size: 12px !important;
+      height: 36px !important;
+      padding: 0 18px !important;
+      font-size: 13px !important;
+      border-radius: 999px !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .cbi-page-actions .cbi-button, .cbi-page-actions .btn {
+      flex: 1;
+      min-height: 42px !important;
+      border-radius: 999px !important;
     }
     input[type="text"], input[type="password"], input[type="number"],
     input[type="email"], input[type="search"], input[type="tel"],
-    select { height: 34px; font-size: 13px; }
-
+    select, textarea {
+      font-size: 16px !important; /* prevents iOS zoom on focus */
+      min-height: 40px;
+      border-radius: 12px !important;
+    }
     .cbi-value-field input, .cbi-value-field select, .cbi-value-field textarea {
       max-width: 100% !important;
+      width: 100% !important;
     }
 
-    /* Sticky action bar */
+    /* ---- Sticky action bar ---- */
     .cbi-page-actions {
-      margin: 16px -16px -16px !important;
+      position: sticky !important;
+      bottom: 0 !important;
+      margin: 16px -12px -12px !important;
       padding: 12px !important;
+      background: rgba(255,255,255,.85) !important;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-top: 0.5px solid rgba(0,0,0,.08);
+      border-radius: 0 !important;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
     }
 
-    /* Footer */
-    footer.mobile-hide { padding: 14px 0 4px !important; .footer-content { font-size: 10px; gap: 6px; display: block; text-align: center; } }
-  }
-
-  /* Lock screen mobile */
-  body.login-page {
-    padding: 8vh 20px 20px !important;
-    .login-container .clock { font-size: 44px !important; margin-bottom: 28px; }
-    .login-container .avatar { width: 84px; height: 84px; margin-bottom: 18px; font-size: 38px; }
-    .login-container .login-form { padding: 20px; border-radius: 24px; max-width: 100%; }
-    .login-container .hostname { font-size: 22px; }
+    /* ---- Footer ---- */
+    footer.mobile-hide {
+      padding: 12px 0 4px !important;
+      .footer-content {
+        font-size: 10px;
+        gap: 6px;
+        display: block;
+        text-align: center;
+        line-height: 1.6;
+      }
+    }
   }
 }

@@ -289,65 +289,113 @@ body.logged-in {
       -webkit-text-fill-color: var(--t-secondary) !important;
       font-size: 14px !important;
     }
-    /* System notifications — clean white pill card (small centered top toast) */
-    &.alert-message, &.notice {
-      position: fixed !important;
-      top: 16px !important;
-      left: 50% !important;
-      right: auto !important;
-      bottom: auto !important;
-      transform: translateX(-50%) !important;
+    /* Inline alerts inside modal (warning/error/success bars e.g. "需要重新登录") */
+    > .alert-message, > .notice, > .alert,
+    .alert-message, .notice, .alert {
+      position: static !important;
+      top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+      transform: none !important;
       display: block !important;
       width: auto !important;
-      max-width: 90vw !important;
-      min-width: 0 !important;
-      min-height: 0 !important;
+      max-width: none !important;
+      margin: 14px 0 !important;
+      padding: 10px 14px !important;
       height: auto !important;
-      margin: 0 !important;
-      padding: 8px 18px !important;
-      border-radius: 999px !important;
-      background: #ffffff !important;
-      -webkit-backdrop-filter: none !important;
+      min-height: 0 !important;
+      border-radius: 12px !important;
+      background: rgba(255,149,0,.12) !important;
+      background-image: none !important;
       backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
       border: none !important;
-      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.1), 0 0 0 0.5px rgba(0,0,0,.07) !important;
-      z-index: 9000 !important;
-      color: #1d1d1f !important;
-      -webkit-text-fill-color: #1d1d1f !important;
+      border-left: 3px solid var(--sem-orange) !important;
+      box-shadow: none !important;
+      z-index: auto !important;
+      color: #8a4d00 !important;
+      -webkit-text-fill-color: #8a4d00 !important;
       font-size: 13px !important;
       font-weight: 500 !important;
       font-family: var(--font-sans) !important;
-      line-height: 1.4 !important;
-      letter-spacing: 0 !important;
-      text-align: center !important;
+      line-height: 1.5 !important;
+      text-align: left !important;
       text-shadow: none !important;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      animation: lg-toast-center .25s cubic-bezier(.2,.8,.2,1);
+      white-space: normal !important;
+      overflow: visible !important;
+      animation: none !important;
+      &::before, &::after { display: none !important; content: none !important; }
+      p, span, div, strong, b, em, label {
+        display: inline !important;
+        margin: 0 !important; padding: 0 !important;
+        font-size: 13px !important; font-weight: 500 !important;
+        line-height: 1.5 !important;
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
     }
-    &.alert-message::before, &.alert-message::after,
-    &.notice::before, &.notice::after { display: none !important; }
-    @keyframes lg-toast-center {
-      from { transform: translateX(-50%) translateY(-8px); opacity: 0; }
-      to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+    /* Color variants for inline alerts */
+    > .alert-message.success, > .notice.success, .alert-message.success, .notice.success {
+      background: rgba(52,199,89,.12) !important;
+      border-left-color: var(--sem-green) !important;
+      color: #1d6b34 !important; -webkit-text-fill-color: #1d6b34 !important;
+    }
+    > .alert-message.error, > .notice.error, > .alert-message.danger, > .notice.danger,
+    .alert-message.error, .notice.error, .alert-message.danger, .notice.danger {
+      background: rgba(255,59,48,.12) !important;
+      border-left-color: var(--sem-red) !important;
+      color: #a8201a !important; -webkit-text-fill-color: #a8201a !important;
+    }
+    > .alert-message.info, > .notice.info, > .alert-message.important, > .notice.important,
+    .alert-message.info, .notice.info, .alert-message.important, .notice.important {
+      background: rgba(0,122,255,.1) !important;
+      border-left-color: var(--accent) !important;
+      color: #0040a0 !important; -webkit-text-fill-color: #0040a0 !important;
     }
   }
-  /* Notification inner p tag — undo LuCI browser default paragraph styles */
-  body.logged-in .modal.alert-message p,
-  body.logged-in .modal.notice p {
-    display: inline !important;
+  /* ---- Standalone short toast (top-center white pill) — only when modal is a SINGLE-CHILD
+     notice like "没有待应用的更改", not when modal has other content (title/buttons/etc) ---- */
+  body.modal-overlay-active #modal_overlay > .modal.alert-message.notice:only-child {
+    position: fixed !important;
+    top: 16px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: block !important;
+    width: auto !important;
+    max-width: 90vw !important;
     margin: 0 !important;
-    padding: 0 !important;
-    font-size: 13px !important;
-    font-weight: 500 !important;
-    line-height: 1.4 !important;
+    padding: 8px 18px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    border: none !important;
+    border-left: none !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 28px rgba(0,0,0,.1), 0 0 0 0.5px rgba(0,0,0,.07) !important;
+    z-index: 9000 !important;
     color: #1d1d1f !important;
     -webkit-text-fill-color: #1d1d1f !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
     font-family: var(--font-sans) !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
     text-shadow: none !important;
-    background: transparent !important;
-    border: none !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    animation: lg-toast-center .25s cubic-bezier(.2,.8,.2,1);
+    p, span {
+      display: inline !important;
+      margin: 0 !important; padding: 0 !important;
+      font-size: 13px !important; font-weight: 500 !important;
+      color: #1d1d1f !important; -webkit-text-fill-color: #1d1d1f !important;
+    }
+  }
+  @keyframes lg-toast-center {
+    from { transform: translateX(-50%) translateY(-8px); opacity: 0; }
+    to   { transform: translateX(-50%) translateY(0); opacity: 1; }
   }
   #modal_overlay {
     background: rgba(0,0,0,.3) !important;

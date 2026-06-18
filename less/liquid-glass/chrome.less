@@ -17,7 +17,7 @@ body.logged-in .main-left {
   background: var(--fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow: var(--spec-hi), var(--edge-bottom), var(--contact);
+  box-shadow: var(--spec-hi), var(--contact);
   border: none;
   border-right: none;
   border-radius: 0 !important; /* welded to viewport edges */
@@ -42,7 +42,7 @@ body.logged-in .main-left .sidenav-header {
   z-index: 1;
   display: flex;
   align-items: center;
-  box-shadow: var(--spec-hi), var(--edge-bottom);
+  box-shadow: none;
   box-sizing: border-box;
   min-height: 3.45rem; /* match main header total height */
 }
@@ -196,7 +196,7 @@ body.logged-in header.bg-primary {
   background: var(--fill-strong) !important;
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow: var(--spec-hi), var(--edge-bottom);
+  box-shadow: var(--spec-hi);
   color: var(--t-primary) !important;
   border: none;
   flex-shrink: 0;

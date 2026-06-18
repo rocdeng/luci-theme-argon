@@ -4598,7 +4598,7 @@ body.logged-in .main-left {
   background: var(--fill-strong);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow: var(--spec-hi), var(--edge-bottom), var(--contact);
+  box-shadow: var(--spec-hi), var(--contact);
   border: none;
   border-right: none;
   border-radius: 0 !important;
@@ -4625,7 +4625,7 @@ body.logged-in .main-left .sidenav-header {
   z-index: 1;
   display: flex;
   align-items: center;
-  box-shadow: var(--spec-hi), var(--edge-bottom);
+  box-shadow: none;
   box-sizing: border-box;
   min-height: 3.45rem;
   /* match main header total height */
@@ -4783,7 +4783,7 @@ body.logged-in header.bg-primary {
   background: var(--fill-strong) !important;
   backdrop-filter: blur(var(--blur-strong)) var(--saturate);
   -webkit-backdrop-filter: blur(var(--blur-strong)) var(--saturate);
-  box-shadow: var(--spec-hi), var(--edge-bottom);
+  box-shadow: var(--spec-hi);
   color: var(--t-primary) !important;
   border: none;
   flex-shrink: 0;
@@ -4861,7 +4861,8 @@ body.logged-in {
   /* ---------- Section titles ---------- */
   /* ---------- Segmented tab rail (iOS-style capsule) ---------- */
   /* ---------- Modal ---------- */
-  /* Notification inner p tag — undo LuCI browser default paragraph styles */
+  /* ---- Standalone short toast (top-center white pill) — only when modal is a SINGLE-CHILD
+     notice like "没有待应用的更改", not when modal has other content (title/buttons/etc) ---- */
   /* ---------- Alerts / notices ---------- */
   /* ---------- Sticky page action bar ---------- */
 }
@@ -5103,7 +5104,8 @@ body.logged-in .modal {
        LuCI renders command output/errors inside <pre><code> or .alert.danger/error blocks.
        Make sure any dark/grey box inside modal has light text. */
   /* Modal secondary description text: keep readable */
-  /* System notifications — clean white pill card (small centered top toast) */
+  /* Inline alerts inside modal (warning/error/success bars e.g. "需要重新登录") */
+  /* Color variants for inline alerts */
 }
 body.logged-in .modal::before {
   display: none !important;
@@ -5461,27 +5463,167 @@ body.logged-in .modal .muted {
   -webkit-text-fill-color: var(--t-secondary) !important;
   font-size: 14px !important;
 }
-body.logged-in .modal.alert-message,
-body.logged-in .modal.notice {
+body.logged-in .modal > .alert-message,
+body.logged-in .modal > .notice,
+body.logged-in .modal > .alert,
+body.logged-in .modal .alert-message,
+body.logged-in .modal .notice,
+body.logged-in .modal .alert {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  display: block !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 14px 0 !important;
+  padding: 10px 14px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  border-radius: 12px !important;
+  background: rgba(255, 149, 0, 0.12) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-left: 3px solid var(--sem-orange) !important;
+  box-shadow: none !important;
+  z-index: auto !important;
+  color: #8a4d00 !important;
+  -webkit-text-fill-color: #8a4d00 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-family: var(--font-sans) !important;
+  line-height: 1.5 !important;
+  text-align: left !important;
+  text-shadow: none !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  animation: none !important;
+}
+body.logged-in .modal > .alert-message::before,
+body.logged-in .modal > .notice::before,
+body.logged-in .modal > .alert::before,
+body.logged-in .modal .alert-message::before,
+body.logged-in .modal .notice::before,
+body.logged-in .modal .alert::before,
+body.logged-in .modal > .alert-message::after,
+body.logged-in .modal > .notice::after,
+body.logged-in .modal > .alert::after,
+body.logged-in .modal .alert-message::after,
+body.logged-in .modal .notice::after,
+body.logged-in .modal .alert::after {
+  display: none !important;
+  content: none !important;
+}
+body.logged-in .modal > .alert-message p,
+body.logged-in .modal > .notice p,
+body.logged-in .modal > .alert p,
+body.logged-in .modal .alert-message p,
+body.logged-in .modal .notice p,
+body.logged-in .modal .alert p,
+body.logged-in .modal > .alert-message span,
+body.logged-in .modal > .notice span,
+body.logged-in .modal > .alert span,
+body.logged-in .modal .alert-message span,
+body.logged-in .modal .notice span,
+body.logged-in .modal .alert span,
+body.logged-in .modal > .alert-message div,
+body.logged-in .modal > .notice div,
+body.logged-in .modal > .alert div,
+body.logged-in .modal .alert-message div,
+body.logged-in .modal .notice div,
+body.logged-in .modal .alert div,
+body.logged-in .modal > .alert-message strong,
+body.logged-in .modal > .notice strong,
+body.logged-in .modal > .alert strong,
+body.logged-in .modal .alert-message strong,
+body.logged-in .modal .notice strong,
+body.logged-in .modal .alert strong,
+body.logged-in .modal > .alert-message b,
+body.logged-in .modal > .notice b,
+body.logged-in .modal > .alert b,
+body.logged-in .modal .alert-message b,
+body.logged-in .modal .notice b,
+body.logged-in .modal .alert b,
+body.logged-in .modal > .alert-message em,
+body.logged-in .modal > .notice em,
+body.logged-in .modal > .alert em,
+body.logged-in .modal .alert-message em,
+body.logged-in .modal .notice em,
+body.logged-in .modal .alert em,
+body.logged-in .modal > .alert-message label,
+body.logged-in .modal > .notice label,
+body.logged-in .modal > .alert label,
+body.logged-in .modal .alert-message label,
+body.logged-in .modal .notice label,
+body.logged-in .modal .alert label {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body.logged-in .modal > .alert-message.success,
+body.logged-in .modal > .notice.success,
+body.logged-in .modal .alert-message.success,
+body.logged-in .modal .notice.success {
+  background: rgba(52, 199, 89, 0.12) !important;
+  border-left-color: var(--sem-green) !important;
+  color: #1d6b34 !important;
+  -webkit-text-fill-color: #1d6b34 !important;
+}
+body.logged-in .modal > .alert-message.error,
+body.logged-in .modal > .notice.error,
+body.logged-in .modal > .alert-message.danger,
+body.logged-in .modal > .notice.danger,
+body.logged-in .modal .alert-message.error,
+body.logged-in .modal .notice.error,
+body.logged-in .modal .alert-message.danger,
+body.logged-in .modal .notice.danger {
+  background: rgba(255, 59, 48, 0.12) !important;
+  border-left-color: var(--sem-red) !important;
+  color: #a8201a !important;
+  -webkit-text-fill-color: #a8201a !important;
+}
+body.logged-in .modal > .alert-message.info,
+body.logged-in .modal > .notice.info,
+body.logged-in .modal > .alert-message.important,
+body.logged-in .modal > .notice.important,
+body.logged-in .modal .alert-message.info,
+body.logged-in .modal .notice.info,
+body.logged-in .modal .alert-message.important,
+body.logged-in .modal .notice.important {
+  background: rgba(0, 122, 255, 0.1) !important;
+  border-left-color: var(--accent) !important;
+  color: #0040a0 !important;
+  -webkit-text-fill-color: #0040a0 !important;
+}
+body.logged-in body.modal-overlay-active #modal_overlay > .modal.alert-message.notice:only-child {
   position: fixed !important;
   top: 16px !important;
   left: 50% !important;
-  right: auto !important;
-  bottom: auto !important;
   transform: translateX(-50%) !important;
   display: block !important;
   width: auto !important;
   max-width: 90vw !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  height: auto !important;
   margin: 0 !important;
   padding: 8px 18px !important;
+  height: auto !important;
+  min-height: 0 !important;
   border-radius: 999px !important;
   background: #ffffff !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background-image: none !important;
   border: none !important;
+  border-left: none !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 28px rgba(0, 0, 0, 0.1), 0 0 0 0.5px rgba(0, 0, 0, 0.07) !important;
   z-index: 9000 !important;
   color: #1d1d1f !important;
@@ -5490,19 +5632,21 @@ body.logged-in .modal.notice {
   font-weight: 500 !important;
   font-family: var(--font-sans) !important;
   line-height: 1.4 !important;
-  letter-spacing: 0 !important;
   text-align: center !important;
   text-shadow: none !important;
   white-space: nowrap !important;
   overflow: hidden !important;
-  text-overflow: ellipsis !important;
   animation: lg-toast-center 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-body.logged-in .modal.alert-message::before,
-body.logged-in .modal.alert-message::after,
-body.logged-in .modal.notice::before,
-body.logged-in .modal.notice::after {
-  display: none !important;
+body.logged-in body.modal-overlay-active #modal_overlay > .modal.alert-message.notice:only-child p,
+body.logged-in body.modal-overlay-active #modal_overlay > .modal.alert-message.notice:only-child span {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1d1d1f !important;
+  -webkit-text-fill-color: #1d1d1f !important;
 }
 @keyframes lg-toast-center {
   from {
@@ -5513,21 +5657,6 @@ body.logged-in .modal.notice::after {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
-}
-body.logged-in body.logged-in .modal.alert-message p,
-body.logged-in body.logged-in .modal.notice p {
-  display: inline !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  line-height: 1.4 !important;
-  color: #1d1d1f !important;
-  -webkit-text-fill-color: #1d1d1f !important;
-  font-family: var(--font-sans) !important;
-  text-shadow: none !important;
-  background: transparent !important;
-  border: none !important;
 }
 body.logged-in #modal_overlay {
   background: rgba(0, 0, 0, 0.3) !important;
@@ -6930,48 +7059,102 @@ body.login .login-page .login-container .login-form input {
 }
 /* =========================================================
  * Mobile adaptation — screens ≤768px (phones, small tablets)
+ * Overrides both responsive.less defaults and desktop chrome.
  * ========================================================= */
 @media (max-width: 768px) {
   body.logged-in {
-    /* Sidebar becomes off-canvas drawer */
-    /* Right column goes full-bleed */
-    /* Toolbar */
-    /* Cards tighter */
-    /* Buttons / inputs tighten */
-    /* Sticky action bar */
-    /* Footer */
+    /* ---- Sidebar: off-canvas drawer from left ---- */
+    /* Overlay mask when sidebar open */
+    /* ---- Right column: full viewport width ---- */
+    /* ---- Sticky header ---- */
+    /* ---- Cards tighter ---- */
+    /* ---- Tab bar / tabmenu scrollable ---- */
+    /* ---- Buttons / inputs ---- */
+    /* ---- Sticky action bar ---- */
+    /* ---- Footer ---- */
   }
   body.logged-in .main-left {
-    width: 280px !important;
+    position: fixed !important;
     top: 0 !important;
+    left: 0 !important;
     bottom: 0 !important;
-    border-radius: 0 22px 22px 0 !important;
-    transform: translateX(-105%);
-    box-shadow: var(--contact-lift) !important;
-    padding-top: 20px;
+    width: 280px !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 20px 20px 0 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    z-index: 1000 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2) !important;
+    padding-top: 0 !important;
+    /* Active state — slide in */
+  }
+  body.logged-in .main-left .sidenav-header {
+    padding: 14px 16px !important;
+    min-height: 56px;
+  }
+  body.logged-in .main-left .sidenav-header .brand {
+    font-size: 1.2rem !important;
+    margin: 0 !important;
+  }
+  body.logged-in .main-left .nav {
+    padding: 4px 10px 20px !important;
   }
   body.logged-in .main-left.show,
   body.logged-in .main-left.active,
   body.logged-in .main-left.slide-in {
-    transform: translateX(0);
+    transform: translateX(0) !important;
+  }
+  body.logged-in .darkMask {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999 !important;
+    display: none !important;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  body.logged-in .darkMask.active,
+  body.logged-in .darkMask.show {
+    display: block !important;
+    opacity: 1;
   }
   body.logged-in .main-right {
     position: relative !important;
-    left: auto !important;
-    top: auto !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    flex: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
   body.logged-in .main-right > #maincontent {
-    padding: 12px;
+    padding: 12px !important;
+  }
+  body.logged-in .main-right > #maincontent > .container {
+    margin: 0 !important;
+    gap: 10px !important;
   }
   body.logged-in header,
   body.logged-in header.bg-primary {
-    height: 44px !important;
-    border-radius: 0 !important;
     position: sticky !important;
+    top: 0 !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    border-radius: 0 !important;
+    z-index: 500 !important;
+    flex-shrink: 0;
   }
   body.logged-in header .fill,
   body.logged-in header.bg-primary .fill {
-    height: 44px !important;
+    height: 56px !important;
     padding: 0 12px !important;
   }
   body.logged-in header .showSide,
@@ -6979,20 +7162,22 @@ body.login .login-page .login-container .login-form input {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--fill-chip);
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: var(--fill-chip) !important;
     cursor: pointer;
     flex-shrink: 0;
-    margin-right: 4px;
+    margin-right: 8px !important;
     position: relative;
+    border: none !important;
+    box-shadow: var(--spec-top);
   }
   body.logged-in header .showSide::before,
   body.logged-in header.bg-primary .showSide::before {
     content: "";
     display: block;
-    width: 14px;
+    width: 16px;
     height: 2px;
     background: var(--t-primary);
     border-radius: 2px;
@@ -7000,23 +7185,52 @@ body.login .login-page .login-container .login-form input {
   }
   body.logged-in header .brand,
   body.logged-in header.bg-primary .brand {
-    font-size: 15px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
   }
   body.logged-in .cbi-section,
-  body.logged-in .cbi-map {
+  body.logged-in .cbi-map,
+  body.logged-in .modal {
     padding: 16px !important;
     border-radius: 16px !important;
+    margin: 0 !important;
   }
   body.logged-in .cbi-section h2,
-  body.logged-in .cbi-section h3 {
+  body.logged-in .cbi-section h3,
+  body.logged-in .cbi-map h2,
+  body.logged-in .cbi-map h3 {
     font-size: 18px !important;
+    margin-top: 0 !important;
+  }
+  body.logged-in .cbi-tabmenu,
+  body.logged-in .tabs {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap !important;
+    padding-bottom: 4px !important;
+    margin: 0 -12px 12px !important;
+    padding: 0 12px 4px !important;
+  }
+  body.logged-in .cbi-tabmenu li,
+  body.logged-in .tabs li {
+    display: inline-block !important;
+    float: none !important;
   }
   body.logged-in .btn,
   body.logged-in .cbi-button,
   body.logged-in button {
-    height: 32px !important;
-    padding: 0 14px !important;
-    font-size: 12px !important;
+    height: 36px !important;
+    padding: 0 18px !important;
+    font-size: 13px !important;
+    border-radius: 999px !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  body.logged-in .cbi-page-actions .cbi-button,
+  body.logged-in .cbi-page-actions .btn {
+    flex: 1;
+    min-height: 42px !important;
+    border-radius: 999px !important;
   }
   body.logged-in input[type="text"],
   body.logged-in input[type="password"],
@@ -7024,49 +7238,42 @@ body.login .login-page .login-container .login-form input {
   body.logged-in input[type="email"],
   body.logged-in input[type="search"],
   body.logged-in input[type="tel"],
-  body.logged-in select {
-    height: 34px;
-    font-size: 13px;
+  body.logged-in select,
+  body.logged-in textarea {
+    font-size: 16px !important;
+    /* prevents iOS zoom on focus */
+    min-height: 40px;
+    border-radius: 12px !important;
   }
   body.logged-in .cbi-value-field input,
   body.logged-in .cbi-value-field select,
   body.logged-in .cbi-value-field textarea {
     max-width: 100% !important;
+    width: 100% !important;
   }
   body.logged-in .cbi-page-actions {
-    margin: 16px -16px -16px !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    margin: 16px -12px -12px !important;
     padding: 12px !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0 !important;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
   }
   body.logged-in footer.mobile-hide {
-    padding: 14px 0 4px !important;
+    padding: 12px 0 4px !important;
   }
   body.logged-in footer.mobile-hide .footer-content {
     font-size: 10px;
     gap: 6px;
     display: block;
     text-align: center;
-  }
-  /* Lock screen mobile */
-  body.login-page {
-    padding: 8vh 20px 20px !important;
-  }
-  body.login-page .login-container .clock {
-    font-size: 44px !important;
-    margin-bottom: 28px;
-  }
-  body.login-page .login-container .avatar {
-    width: 84px;
-    height: 84px;
-    margin-bottom: 18px;
-    font-size: 38px;
-  }
-  body.login-page .login-container .login-form {
-    padding: 20px;
-    border-radius: 24px;
-    max-width: 100%;
-  }
-  body.login-page .login-container .hostname {
-    font-size: 22px;
+    line-height: 1.6;
   }
 }
 /* final button state fallback */
