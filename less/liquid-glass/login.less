@@ -308,23 +308,32 @@ body.login footer div {
   line-height: 1.6 !important;
 }
 
-/* Autofill — keep glass look, kill WebKit yellow/white flash */
+/* Autofill — keep glass look, kill WebKit yellow/white flash.
+   Do NOT use -webkit-background-clip: text — it works for plain text but
+   clips incorrectly on password fields (masked as dots), leaving an opaque
+   white bar. Instead, cover Chrome's autofill background with an inset
+   box-shadow in the same glass color, and use a long-delay transition to
+   suppress the flash during the first paint. */
 body.login .login-page input:-webkit-autofill,
 body.login .login-page input:-webkit-autofill:hover,
 body.login .login-page input:-webkit-autofill:focus,
 body.login .login-page input:-webkit-autofill:active {
   -webkit-text-fill-color: #fff !important;
-  -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,.22) inset !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
   caret-color: #fff !important;
   color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,.22) inset !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3),
+              0 0 0 1000px rgba(255,255,255,.22) inset !important;
   background-color: rgba(255,255,255,.22) !important;
-  border-radius: 999px;
-  transition: background-color 9999s ease-in-out 0s;
+  background-image: none !important;
+  border-radius: 999px !important;
+  transition: background-color 9999s ease-in-out 0s,
+              -webkit-box-shadow 9999s ease-in-out 0s;
 }
 body.login .login-page input:-internal-autofill-selected {
+  -webkit-text-fill-color: #fff !important;
   background-color: rgba(255,255,255,.22) !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,.22) inset !important;
   color: #fff !important;
 }
 
@@ -355,4 +364,23 @@ body.login .login-page .login-container .login-form input {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.3) !important;
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
+}
+
+/* Keep this after the hard reset above: Chrome/Safari autofill paints an
+   internal light background, and the reset's input box-shadow would otherwise
+   uncover it on password fields. */
+body.login .login-page .login-container .login-form input:-webkit-autofill,
+body.login .login-page .login-container .login-form input:-webkit-autofill:hover,
+body.login .login-page .login-container .login-form input:-webkit-autofill:focus,
+body.login .login-page .login-container .login-form input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff !important;
+  color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,.22) inset !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3),
+              0 0 0 1000px rgba(255,255,255,.22) inset !important;
+  background-color: rgba(255,255,255,.22) !important;
+  background-image: none !important;
+  border-radius: 999px !important;
+  transition: background-color 9999s ease-in-out 0s;
 }
